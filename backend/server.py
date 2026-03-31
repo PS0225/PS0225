@@ -515,13 +515,21 @@ async def watch_ad(ad_type: str, current_user: dict = Depends(get_current_user))
             {"$set": {"time_boost_ads_watched": new_count}}
         )
         
-        # If 2 ads watched, extend duration to 24 hours
+        # If 2 ads watched, extend duration to 24 hours and recalculate reward
         if new_count == 2:
+            new_duration = 24
+            # Calculate new reward: base_reward × (duration/12) × speed_multiplier
+            # 50 × (24/12) × speed = 50 × 2 × speed
+            new_total_reward = session['base_reward'] * (new_duration / 12) * session['speed_multiplier']
+            
             await db.mining_sessions.update_one(
                 {"id": session["id"]},
-                {"$set": {"duration_hours": 24}}
+                {"$set": {
+                    "duration_hours": new_duration,
+                    "total_reward": new_total_reward
+                }}
             )
-            message = "Time boost activated! Mining duration extended to 24 hours"
+            message = f"Time boost activated! Mining duration extended to 24 hours (Reward: {new_total_reward} PNRP)"
         else:
             message = f"Ad watched ({new_count}/2 for time boost)"
         
@@ -539,10 +547,14 @@ async def watch_ad(ad_type: str, current_user: dict = Depends(get_current_user))
             {"$set": {"speed_boost_ads_watched": new_count}}
         )
         
-        # If 5 ads watched, activate 2x speed multiplier and update total reward
+        # If 5 ads watched, activate 2x speed multiplier and recalculate reward
         if new_count == 5:
             new_speed = 2.0
-            new_total_reward = session['base_reward'] * new_speed
+            # Calculate new reward: base_reward × (duration/12) × speed_multiplier
+            # If duration is 12h: 50 × 1 × 2 = 100
+            # If duration is 24h: 50 × 2 × 2 = 200
+            new_total_reward = session['base_reward'] * (session['duration_hours'] / 12) * new_speed
+            
             await db.mining_sessions.update_one(
                 {"id": session["id"]},
                 {"$set": {
