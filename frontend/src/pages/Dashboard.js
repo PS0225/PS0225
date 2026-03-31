@@ -55,11 +55,20 @@ function Dashboard({ user, logout }) {
   const claimRewards = async () => {
     try {
       const response = await axios.post(`${API}/mining/claim`);
-      alert(`Claimed ${response.data.reward} PNRP!`);
-      fetchMiningStatus();
-      window.location.reload();
+      alert(`✅ Mining Reward Claimed!\n\n+${response.data.reward} PNRP\n\nNew Balance: ${response.data.new_balance} PNRP\n\nPage will refresh now.`);
+      // Delay reload to show success message
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     } catch (error) {
-      alert(error.response?.data?.detail || 'Failed to claim rewards');
+      const errorMsg = error.response?.data?.detail || 'Failed to claim rewards';
+      alert(`❌ Error: ${errorMsg}`);
+      // If no completed session, refresh to update status
+      if (errorMsg.includes('No completed mining session')) {
+        setTimeout(() => {
+          fetchMiningStatus();
+        }, 1000);
+      }
     }
   };
 

@@ -43,11 +43,22 @@ function DailyCheckinModal({ onClose }) {
     setClaiming(true);
     try {
       const response = await axios.post(`${API}/checkin/claim`);
-      alert(`Claimed ${response.data.reward} PNRP!`);
-      window.location.reload();
+      alert(`✅ Success! Claimed ${response.data.reward} PNRP!\n\nNew Balance: ${response.data.new_balance} PNRP\n\nPage will refresh now.`);
+      // Reload to update balance
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     } catch (error) {
-      alert(error.response?.data?.detail || 'Failed to claim reward');
+      const errorMsg = error.response?.data?.detail || 'Failed to claim reward';
+      alert(`❌ Error: ${errorMsg}`);
       setClaiming(false);
+      // If already claimed, close modal and refresh
+      if (errorMsg.includes('Already checked in')) {
+        setTimeout(() => {
+          onClose();
+          window.location.reload();
+        }, 1000);
+      }
     }
   };
 
