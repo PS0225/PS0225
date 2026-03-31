@@ -201,8 +201,19 @@ class AdWatch(BaseModel):
     
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     user_id: str
-    ad_type: str  # daily_checkin, mining_time_boost, mining_speed_boost
+    ad_type: str  # daily_checkin, mining_time_boost, daily_reward_1, daily_reward_2, daily_reward_3
     watched_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+class DailyReward(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    ad_number: int  # 1, 2, or 3
+    reward: float  # 10, 15, or 25
+    claimed_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    date: str  # YYYY-MM-DD
 
 
 # ==================== AUTHENTICATION ROUTES ====================
@@ -478,8 +489,8 @@ async def claim_mining(current_user: dict = Depends(get_current_user)):
 
 @api_router.post("/mining/watch-ad")
 async def watch_ad(ad_type: str, current_user: dict = Depends(get_current_user)):
-    """Watch an ad to boost mining"""
-    if ad_type not in ["time_boost", "speed_boost"]:
+    """Watch an ad to boost mining - only time boost available"""
+    if ad_type != "time_boost":
         raise HTTPException(status_code=400, detail="Invalid ad type")
     
     # Get active mining session
@@ -491,59 +502,137 @@ async def watch_ad(ad_type: str, current_user: dict = Depends(get_current_user))
     if not session:
         raise HTTPException(status_code=400, detail="No active mining session")
     
-    # Check ad limit
-    if ad_type == "time_boost":
-        if session['time_boost_ads_watched'] >= 2:
-            raise HTTPException(status_code=400, detail="Maximum time boost ads already watched")
-        
-        # Increment ad count
-        new_count = session['time_boost_ads_watched'] + 1
-        await db.mining_sessions.update_one(
-            {"id": session["id"]},
-            {"$set": {"time_boost_ads_watched": new_count}}
-        )
-        
-        # If 2 ads watched, extend duration to 24 hours
-        if new_count == 2:
-            await db.mining_sessions.update_one(
-                {"id": session["id"]},
-                {"$set": {"duration_hours": 24}}
-            )
-            message = "Time boost activated! Mining duration extended to 24 hours"
-        else:
-            message = f"Ad watched ({new_count}/2 for time boost)"
+    # Check ad limit for time boost
+    if session['time_boost_ads_watched'] >= 2:
+        raise HTTPException(status_code=400, detail="Maximum time boost ads already watched")
     
-    else:  # speed_boost
-        if session['speed_boost_ads_watched'] >= 2:
-            raise HTTPException(status_code=400, detail="Maximum speed boost ads already watched")
-        
-        # Increment ad count
-        new_count = session['speed_boost_ads_watched'] + 1
+    # Increment ad count
+    new_count = session['time_boost_ads_watched'] + 1
+    await db.mining_sessions.update_one(
+        {"id": session["id"]},
+        {"$set": {"time_boost_ads_watched": new_count}}
+    )
+    
+    # If 2 ads watched, extend duration to 24 hours
+    if new_count == 2:
         await db.mining_sessions.update_one(
             {"id": session["id"]},
-            {"$set": {"speed_boost_ads_watched": new_count}}
+            {"$set": {"duration_hours": 24}}
         )
-        
-        # If 2 ads watched, set speed multiplier to 2x
-        if new_count == 2:
-            await db.mining_sessions.update_one(
-                {"id": session["id"]},
-                {"$set": {"speed_multiplier": 2.0, "total_reward": 100.0}}
-            )
-            message = "Speed boost activated! Mining speed doubled (2x)"
-        else:
-            message = f"Ad watched ({new_count}/2 for speed boost)"
+        message = "Time boost activated! Mining duration extended to 24 hours"
+    else:
+        message = f"Ad watched ({new_count}/2 for time boost)"
     
     # Record ad watch
     ad_watch = AdWatch(
         user_id=current_user["id"],
-        ad_type=f"mining_{ad_type}"
+        ad_type="mining_time_boost"
     )
     ad_dict = ad_watch.model_dump()
     ad_dict['watched_at'] = ad_dict['watched_at'].isoformat()
     await db.ad_watches.insert_one(ad_dict)
     
     return {"message": message}
+
+
+# ==================== DAILY REWARD ROUTES ====================
+
+@api_router.get("/daily-reward/status")
+async def get_daily_reward_status(current_user: dict = Depends(get_current_user)):
+    """Get daily reward status (3 ads system)"""
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    
+    # Get today's rewards
+    rewards_today = await db.daily_rewards.find(
+        {
+            "user_id": current_user["id"],
+            "date": today
+        },
+        {"_id": 0}
+    ).to_list(10)
+    
+    # Count how many ads watched today
+    ads_watched = len(rewards_today)
+    
+    # Determine next reward
+    reward_amounts = {1: 10, 2: 15, 3: 25}
+    next_ad_number = ads_watched + 1 if ads_watched < 3 else None
+    next_reward = reward_amounts.get(next_ad_number, 0)
+    
+    return {
+        "ads_watched": ads_watched,
+        "total_ads": 3,
+        "next_ad_number": next_ad_number,
+        "next_reward": next_reward,
+        "can_claim": next_ad_number is not None,
+        "rewards_claimed": rewards_today,
+        "total_earned_today": sum(r["reward"] for r in rewards_today)
+    }
+
+
+@api_router.post("/daily-reward/watch-ad")
+async def watch_daily_reward_ad(current_user: dict = Depends(get_current_user)):
+    """Watch ad for daily reward"""
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    
+    # Check how many ads already watched today
+    rewards_today = await db.daily_rewards.count_documents({
+        "user_id": current_user["id"],
+        "date": today
+    })
+    
+    if rewards_today >= 3:
+        raise HTTPException(status_code=400, detail="All 3 daily reward ads already claimed today")
+    
+    # Determine which ad number this is
+    ad_number = rewards_today + 1
+    reward_amounts = {1: 10, 2: 15, 3: 25}
+    reward = reward_amounts[ad_number]
+    
+    # Create reward record
+    daily_reward = DailyReward(
+        user_id=current_user["id"],
+        ad_number=ad_number,
+        reward=reward,
+        date=today
+    )
+    reward_dict = daily_reward.model_dump()
+    reward_dict['claimed_at'] = reward_dict['claimed_at'].isoformat()
+    await db.daily_rewards.insert_one(reward_dict)
+    
+    # Update user balance
+    await db.users.update_one(
+        {"id": current_user["id"]},
+        {"$inc": {"total_pnrp": reward}}
+    )
+    
+    # Create transaction
+    transaction = Transaction(
+        user_id=current_user["id"],
+        type="daily_reward",
+        amount=reward,
+        description=f"Daily reward ad {ad_number}/3"
+    )
+    trans_dict = transaction.model_dump()
+    trans_dict['created_at'] = trans_dict['created_at'].isoformat()
+    await db.transactions.insert_one(trans_dict)
+    
+    # Record ad watch
+    ad_watch = AdWatch(
+        user_id=current_user["id"],
+        ad_type=f"daily_reward_{ad_number}"
+    )
+    ad_dict = ad_watch.model_dump()
+    ad_dict['watched_at'] = ad_dict['watched_at'].isoformat()
+    await db.ad_watches.insert_one(ad_dict)
+    
+    return {
+        "message": f"Daily reward ad {ad_number}/3 claimed successfully!",
+        "ad_number": ad_number,
+        "reward": reward,
+        "new_balance": current_user["total_pnrp"] + reward,
+        "remaining_ads": 3 - ad_number
+    }
 
 
 # ==================== DAILY CHECK-IN ROUTES ====================

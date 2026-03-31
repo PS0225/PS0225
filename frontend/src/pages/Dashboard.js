@@ -12,10 +12,16 @@ function Dashboard({ user, logout }) {
   const [showCheckin, setShowCheckin] = useState(false);
   const [adType, setAdType] = useState(null);
   const [watchingAd, setWatchingAd] = useState(false);
+  const [dailyRewardStatus, setDailyRewardStatus] = useState(null);
+  const [watchingDailyAd, setWatchingDailyAd] = useState(false);
 
   useEffect(() => {
     fetchMiningStatus();
-    const interval = setInterval(fetchMiningStatus, 5000);
+    fetchDailyRewardStatus();
+    const interval = setInterval(() => {
+      fetchMiningStatus();
+      fetchDailyRewardStatus();
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -41,6 +47,33 @@ function Dashboard({ user, logout }) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const fetchDailyRewardStatus = async () => {
+    try {
+      const response = await axios.get(`${API}/daily-reward/status`);
+      setDailyRewardStatus(response.data);
+    } catch (error) {
+      console.error('Error fetching daily reward status:', error);
+    }
+  };
+
+  const watchDailyRewardAd = async () => {
+    setWatchingDailyAd(true);
+    
+    // Simulate ad watching (5 seconds)
+    setTimeout(async () => {
+      try {
+        const response = await axios.post(`${API}/daily-reward/watch-ad`);
+        alert(`✅ Success!\n\n+${response.data.reward} PNRP earned!\n\nAd ${response.data.ad_number}/3 claimed\nRemaining ads: ${response.data.remaining_ads}\n\nNew Balance: ${response.data.new_balance} PNRP`);
+        fetchDailyRewardStatus();
+        window.location.reload();
+      } catch (error) {
+        alert(error.response?.data?.detail || 'Failed to claim reward');
+      } finally {
+        setWatchingDailyAd(false);
+      }
+    }, 5000);
   };
 
   const startMining = async () => {
@@ -126,7 +159,7 @@ function Dashboard({ user, logout }) {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-4 gap-6">
           <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300" data-testid="total-pnrp-card">
             <div className="flex items-center justify-between mb-4">
               <div className="p-3 bg-blue-500/20 rounded-xl">
@@ -148,6 +181,31 @@ function Dashboard({ user, logout }) {
             <div className="text-sm text-gray-400">Your Level</div>
             <div className="mt-2 h-1 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full"></div>
           </div>
+
+          {/* Daily Reward Card */}
+          {dailyRewardStatus && (
+            <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300" data-testid="daily-reward-card">
+              <div className="flex items-center justify-between mb-4">
+                <div className="p-3 bg-purple-500/20 rounded-xl">
+                  <Gift className="w-8 h-8 text-purple-400" />
+                </div>
+                <div className="text-2xl font-bold text-purple-400">{dailyRewardStatus.ads_watched}/3</div>
+              </div>
+              <div className="text-sm text-gray-400 mb-2">Daily Reward Ads</div>
+              {dailyRewardStatus.can_claim ? (
+                <button
+                  onClick={watchDailyRewardAd}
+                  disabled={watchingDailyAd}
+                  className="w-full mt-2 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm font-semibold transition disabled:opacity-50"
+                >
+                  {watchingDailyAd ? '⏳ Watching...' : `🎁 +${dailyRewardStatus.next_reward} PNRP`}
+                </button>
+              ) : (
+                <div className="text-green-400 text-sm text-center mt-2">✅ All claimed!</div>
+              )}
+              <div className="mt-2 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
+            </div>
+          )}
 
           <div className="card-gradient p-6 rounded-2xl cursor-pointer hover:scale-105 transition-transform duration-300 group" onClick={() => setShowCheckin(true)} data-testid="daily-checkin-card">
             <div className="flex items-center justify-between mb-4">
@@ -244,7 +302,7 @@ function Dashboard({ user, logout }) {
                 </div>
 
                 {/* Ad Boosts */}
-                <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                <div className="max-w-md mx-auto">
                   <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 p-6 rounded-xl border border-blue-500/30 hover:border-blue-500/50 transition" data-testid="time-boost-card">
                     <div className="flex items-center justify-between mb-4">
                       <Clock className="w-8 h-8 text-blue-400" />
@@ -253,7 +311,7 @@ function Dashboard({ user, logout }) {
                       </span>
                     </div>
                     <h3 className="font-bold text-lg mb-2">⏰ Time Boost</h3>
-                    <p className="text-sm text-gray-400 mb-4">Extend mining to 24 hours</p>
+                    <p className="text-sm text-gray-400 mb-4">Watch 2 ads to extend mining from 12h to 24h</p>
                     {miningStatus.session.time_boost_ads_watched < 2 ? (
                       <button
                         onClick={() => watchAd('time_boost')}
@@ -269,38 +327,13 @@ function Dashboard({ user, logout }) {
                       </div>
                     )}
                   </div>
-
-                  <div className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 p-6 rounded-xl border border-yellow-500/30 hover:border-yellow-500/50 transition" data-testid="speed-boost-card">
-                    <div className="flex items-center justify-between mb-4">
-                      <Zap className="w-8 h-8 text-yellow-400" />
-                      <span className="text-sm px-3 py-1 bg-yellow-500/30 rounded-full text-yellow-300">
-                        {miningStatus.session.speed_boost_ads_watched}/2 ads
-                      </span>
-                    </div>
-                    <h3 className="font-bold text-lg mb-2">⚡ Speed Boost</h3>
-                    <p className="text-sm text-gray-400 mb-4">Double your mining speed</p>
-                    {miningStatus.session.speed_boost_ads_watched < 2 ? (
-                      <button
-                        onClick={() => watchAd('speed_boost')}
-                        disabled={watchingAd}
-                        data-testid="watch-speed-boost-btn"
-                        className="w-full py-3 bg-yellow-600 hover:bg-yellow-700 rounded-lg font-semibold transition disabled:opacity-50"
-                      >
-                        {watchingAd && adType === 'speed_boost' ? '⏳ Watching...' : '📺 Watch Ad'}
-                      </button>
-                    ) : (
-                      <div className="text-green-400 text-center font-semibold">
-                        ✅ 2x Speed Active
-                      </div>
-                    )}
-                  </div>
                 </div>
               </div>
             )}
           </div>
         </div>
 
-        {/* Ad Watching Modal */}
+        {/* Ad Watching Modal - Mining */}
         {watchingAd && (
           <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50" data-testid="ad-modal">
             <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-10 rounded-3xl text-center max-w-md border border-blue-500/30 glow">
@@ -309,13 +342,38 @@ function Dashboard({ user, logout }) {
                 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
               </div>
               <h3 className="text-3xl font-bold mb-4 gradient-text">Watching Ad...</h3>
-              <p className="text-gray-400 mb-6">Please wait for the advertisement</p>
+              <p className="text-gray-400 mb-6">Mining boost advertisement</p>
               <div className="flex items-center justify-center space-x-2">
                 <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce"></div>
                 <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
                 <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
               </div>
               <div className="mt-6 text-blue-400 font-semibold">⏱️ 5 seconds remaining</div>
+            </div>
+          </div>
+        )}
+
+        {/* Ad Watching Modal - Daily Reward */}
+        {watchingDailyAd && (
+          <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50" data-testid="daily-ad-modal">
+            <div className="bg-gradient-to-br from-purple-900 to-pink-900 p-10 rounded-3xl text-center max-w-md border border-purple-500/30 glow">
+              <div className="relative">
+                <Gift className="w-20 h-20 text-purple-400 mx-auto mb-6 animate-pulse" />
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-32 bg-purple-500/20 rounded-full blur-2xl"></div>
+              </div>
+              <h3 className="text-3xl font-bold mb-4 gradient-text">Watching Ad...</h3>
+              <p className="text-gray-400 mb-2">Daily reward advertisement</p>
+              {dailyRewardStatus && (
+                <p className="text-purple-400 font-semibold mb-6">
+                  Ad {dailyRewardStatus.ads_watched + 1}/3 - Earn {dailyRewardStatus.next_reward} PNRP
+                </p>
+              )}
+              <div className="flex items-center justify-center space-x-2">
+                <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce"></div>
+                <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+              </div>
+              <div className="mt-6 text-purple-400 font-semibold">⏱️ 5 seconds remaining</div>
             </div>
           </div>
         )}
