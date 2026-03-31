@@ -87,8 +87,42 @@ function DailyCheckinModal({ onClose }) {
             <div>Loading...</div>
           ) : status.checked_in_today ? (
             <div data-testid="already-checked-in">
-              <p className="text-green-400 mb-4">✓ Already checked in today!</p>
-              <p className="text-gray-400">Come back tomorrow for more rewards</p>
+              <p className="text-green-400 mb-4 text-lg font-semibold">✅ Already Checked In Today!</p>
+              
+              {/* Show today's claimed reward details */}
+              {status.checkin && (
+                <div className="bg-green-500/20 border border-green-500/30 rounded-xl p-4 mb-4">
+                  <div className="text-sm text-gray-400 mb-2">Today's Reward</div>
+                  <div className="text-3xl font-bold text-green-400 mb-1">
+                    +{status.checkin.reward} PNRP
+                  </div>
+                  <div className="text-sm text-gray-400">
+                    Day {status.checkin.day_number}/7 ✓
+                  </div>
+                </div>
+              )}
+              
+              <p className="text-gray-400 mb-4">Your reward has been added to your wallet</p>
+              
+              {/* Next day reward preview */}
+              <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4">
+                <div className="text-sm text-purple-400 mb-2">Come back tomorrow for</div>
+                <div className="text-2xl font-bold text-purple-400">
+                  {status.checkin && status.checkin.day_number < 7 
+                    ? `+${rewards[status.checkin.day_number]} PNRP` 
+                    : '+5 PNRP (Day 1)'}
+                </div>
+                <div className="text-xs text-gray-500 mt-2">
+                  Next claim available in ~{24 - new Date().getHours()} hours
+                </div>
+              </div>
+              
+              <button
+                onClick={onClose}
+                className="mt-6 w-full py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition"
+              >
+                Close
+              </button>
             </div>
           ) : watching ? (
             <div data-testid="watching-ad">
