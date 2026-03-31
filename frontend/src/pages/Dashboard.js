@@ -110,7 +110,15 @@ function Dashboard({ user, logout }) {
 
   return (
     <Layout user={user} logout={logout}>
-      <div className="space-y-8" data-testid="dashboard-page">
+      <div className="relative">
+        {/* Animated Background */}
+        <div className="fixed inset-0 pointer-events-none opacity-30">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
+          <div className="absolute top-40 right-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+          <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+        </div>
+
+        <div className="space-y-8 relative z-10" data-testid="dashboard-page">
         {/* Header */}
         <div>
           <h1 className="text-4xl font-bold mb-2" data-testid="dashboard-title">Dashboard</h1>
@@ -119,119 +127,171 @@ function Dashboard({ user, logout }) {
 
         {/* Stats Cards */}
         <div className="grid md:grid-cols-3 gap-6">
-          <div className="card-gradient p-6 rounded-xl" data-testid="total-pnrp-card">
+          <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300" data-testid="total-pnrp-card">
             <div className="flex items-center justify-between mb-4">
-              <Coins className="w-8 h-8 text-purple-400" />
-              <div className="text-3xl font-bold">{user.total_pnrp.toFixed(2)}</div>
+              <div className="p-3 bg-blue-500/20 rounded-xl">
+                <Coins className="w-8 h-8 text-blue-400" />
+              </div>
+              <div className="text-4xl font-bold number-counter gradient-text">{user.total_pnrp.toFixed(2)}</div>
             </div>
-            <div className="text-sm text-gray-400">Total PNRP</div>
+            <div className="text-sm text-gray-400">Total PNRP Balance</div>
+            <div className="mt-2 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
           </div>
 
-          <div className="card-gradient p-6 rounded-xl" data-testid="level-card">
+          <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300" data-testid="level-card">
             <div className="flex items-center justify-between mb-4">
-              <TrendingUp className="w-8 h-8 text-green-400" />
-              <div className="text-3xl font-bold">{user.level}</div>
+              <div className="p-3 bg-green-500/20 rounded-xl">
+                <TrendingUp className="w-8 h-8 text-green-400" />
+              </div>
+              <div className="text-4xl font-bold number-counter text-green-400">{user.level}</div>
             </div>
-            <div className="text-sm text-gray-400">Level</div>
+            <div className="text-sm text-gray-400">Your Level</div>
+            <div className="mt-2 h-1 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full"></div>
           </div>
 
-          <div className="card-gradient p-6 rounded-xl cursor-pointer hover:opacity-80 transition" onClick={() => setShowCheckin(true)} data-testid="daily-checkin-card">
+          <div className="card-gradient p-6 rounded-2xl cursor-pointer hover:scale-105 transition-transform duration-300 group" onClick={() => setShowCheckin(true)} data-testid="daily-checkin-card">
             <div className="flex items-center justify-between mb-4">
-              <Gift className="w-8 h-8 text-yellow-400" />
-              <div className="text-lg font-bold">Claim</div>
+              <div className="p-3 bg-yellow-500/20 rounded-xl group-hover:scale-110 transition">
+                <Gift className="w-8 h-8 text-yellow-400" />
+              </div>
+              <div className="text-2xl font-bold text-yellow-400">Claim</div>
             </div>
-            <div className="text-sm text-gray-400">Daily Check-in</div>
+            <div className="text-sm text-gray-400">Daily Check-in Reward</div>
+            <div className="mt-2 h-1 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full group-hover:animate-pulse"></div>
           </div>
         </div>
 
         {/* Mining Section */}
-        <div className="card-gradient p-8 rounded-xl" data-testid="mining-section">
-          <div className="text-center">
+        <div className="card-gradient p-8 rounded-2xl relative overflow-hidden" data-testid="mining-section">
+          {/* Animated Background Circles */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"></div>
+          
+          <div className="text-center relative z-10">
             <div className="coin-spin inline-block mb-6">
-              <Coins className="w-24 h-24 text-purple-400" />
+              <Coins className="w-32 h-32 text-blue-400" />
             </div>
 
             {!miningStatus.has_active_session ? (
-              <div data-testid="start-mining-section">
-                <h2 className="text-3xl font-bold mb-4">Start Mining PNRP</h2>
-                <p className="text-gray-400 mb-6">Mine 50 PNRP in 12 hours</p>
+              <div data-testid="start-mining-section" className="slide-in">
+                <h2 className="text-4xl font-bold mb-2 neon-text">Start Mining PNRP</h2>
+                <p className="text-xl text-gray-400 mb-2">Earn rewards every 12 hours</p>
+                <div className="flex items-center justify-center space-x-2 mb-6">
+                  <div className="px-4 py-2 bg-blue-500/20 rounded-full border border-blue-500/30">
+                    <span className="text-2xl font-bold text-blue-400">50 PNRP</span>
+                  </div>
+                  <span className="text-gray-500">→</span>
+                  <div className="px-4 py-2 bg-green-500/20 rounded-full border border-green-500/30">
+                    <span className="text-2xl font-bold text-green-400">100 PNRP</span>
+                    <span className="text-sm text-gray-400 ml-2">(with boosts)</span>
+                  </div>
+                </div>
                 <button
                   onClick={startMining}
                   data-testid="start-mining-btn"
-                  className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-semibold hover:opacity-90 transition glow"
+                  className="px-12 py-4 bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 rounded-full font-bold text-lg hover:opacity-90 transition glow transform hover:scale-105"
                 >
-                  Start Mining
+                  🚀 Start Mining Now
                 </button>
               </div>
             ) : miningStatus.session.is_completed ? (
-              <div data-testid="claim-mining-section">
-                <h2 className="text-3xl font-bold mb-4">Mining Complete!</h2>
-                <p className="text-gray-400 mb-6">Claim your {miningStatus.session.total_reward} PNRP rewards</p>
+              <div data-testid="claim-mining-section" className="success-effect">
+                <div className="mb-6">
+                  <div className="text-6xl mb-4">✅</div>
+                  <h2 className="text-4xl font-bold mb-4 text-green-400">Mining Complete!</h2>
+                </div>
+                <div className="inline-block px-8 py-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-2xl border-2 border-green-500/50 mb-6">
+                  <div className="text-sm text-gray-400 mb-1">Your Reward</div>
+                  <div className="text-5xl font-bold text-green-400 number-counter">
+                    +{miningStatus.session.total_reward} PNRP
+                  </div>
+                </div>
                 <button
                   onClick={claimRewards}
                   data-testid="claim-mining-btn"
-                  className="px-8 py-4 bg-gradient-to-r from-green-600 to-teal-600 rounded-lg font-semibold hover:opacity-90 transition glow"
+                  className="px-12 py-4 bg-gradient-to-r from-green-600 to-emerald-600 rounded-full font-bold text-lg hover:opacity-90 transition glow transform hover:scale-105"
                 >
-                  Claim Rewards
+                  💰 Claim Rewards
                 </button>
               </div>
             ) : (
               <div data-testid="active-mining-section">
-                <h2 className="text-3xl font-bold mb-4 mining-animation">Mining in Progress...</h2>
-                <div className="text-5xl font-bold text-purple-400 mb-4" data-testid="mining-timer">
-                  {formatTime(timeRemaining)}
+                <h2 className="text-3xl font-bold mb-2 mining-animation">⛏️ Mining in Progress...</h2>
+                <p className="text-gray-400 mb-6">Please wait while we mine your PNRP</p>
+                
+                {/* Timer Display */}
+                <div className="inline-block mb-6 px-8 py-6 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl border border-blue-500/30">
+                  <div className="text-6xl font-bold text-blue-400 mb-2" data-testid="mining-timer">
+                    {formatTime(timeRemaining)}
+                  </div>
+                  <div className="text-sm text-gray-400">Time Remaining</div>
                 </div>
-                <p className="text-gray-400 mb-6">
-                  Earning {miningStatus.session.total_reward} PNRP ({miningStatus.session.speed_multiplier}x speed)
-                </p>
+
+                {/* Reward Info */}
+                <div className="flex items-center justify-center space-x-4 mb-8">
+                  <div className="px-6 py-3 bg-blue-500/20 rounded-xl border border-blue-500/30">
+                    <div className="text-sm text-gray-400">Earning</div>
+                    <div className="text-2xl font-bold text-blue-400">
+                      {miningStatus.session.total_reward} PNRP
+                    </div>
+                  </div>
+                  <div className="px-6 py-3 bg-purple-500/20 rounded-xl border border-purple-500/30">
+                    <div className="text-sm text-gray-400">Speed</div>
+                    <div className="text-2xl font-bold text-purple-400">
+                      {miningStatus.session.speed_multiplier}x
+                    </div>
+                  </div>
+                </div>
 
                 {/* Ad Boosts */}
-                <div className="grid md:grid-cols-2 gap-4 mt-8">
-                  <div className="bg-gray-800/50 p-4 rounded-lg" data-testid="time-boost-card">
-                    <div className="flex items-center justify-between mb-3">
-                      <Clock className="w-6 h-6 text-blue-400" />
-                      <span className="text-sm text-gray-400">
+                <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                  <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 p-6 rounded-xl border border-blue-500/30 hover:border-blue-500/50 transition" data-testid="time-boost-card">
+                    <div className="flex items-center justify-between mb-4">
+                      <Clock className="w-8 h-8 text-blue-400" />
+                      <span className="text-sm px-3 py-1 bg-blue-500/30 rounded-full text-blue-300">
                         {miningStatus.session.time_boost_ads_watched}/2 ads
                       </span>
                     </div>
-                    <h3 className="font-bold mb-2">Time Boost</h3>
-                    <p className="text-sm text-gray-400 mb-3">Extend to 24 hours</p>
-                    {miningStatus.session.time_boost_ads_watched < 2 && (
+                    <h3 className="font-bold text-lg mb-2">⏰ Time Boost</h3>
+                    <p className="text-sm text-gray-400 mb-4">Extend mining to 24 hours</p>
+                    {miningStatus.session.time_boost_ads_watched < 2 ? (
                       <button
                         onClick={() => watchAd('time_boost')}
                         disabled={watchingAd}
                         data-testid="watch-time-boost-btn"
-                        className="w-full py-2 bg-blue-600 rounded-lg text-sm hover:bg-blue-700 transition disabled:opacity-50"
+                        className="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition disabled:opacity-50"
                       >
-                        {watchingAd && adType === 'time_boost' ? 'Watching Ad...' : 'Watch Ad'}
+                        {watchingAd && adType === 'time_boost' ? '⏳ Watching...' : '📺 Watch Ad'}
                       </button>
-                    )}
-                    {miningStatus.session.duration_hours === 24 && (
-                      <div className="text-green-400 text-sm">✓ Activated</div>
+                    ) : (
+                      <div className="text-green-400 text-center font-semibold">
+                        ✅ {miningStatus.session.duration_hours}h Active
+                      </div>
                     )}
                   </div>
 
-                  <div className="bg-gray-800/50 p-4 rounded-lg" data-testid="speed-boost-card">
-                    <div className="flex items-center justify-between mb-3">
-                      <Zap className="w-6 h-6 text-yellow-400" />
-                      <span className="text-sm text-gray-400">
+                  <div className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 p-6 rounded-xl border border-yellow-500/30 hover:border-yellow-500/50 transition" data-testid="speed-boost-card">
+                    <div className="flex items-center justify-between mb-4">
+                      <Zap className="w-8 h-8 text-yellow-400" />
+                      <span className="text-sm px-3 py-1 bg-yellow-500/30 rounded-full text-yellow-300">
                         {miningStatus.session.speed_boost_ads_watched}/2 ads
                       </span>
                     </div>
-                    <h3 className="font-bold mb-2">Speed Boost</h3>
-                    <p className="text-sm text-gray-400 mb-3">2x mining speed</p>
-                    {miningStatus.session.speed_boost_ads_watched < 2 && (
+                    <h3 className="font-bold text-lg mb-2">⚡ Speed Boost</h3>
+                    <p className="text-sm text-gray-400 mb-4">Double your mining speed</p>
+                    {miningStatus.session.speed_boost_ads_watched < 2 ? (
                       <button
                         onClick={() => watchAd('speed_boost')}
                         disabled={watchingAd}
                         data-testid="watch-speed-boost-btn"
-                        className="w-full py-2 bg-yellow-600 rounded-lg text-sm hover:bg-yellow-700 transition disabled:opacity-50"
+                        className="w-full py-3 bg-yellow-600 hover:bg-yellow-700 rounded-lg font-semibold transition disabled:opacity-50"
                       >
-                        {watchingAd && adType === 'speed_boost' ? 'Watching Ad...' : 'Watch Ad'}
+                        {watchingAd && adType === 'speed_boost' ? '⏳ Watching...' : '📺 Watch Ad'}
                       </button>
-                    )}
-                    {miningStatus.session.speed_multiplier === 2 && (
-                      <div className="text-green-400 text-sm">✓ Activated</div>
+                    ) : (
+                      <div className="text-green-400 text-center font-semibold">
+                        ✅ 2x Speed Active
+                      </div>
                     )}
                   </div>
                 </div>
@@ -242,12 +302,20 @@ function Dashboard({ user, logout }) {
 
         {/* Ad Watching Modal */}
         {watchingAd && (
-          <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50" data-testid="ad-modal">
-            <div className="bg-gray-800 p-8 rounded-xl text-center max-w-md">
-              <Video className="w-16 h-16 text-purple-400 mx-auto mb-4 animate-pulse" />
-              <h3 className="text-2xl font-bold mb-4">Watching Ad...</h3>
-              <p className="text-gray-400">Please wait while the ad is playing</p>
-              <div className="mt-4 text-purple-400">This will take 5 seconds</div>
+          <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50" data-testid="ad-modal">
+            <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-10 rounded-3xl text-center max-w-md border border-blue-500/30 glow">
+              <div className="relative">
+                <Video className="w-20 h-20 text-blue-400 mx-auto mb-6 animate-pulse" />
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
+              </div>
+              <h3 className="text-3xl font-bold mb-4 gradient-text">Watching Ad...</h3>
+              <p className="text-gray-400 mb-6">Please wait for the advertisement</p>
+              <div className="flex items-center justify-center space-x-2">
+                <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce"></div>
+                <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+              </div>
+              <div className="mt-6 text-blue-400 font-semibold">⏱️ 5 seconds remaining</div>
             </div>
           </div>
         )}
@@ -256,6 +324,7 @@ function Dashboard({ user, logout }) {
         {showCheckin && (
           <DailyCheckinModal onClose={() => setShowCheckin(false)} />
         )}
+        </div>
       </div>
     </Layout>
   );

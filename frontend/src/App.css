@@ -6,48 +6,97 @@
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  background-color: #0f0f10;
+  background: #0a0e27;
   color: white;
+  overflow-x: hidden;
 }
 
+/* Gradient Text Effects */
 .gradient-text {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #43e97b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: gradientShift 3s ease infinite;
 }
 
-.gradient-bg {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.card-gradient {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-  border: 1px solid rgba(102, 126, 234, 0.2);
-}
-
-.glow {
-  box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
-}
-
-.mining-animation {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes pulse {
+@keyframes gradientShift {
   0%, 100% {
-    opacity: 1;
+    filter: hue-rotate(0deg);
   }
   50% {
-    opacity: 0.5;
+    filter: hue-rotate(20deg);
   }
 }
 
-.coin-spin {
-  animation: spin 3s linear infinite;
+/* Card Designs - ARC ASTRA Style */
+.card-gradient {
+  background: linear-gradient(135deg, rgba(79, 172, 254, 0.08) 0%, rgba(0, 242, 254, 0.08) 100%);
+  border: 1px solid rgba(79, 172, 254, 0.2);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
 }
 
-@keyframes spin {
+.card-gradient::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(79, 172, 254, 0.1), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+/* Glowing Effects */
+.glow {
+  box-shadow: 
+    0 0 20px rgba(79, 172, 254, 0.4),
+    0 0 40px rgba(79, 172, 254, 0.2),
+    0 0 60px rgba(79, 172, 254, 0.1);
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(79, 172, 254, 0.4),
+      0 0 40px rgba(79, 172, 254, 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 0 30px rgba(79, 172, 254, 0.6),
+      0 0 60px rgba(79, 172, 254, 0.3),
+      0 0 80px rgba(79, 172, 254, 0.1);
+  }
+}
+
+/* Mining Coin Animation - Enhanced */
+.coin-spin {
+  animation: coinFloat 3s ease-in-out infinite, coinRotate 4s linear infinite;
+  filter: drop-shadow(0 0 20px rgba(79, 172, 254, 0.6));
+}
+
+@keyframes coinFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.1);
+  }
+}
+
+@keyframes coinRotate {
   from {
     transform: rotateY(0deg);
   }
@@ -56,13 +105,54 @@ body {
   }
 }
 
-.slide-in {
-  animation: slideIn 0.3s ease-out;
+/* Mining Progress Animation */
+.mining-animation {
+  animation: miningPulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  position: relative;
 }
 
-@keyframes slideIn {
+.mining-animation::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(79, 172, 254, 0.3) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  animation: ripple 2s ease-out infinite;
+}
+
+@keyframes miningPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+/* Slide In Animation */
+.slide-in {
+  animation: slideInUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes slideInUp {
   from {
-    transform: translateY(-10px);
+    transform: translateY(30px);
     opacity: 0;
   }
   to {
@@ -71,11 +161,153 @@ body {
   }
 }
 
+/* Button Styles - Modern */
+button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
+/* Progress Bar Gradient */
+.progress-bar {
+  background: linear-gradient(90deg, #4facfe 0%, #00f2fe 50%, #43e97b 100%);
+  background-size: 200% 100%;
+  animation: progressGlow 2s linear infinite;
+}
+
+@keyframes progressGlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+/* Floating Particles Background */
+.particles-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(79, 172, 254, 0.5);
+  border-radius: 50%;
+  animation: particleFloat 10s infinite ease-in-out;
+}
+
+@keyframes particleFloat {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(50px);
+    opacity: 0;
+  }
+}
+
+/* Number Counter Animation */
+.number-counter {
+  animation: countUp 0.5s ease-out;
+}
+
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Success Effect */
+.success-effect {
+  animation: successPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes successPop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Scroll Smooth */
 .scroll-smooth {
   scroll-behavior: smooth;
+}
+
+/* Neon Glow Text */
+.neon-text {
+  text-shadow: 
+    0 0 10px rgba(79, 172, 254, 0.8),
+    0 0 20px rgba(79, 172, 254, 0.6),
+    0 0 30px rgba(79, 172, 254, 0.4),
+    0 0 40px rgba(79, 172, 254, 0.2);
+  animation: neonFlicker 3s infinite alternate;
+}
+
+@keyframes neonFlicker {
+  0%, 100% {
+    text-shadow: 
+      0 0 10px rgba(79, 172, 254, 0.8),
+      0 0 20px rgba(79, 172, 254, 0.6);
+  }
+  50% {
+    text-shadow: 
+      0 0 15px rgba(79, 172, 254, 1),
+      0 0 30px rgba(79, 172, 254, 0.8),
+      0 0 45px rgba(79, 172, 254, 0.6);
+  }
 }

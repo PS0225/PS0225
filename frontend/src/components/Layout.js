@@ -18,20 +18,31 @@ function Layout({ user, logout, children }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900" data-testid="layout">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 relative overflow-hidden" data-testid="layout">
+      {/* Animated Grid Background */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0" style={{
+          backgroundImage: 'linear-gradient(rgba(79, 172, 254, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(79, 172, 254, 0.1) 1px, transparent 1px)',
+          backgroundSize: '50px 50px'
+        }}></div>
+      </div>
+
       {/* Header */}
-      <header className="bg-gray-900/50 backdrop-blur-md border-b border-gray-800 sticky top-0 z-40">
+      <header className="bg-gray-900/50 backdrop-blur-xl border-b border-blue-500/20 sticky top-0 z-40 shadow-lg shadow-blue-500/5">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-2" data-testid="layout-logo">
-              <Coins className="w-8 h-8 text-purple-400" />
-              <span className="text-xl font-bold gradient-text">Platinum Network</span>
+              <div className="relative">
+                <Coins className="w-8 h-8 text-blue-400 coin-spin" />
+                <div className="absolute inset-0 w-8 h-8 bg-blue-400 rounded-full blur-md opacity-50"></div>
+              </div>
+              <span className="text-2xl font-bold gradient-text">Platinum Network</span>
             </div>
 
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 px-4 py-2 bg-purple-600/20 rounded-lg" data-testid="header-balance">
-                <Coins className="w-5 h-5 text-purple-400" />
-                <span className="font-bold">{user.total_pnrp.toFixed(2)} PNRP</span>
+              <div className="flex items-center space-x-2 px-5 py-2.5 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-full border border-blue-500/30 glow" data-testid="header-balance">
+                <Coins className="w-5 h-5 text-blue-400" />
+                <span className="font-bold text-lg gradient-text">{user.total_pnrp.toFixed(2)} PNRP</span>
               </div>
               <Link
                 to="/profile"
@@ -54,9 +65,9 @@ function Layout({ user, logout, children }) {
         </div>
       </header>
 
-      <div className="flex">
+      <div className="flex relative z-10">
         {/* Sidebar */}
-        <aside className="w-64 bg-gray-900/30 backdrop-blur-md border-r border-gray-800 min-h-[calc(100vh-4rem)] sticky top-16 hidden md:block" data-testid="sidebar">
+        <aside className="w-64 bg-gray-900/30 backdrop-blur-xl border-r border-blue-500/20 min-h-[calc(100vh-4rem)] sticky top-16 hidden md:block" data-testid="sidebar">
           <nav className="p-4 space-y-2">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -66,10 +77,10 @@ function Layout({ user, logout, children }) {
                   key={item.path}
                   to={item.path}
                   data-testid={`nav-${item.label.toLowerCase()}`}
-                  className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition ${
+                  className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                     isActive
-                      ? 'bg-purple-600 text-white'
-                      : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                      ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg shadow-blue-500/50 scale-105'
+                      : 'text-gray-400 hover:bg-blue-500/10 hover:text-white hover:scale-102'
                   }`}
                 >
                   <Icon className="w-5 h-5" />
@@ -87,7 +98,7 @@ function Layout({ user, logout, children }) {
       </div>
 
       {/* Mobile Navigation */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-gray-900/95 backdrop-blur-md border-t border-gray-800 z-40" data-testid="mobile-nav">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-t border-blue-500/20 z-40 shadow-2xl shadow-blue-500/10" data-testid="mobile-nav">
         <div className="grid grid-cols-5 items-center h-16">
           {[
             navItems[0], // Dashboard
@@ -103,8 +114,8 @@ function Layout({ user, logout, children }) {
                 key={item.path}
                 to={item.path}
                 data-testid={`mobile-nav-${item.label.toLowerCase()}`}
-                className={`flex flex-col items-center justify-center space-y-1 ${
-                  isActive ? 'text-purple-400' : 'text-gray-400'
+                className={`flex flex-col items-center justify-center space-y-1 transition-all duration-300 ${
+                  isActive ? 'text-blue-400 scale-110' : 'text-gray-400'
                 }`}
               >
                 <Icon className="w-5 h-5" />
