@@ -26,14 +26,21 @@ function Dashboard({ user, logout }) {
   }, []);
 
   useEffect(() => {
-    if (miningStatus && miningStatus.has_active_session) {
+    if (miningStatus && miningStatus.has_active_session && !miningStatus.session.is_completed) {
+      // Update timer from server data
+      setTimeRemaining(miningStatus.session.time_remaining_seconds);
+    }
+  }, [miningStatus]);
+
+  // Separate effect for countdown timer
+  useEffect(() => {
+    if (timeRemaining > 0) {
       const interval = setInterval(() => {
-        const remaining = miningStatus.session.time_remaining_seconds - 1;
-        setTimeRemaining(Math.max(0, remaining));
+        setTimeRemaining(prev => Math.max(0, prev - 1));
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [miningStatus]);
+  }, [timeRemaining]);
 
   const fetchMiningStatus = async () => {
     try {

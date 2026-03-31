@@ -326,8 +326,9 @@ async def get_me(current_user: dict = Depends(get_current_user)):
 async def get_mining_status(current_user: dict = Depends(get_current_user)):
     """Get current mining session status"""
     session = await db.mining_sessions.find_one(
-        {"user_id": current_user["id"], "status": "active"},
-        {"_id": 0}
+        {"user_id": current_user["id"], "status": {"$in": ["active", "completed"]}},
+        {"_id": 0},
+        sort=[("start_time", -1)]  # Get latest session
     )
     
     if not session:
