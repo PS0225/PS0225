@@ -43,20 +43,24 @@ function DailyCheckinModal({ onClose }) {
     setClaiming(true);
     try {
       const response = await axios.post(`${API}/checkin/claim`);
-      alert(`✅ Success! Claimed ${response.data.reward} PNRP!\n\nNew Balance: ${response.data.new_balance} PNRP\n\nPage will refresh now.`);
-      // Reload to update balance
+      
+      // Show success message with clear balance info
+      alert(`✅ Daily Check-in Success!\n\n🎁 Reward: +${response.data.reward} PNRP\n💰 New Balance: ${response.data.new_balance} PNRP\n📅 Day ${response.data.day}/7\n\nPage will refresh to update your balance...`);
+      
+      // Force reload after a short delay
       setTimeout(() => {
-        window.location.reload();
-      }, 500);
+        window.location.href = window.location.href;
+      }, 1000);
     } catch (error) {
       const errorMsg = error.response?.data?.detail || 'Failed to claim reward';
       alert(`❌ Error: ${errorMsg}`);
       setClaiming(false);
+      
       // If already claimed, close modal and refresh
       if (errorMsg.includes('Already checked in')) {
         setTimeout(() => {
           onClose();
-          window.location.reload();
+          window.location.href = window.location.href;
         }, 1000);
       }
     }

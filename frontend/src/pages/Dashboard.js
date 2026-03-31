@@ -65,12 +65,16 @@ function Dashboard({ user, logout }) {
     setTimeout(async () => {
       try {
         const response = await axios.post(`${API}/daily-reward/watch-ad`);
-        alert(`✅ Success!\n\n+${response.data.reward} PNRP earned!\n\nAd ${response.data.ad_number}/3 claimed\nRemaining ads: ${response.data.remaining_ads}\n\nNew Balance: ${response.data.new_balance} PNRP`);
-        fetchDailyRewardStatus();
-        window.location.reload();
+        
+        // Detailed success message
+        alert(`✅ Daily Reward Claimed!\n\n🎁 Ad ${response.data.ad_number}/3 Completed\n💰 Earned: +${response.data.reward} PNRP\n📊 New Balance: ${response.data.new_balance} PNRP\n⏳ Remaining Ads: ${response.data.remaining_ads}\n\nPage will refresh to update your balance...`);
+        
+        // Force reload
+        setTimeout(() => {
+          window.location.href = window.location.href;
+        }, 1000);
       } catch (error) {
         alert(error.response?.data?.detail || 'Failed to claim reward');
-      } finally {
         setWatchingDailyAd(false);
       }
     }, 5000);
@@ -88,14 +92,18 @@ function Dashboard({ user, logout }) {
   const claimRewards = async () => {
     try {
       const response = await axios.post(`${API}/mining/claim`);
-      alert(`✅ Mining Reward Claimed!\n\n+${response.data.reward} PNRP\n\nNew Balance: ${response.data.new_balance} PNRP\n\nPage will refresh now.`);
-      // Delay reload to show success message
+      
+      // Show detailed success message
+      alert(`✅ Mining Reward Claimed!\n\n⛏️ Mining Reward: +${response.data.reward} PNRP\n💰 New Balance: ${response.data.new_balance} PNRP\n\nPage will refresh to update your balance...`);
+      
+      // Force reload after delay
       setTimeout(() => {
-        window.location.reload();
-      }, 500);
+        window.location.href = window.location.href;
+      }, 1000);
     } catch (error) {
       const errorMsg = error.response?.data?.detail || 'Failed to claim rewards';
       alert(`❌ Error: ${errorMsg}`);
+      
       // If no completed session, refresh to update status
       if (errorMsg.includes('No completed mining session')) {
         setTimeout(() => {
