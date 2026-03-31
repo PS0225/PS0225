@@ -317,7 +317,8 @@ function Dashboard({ user, logout }) {
                 </div>
 
                 {/* Ad Boosts */}
-                <div className="max-w-md mx-auto">
+                <div className="max-w-md mx-auto space-y-4">
+                  {/* Time Boost Card */}
                   <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 p-6 rounded-xl border border-blue-500/30 hover:border-blue-500/50 transition" data-testid="time-boost-card">
                     <div className="flex items-center justify-between mb-4">
                       <Clock className="w-8 h-8 text-blue-400" />
@@ -339,6 +340,32 @@ function Dashboard({ user, logout }) {
                     ) : (
                       <div className="text-green-400 text-center font-semibold">
                         ✅ {miningStatus.session.duration_hours}h Active
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Speed Boost Card */}
+                  <div className="bg-gradient-to-br from-purple-500/10 to-purple-600/10 p-6 rounded-xl border border-purple-500/30 hover:border-purple-500/50 transition" data-testid="speed-boost-card">
+                    <div className="flex items-center justify-between mb-4">
+                      <Zap className="w-8 h-8 text-purple-400" />
+                      <span className="text-sm px-3 py-1 bg-purple-500/30 rounded-full text-purple-300">
+                        {miningStatus.session.speed_boost_ads_watched}/5 ads
+                      </span>
+                    </div>
+                    <h3 className="font-bold text-lg mb-2">⚡ Boost Mining</h3>
+                    <p className="text-sm text-gray-400 mb-4">Watch 5 ads to activate 2x mining speed</p>
+                    {miningStatus.session.speed_boost_ads_watched < 5 ? (
+                      <button
+                        onClick={() => watchAd('speed_boost')}
+                        disabled={watchingAd}
+                        data-testid="watch-speed-boost-btn"
+                        className="w-full py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition disabled:opacity-50"
+                      >
+                        {watchingAd && adType === 'speed_boost' ? '⏳ Watching...' : '📺 Watch Ad'}
+                      </button>
+                    ) : (
+                      <div className="text-green-400 text-center font-semibold">
+                        ✅ 2x Speed Active
                       </div>
                     )}
                   </div>

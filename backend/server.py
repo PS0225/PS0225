@@ -136,7 +136,7 @@ class MiningSession(BaseModel):
     total_reward: float = 50.0
     status: str = "active"  # active, completed, claimed
     time_boost_ads_watched: int = 0  # 0-2
-    speed_boost_ads_watched: int = 0  # 0-2
+    speed_boost_ads_watched: int = 0  # 0-5
     end_time: Optional[datetime] = None
     claimed_at: Optional[datetime] = None
 
@@ -490,9 +490,9 @@ async def claim_mining(current_user: dict = Depends(get_current_user)):
 
 @api_router.post("/mining/watch-ad")
 async def watch_ad(ad_type: str, current_user: dict = Depends(get_current_user)):
-    """Watch an ad to boost mining - only time boost available"""
-    if ad_type != "time_boost":
-        raise HTTPException(status_code=400, detail="Invalid ad type")
+    """Watch an ad to boost mining - time boost (2 ads) or speed boost (5 ads)"""
+    if ad_type not in ["time_boost", "speed_boost"]:
+        raise HTTPException(status_code=400, detail="Invalid ad type. Use 'time_boost' or 'speed_boost'")
     
     # Get active mining session
     session = await db.mining_sessions.find_one(
@@ -503,37 +503,69 @@ async def watch_ad(ad_type: str, current_user: dict = Depends(get_current_user))
     if not session:
         raise HTTPException(status_code=400, detail="No active mining session")
     
-    # Check ad limit for time boost
-    if session['time_boost_ads_watched'] >= 2:
-        raise HTTPException(status_code=400, detail="Maximum time boost ads already watched")
-    
-    # Increment ad count
-    new_count = session['time_boost_ads_watched'] + 1
-    await db.mining_sessions.update_one(
-        {"id": session["id"]},
-        {"$set": {"time_boost_ads_watched": new_count}}
-    )
-    
-    # If 2 ads watched, extend duration to 24 hours
-    if new_count == 2:
+    if ad_type == "time_boost":
+        # Check ad limit for time boost
+        if session['time_boost_ads_watched'] >= 2:
+            raise HTTPException(status_code=400, detail="Maximum time boost ads already watched")
+        
+        # Increment ad count
+        new_count = session['time_boost_ads_watched'] + 1
         await db.mining_sessions.update_one(
             {"id": session["id"]},
-            {"$set": {"duration_hours": 24}}
+            {"$set": {"time_boost_ads_watched": new_count}}
         )
-        message = "Time boost activated! Mining duration extended to 24 hours"
-    else:
-        message = f"Ad watched ({new_count}/2 for time boost)"
+        
+        # If 2 ads watched, extend duration to 24 hours
+        if new_count == 2:
+            await db.mining_sessions.update_one(
+                {"id": session["id"]},
+                {"$set": {"duration_hours": 24}}
+            )
+            message = "Time boost activated! Mining duration extended to 24 hours"
+        else:
+            message = f"Ad watched ({new_count}/2 for time boost)"
+        
+        ad_watch_type = "mining_time_boost"
+    
+    elif ad_type == "speed_boost":
+        # Check ad limit for speed boost
+        if session['speed_boost_ads_watched'] >= 5:
+            raise HTTPException(status_code=400, detail="Maximum speed boost ads already watched")
+        
+        # Increment ad count
+        new_count = session['speed_boost_ads_watched'] + 1
+        await db.mining_sessions.update_one(
+            {"id": session["id"]},
+            {"$set": {"speed_boost_ads_watched": new_count}}
+        )
+        
+        # If 5 ads watched, activate 2x speed multiplier and update total reward
+        if new_count == 5:
+            new_speed = 2.0
+            new_total_reward = session['base_reward'] * new_speed
+            await db.mining_sessions.update_one(
+                {"id": session["id"]},
+                {"$set": {
+                    "speed_multiplier": new_speed,
+                    "total_reward": new_total_reward
+                }}
+            )
+            message = f"Speed boost activated! Mining speed is now 2x (Reward: {new_total_reward} PNRP)"
+        else:
+            message = f"Ad watched ({new_count}/5 for speed boost)"
+        
+        ad_watch_type = "mining_speed_boost"
     
     # Record ad watch
     ad_watch = AdWatch(
         user_id=current_user["id"],
-        ad_type="mining_time_boost"
+        ad_type=ad_watch_type
     )
     ad_dict = ad_watch.model_dump()
     ad_dict['watched_at'] = ad_dict['watched_at'].isoformat()
     await db.ad_watches.insert_one(ad_dict)
     
-    return {"message": message}
+    return {"message": message, "ads_watched": new_count}
 
 
 # ==================== DAILY REWARD ROUTES ====================
