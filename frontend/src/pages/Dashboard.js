@@ -173,6 +173,62 @@ function Dashboard({ user, logout }) {
           <p className="text-gray-400">Welcome back, {user.username}!</p>
         </div>
 
+        {/* PNRP Coin Logo above Balance */}
+        <div className="flex justify-center mb-4">
+          <div className="coin-spin" style={{width: '80px', height: '80px'}}>
+            <div className="pnrp-coin-3d" style={{width: '80px', height: '80px'}}>
+              <div className="pnrp-coin-side pnrp-coin-front">
+                <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
+                  <defs>
+                    <path id="miniTopCurve" d="M 20,42 A 56,56 0 0,1 120,42" />
+                    <path id="miniBottomCurve" d="M 18,104 A 62,58 0 0,0 122,104" />
+                  </defs>
+                  
+                  {/* Decorative curved lines */}
+                  <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                  <path d="M 25,89 A 52,52 0 0,0 115,89" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                  
+                  <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
+                    <textPath href="#miniTopCurve" startOffset="50%" textAnchor="middle">
+                      PLATINUM • NETWORK
+                    </textPath>
+                  </text>
+                  <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.8">
+                    <textPath href="#miniBottomCurve" startOffset="50%" textAnchor="middle">
+                      PLATINUM • NETWORK
+                    </textPath>
+                  </text>
+                </svg>
+                <div className="pnrp-coin-text" style={{fontSize: '24px'}}>PNRP</div>
+              </div>
+              <div className="pnrp-coin-side pnrp-coin-back">
+                <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>
+                  <defs>
+                    <path id="miniTopCurveBack" d="M 20,42 A 56,56 0 0,1 120,42" />
+                    <path id="miniBottomCurveBack" d="M 18,104 A 62,58 0 0,0 122,104" />
+                  </defs>
+                  
+                  {/* Decorative curved lines */}
+                  <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                  <path d="M 25,89 A 52,52 0 0,0 115,89" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                  
+                  <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
+                    <textPath href="#miniTopCurveBack" startOffset="50%" textAnchor="middle">
+                      PLATINUM • NETWORK
+                    </textPath>
+                  </text>
+                  <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.8">
+                    <textPath href="#miniBottomCurveBack" startOffset="50%" textAnchor="middle">
+                      PLATINUM • NETWORK
+                    </textPath>
+                  </text>
+                </svg>
+                <div className="pnrp-coin-text" style={{fontSize: '24px'}}>PNRP</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Stats Cards - 4 Part Square Grid below Mining */}
         <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
           {/* Balance */}
