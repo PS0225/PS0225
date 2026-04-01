@@ -251,8 +251,8 @@ function Dashboard({ user, logout }) {
                     </defs>
                     
                     {/* Decorative curved lines wrapping around text */}
-                    {/* Top text - curved line below wrapping left to right */}
-                    <path d="M 25,48 A 52,52 0 0,1 115,48" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                    {/* Top text - curved line below wrapping left to right (moved up) */}
+                    <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
                     
                     {/* Bottom text - curved line above wrapping left to right */}
                     <path d="M 25,94 A 52,52 0 0,0 115,94" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
@@ -278,8 +278,8 @@ function Dashboard({ user, logout }) {
                     </defs>
                     
                     {/* Decorative curved lines wrapping around text */}
-                    {/* Top text - curved line below wrapping left to right */}
-                    <path d="M 25,48 A 52,52 0 0,1 115,48" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                    {/* Top text - curved line below wrapping left to right (moved up) */}
+                    <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
                     
                     {/* Bottom text - curved line above wrapping left to right */}
                     <path d="M 25,94 A 52,52 0 0,0 115,94" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
