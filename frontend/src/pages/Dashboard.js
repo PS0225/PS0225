@@ -246,8 +246,8 @@ function Dashboard({ user, logout }) {
                 <div className="pnrp-coin-side pnrp-coin-front">
                   <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
                     <defs>
-                      <path id="topCurve" d="M 15,58 A 55,55 0 0,1 125,58" />
-                      <path id="bottomCurve" d="M 15,82 A 55,55 0 0,0 125,82" />
+                      <path id="topCurve" d="M 10,50 A 60,60 0 0,1 130,50" />
+                      <path id="bottomCurve" d="M 10,90 A 60,60 0 0,0 130,90" />
                     </defs>
                     <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.5">
                       <textPath href="#topCurve" startOffset="50%" textAnchor="middle">
@@ -265,8 +265,8 @@ function Dashboard({ user, logout }) {
                 <div className="pnrp-coin-side pnrp-coin-back">
                   <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>
                     <defs>
-                      <path id="topCurveBack" d="M 15,58 A 55,55 0 0,1 125,58" />
-                      <path id="bottomCurveBack" d="M 15,82 A 55,55 0 0,0 125,82" />
+                      <path id="topCurveBack" d="M 10,50 A 60,60 0 0,1 130,50" />
+                      <path id="bottomCurveBack" d="M 10,90 A 60,60 0 0,0 130,90" />
                     </defs>
                     <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.5">
                       <textPath href="#topCurveBack" startOffset="50%" textAnchor="middle">
