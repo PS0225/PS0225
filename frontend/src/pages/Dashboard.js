@@ -247,15 +247,15 @@ function Dashboard({ user, logout }) {
                   <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
                     <defs>
                       <path id="topCurve" d="M 20,42 A 56,56 0 0,1 120,42" />
-                      <path id="bottomCurve" d="M 20,100 A 56,56 0 0,0 120,100" />
+                      <path id="bottomCurve" d="M 20,103 A 56,56 0 0,0 120,103" />
                     </defs>
                     
                     {/* Decorative curved lines wrapping around text */}
-                    {/* Top text - curved line below wrapping left to right (moved up) */}
+                    {/* Top text - curved line below wrapping left to right */}
                     <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
                     
                     {/* Bottom text - curved line above wrapping left to right */}
-                    <path d="M 25,94 A 52,52 0 0,0 115,94" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                    <path d="M 25,97 A 52,52 0 0,0 115,97" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
                     
                     <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
                       <textPath href="#topCurve" startOffset="50%" textAnchor="middle">
@@ -274,15 +274,15 @@ function Dashboard({ user, logout }) {
                   <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>
                     <defs>
                       <path id="topCurveBack" d="M 20,42 A 56,56 0 0,1 120,42" />
-                      <path id="bottomCurveBack" d="M 20,100 A 56,56 0 0,0 120,100" />
+                      <path id="bottomCurveBack" d="M 20,103 A 56,56 0 0,0 120,103" />
                     </defs>
                     
                     {/* Decorative curved lines wrapping around text */}
-                    {/* Top text - curved line below wrapping left to right (moved up) */}
+                    {/* Top text - curved line below wrapping left to right */}
                     <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
                     
                     {/* Bottom text - curved line above wrapping left to right */}
-                    <path d="M 25,94 A 52,52 0 0,0 115,94" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                    <path d="M 25,97 A 52,52 0 0,0 115,97" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
                     
                     <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
                       <textPath href="#topCurveBack" startOffset="50%" textAnchor="middle">
