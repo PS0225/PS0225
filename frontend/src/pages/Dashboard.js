@@ -242,9 +242,32 @@ function Dashboard({ user, logout }) {
           
           <div className="text-center relative z-10">
             <div className="coin-spin inline-block mb-6">
-              <div className="pnrp-coin-container">
-                <div className="pnrp-coin front">P</div>
-                <div className="pnrp-coin back">N</div>
+              <div className="pnrp-logo-container">
+                <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+                  {/* First Circle (P) */}
+                  <circle cx="48" cy="64" r="36" fill="url(#blueGradient)" stroke="#4facfe" strokeWidth="3" />
+                  
+                  {/* Second Circle (N) - Overlapping */}
+                  <circle cx="80" cy="64" r="36" fill="url(#cyanGradient)" stroke="#00f2fe" strokeWidth="3" opacity="0.9" />
+                  
+                  {/* Gradients */}
+                  <defs>
+                    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#4facfe" />
+                      <stop offset="100%" stopColor="#00f2fe" />
+                    </linearGradient>
+                    <linearGradient id="cyanGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#00f2fe" />
+                      <stop offset="100%" stopColor="#43e97b" />
+                    </linearGradient>
+                  </defs>
+                  
+                  {/* P Letter (stays upright with counter-rotation) */}
+                  <text x="48" y="74" fontSize="32" fontWeight="bold" fill="white" textAnchor="middle" className="pnrp-letter">P</text>
+                  
+                  {/* N Letter (stays upright with counter-rotation) */}
+                  <text x="80" y="74" fontSize="32" fontWeight="bold" fill="white" textAnchor="middle" className="pnrp-letter">N</text>
+                </svg>
               </div>
             </div>
 
