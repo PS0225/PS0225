@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API } from '../App';
 import Layout from '../components/Layout';
-import { Coins, Zap, Clock, TrendingUp, Gift, Video } from 'lucide-react';
+import { Coins, Zap, Clock, TrendingUp, Gift, Video, Send, MessageCircle, Instagram, Youtube, Twitter, Facebook } from 'lucide-react';
 import DailyCheckinModal from '../components/DailyCheckinModal';
 
 function Dashboard({ user, logout }) {
@@ -479,6 +479,133 @@ function Dashboard({ user, logout }) {
             </div>
           </div>
         )}
+
+        {/* Join Community Section */}
+        <div className="card-gradient p-8 rounded-2xl">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold mb-2">🌐 Join Our Community</h2>
+            <p className="text-gray-400">Connect with us on social media and stay updated!</p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+            {/* Telegram */}
+            <a 
+              href="https://t.me/platinumnetwork" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group bg-[#0088CC] hover:bg-[#0077B3] p-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
+            >
+              <div className="flex flex-col items-center">
+                <Send className="w-12 h-12 text-white mb-3 group-hover:rotate-12 transition-transform" />
+                <span className="text-white font-bold text-lg">Telegram</span>
+                <span className="text-white/80 text-sm mt-1">Join Channel</span>
+              </div>
+            </a>
+
+            {/* Discord */}
+            <a 
+              href="https://discord.gg/platinumnetwork" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group bg-[#5865F2] hover:bg-[#4752C4] p-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
+            >
+              <div className="flex flex-col items-center">
+                <MessageCircle className="w-12 h-12 text-white mb-3 group-hover:rotate-12 transition-transform" />
+                <span className="text-white font-bold text-lg">Discord</span>
+                <span className="text-white/80 text-sm mt-1">Join Server</span>
+              </div>
+            </a>
+
+            {/* Twitter/X */}
+            <a 
+              href="https://twitter.com/platinumnetwork" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group bg-[#000000] hover:bg-[#1a1a1a] p-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl border border-gray-800"
+            >
+              <div className="flex flex-col items-center">
+                <Twitter className="w-12 h-12 text-white mb-3 group-hover:rotate-12 transition-transform" />
+                <span className="text-white font-bold text-lg">Twitter</span>
+                <span className="text-white/80 text-sm mt-1">Follow Us</span>
+              </div>
+            </a>
+
+            {/* Instagram */}
+            <a 
+              href="https://instagram.com/platinumnetwork" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group bg-gradient-to-br from-[#833AB4] via-[#E1306C] to-[#F77737] hover:opacity-90 p-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
+            >
+              <div className="flex flex-col items-center">
+                <Instagram className="w-12 h-12 text-white mb-3 group-hover:rotate-12 transition-transform" />
+                <span className="text-white font-bold text-lg">Instagram</span>
+                <span className="text-white/80 text-sm mt-1">Follow Us</span>
+              </div>
+            </a>
+
+            {/* YouTube */}
+            <a 
+              href="https://youtube.com/@platinumnetwork" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group bg-[#FF0000] hover:bg-[#CC0000] p-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
+            >
+              <div className="flex flex-col items-center">
+                <Youtube className="w-12 h-12 text-white mb-3 group-hover:rotate-12 transition-transform" />
+                <span className="text-white font-bold text-lg">YouTube</span>
+                <span className="text-white/80 text-sm mt-1">Subscribe</span>
+              </div>
+            </a>
+
+            {/* Facebook */}
+            <a 
+              href="https://facebook.com/platinumnetwork" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group bg-[#1877F2] hover:bg-[#166FE5] p-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
+            >
+              <div className="flex flex-col items-center">
+                <Facebook className="w-12 h-12 text-white mb-3 group-hover:rotate-12 transition-transform" />
+                <span className="text-white font-bold text-lg">Facebook</span>
+                <span className="text-white/80 text-sm mt-1">Like Page</span>
+              </div>
+            </a>
+
+            {/* TikTok */}
+            <a 
+              href="https://tiktok.com/@platinumnetwork" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group bg-[#000000] hover:bg-[#1a1a1a] p-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl border border-gray-800 relative overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-[#00F2EA]/20 to-[#FF0050]/20"></div>
+              <div className="flex flex-col items-center relative z-10">
+                <div className="w-12 h-12 mb-3 flex items-center justify-center text-white font-black text-2xl group-hover:scale-110 transition-transform">
+                  ♪
+                </div>
+                <span className="text-white font-bold text-lg">TikTok</span>
+                <span className="text-white/80 text-sm mt-1">Follow Us</span>
+              </div>
+            </a>
+
+            {/* LinkedIn */}
+            <a 
+              href="https://linkedin.com/company/platinumnetwork" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group bg-[#0A66C2] hover:bg-[#095196] p-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
+            >
+              <div className="flex flex-col items-center">
+                <div className="w-12 h-12 mb-3 flex items-center justify-center text-white font-black text-3xl group-hover:scale-110 transition-transform">
+                  in
+                </div>
+                <span className="text-white font-bold text-lg">LinkedIn</span>
+                <span className="text-white/80 text-sm mt-1">Connect</span>
+              </div>
+            </a>
+          </div>
+        </div>
 
         {/* Daily Checkin Modal */}
         {showCheckin && (
