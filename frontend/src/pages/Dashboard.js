@@ -244,10 +244,18 @@ function Dashboard({ user, logout }) {
             <div className="coin-spin inline-block mb-6">
               <div className="pnrp-coin-3d">
                 <div className="pnrp-coin-side pnrp-coin-front">
-                  <div className="pnrp-coin-text">PNRP</div>
+                  <div className="flex flex-col items-center justify-center gap-0">
+                    <div className="text-xs font-bold text-white/90 tracking-widest">PLATINUM</div>
+                    <div className="pnrp-coin-text">PNRP</div>
+                    <div className="text-xs font-bold text-white/90 tracking-widest">NETWORK</div>
+                  </div>
                 </div>
                 <div className="pnrp-coin-side pnrp-coin-back">
-                  <div className="pnrp-coin-text">PNRP</div>
+                  <div className="flex flex-col items-center justify-center gap-0">
+                    <div className="text-xs font-bold text-white/90 tracking-widest" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>PLATINUM</div>
+                    <div className="pnrp-coin-text">PNRP</div>
+                    <div className="text-xs font-bold text-white/90 tracking-widest" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>NETWORK</div>
+                  </div>
                 </div>
               </div>
             </div>
