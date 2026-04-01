@@ -129,11 +129,10 @@ body {
     2px 2px 4px rgba(0, 0, 0, 0.3),
     0 0 10px rgba(255, 255, 255, 0.5);
   letter-spacing: 1px;
-  transform: rotateY(0deg);
 }
 
 .pnrp-coin-back .pnrp-coin-text {
-  transform: rotateY(180deg);
+  transform: rotateY(180deg) scaleX(-1);
 }
 
 @keyframes coinFloat {
