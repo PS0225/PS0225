@@ -81,10 +81,47 @@ body {
   }
 }
 
-/* Mining Coin Animation - Enhanced */
+/* Mining Coin Animation - Enhanced 3D PNRP Logo */
 .coin-spin {
-  animation: coinFloat 3s ease-in-out infinite, coinRotate 4s linear infinite;
+  animation: coinFloat 3s ease-in-out infinite;
   filter: drop-shadow(0 0 20px rgba(79, 172, 254, 0.6));
+  perspective: 1000px;
+}
+
+.pnrp-coin-container {
+  position: relative;
+  width: 128px;
+  height: 128px;
+  transform-style: preserve-3d;
+  animation: coin3DRotate 4s linear infinite;
+}
+
+.pnrp-coin {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+  font-weight: bold;
+  backface-visibility: hidden;
+  border: 4px solid;
+}
+
+.pnrp-coin.front {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  border-color: #4facfe;
+  color: white;
+  z-index: 2;
+}
+
+.pnrp-coin.back {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  border-color: #43e97b;
+  color: white;
+  transform: rotateY(180deg);
 }
 
 @keyframes coinFloat {
@@ -92,11 +129,11 @@ body {
     transform: translateY(0) scale(1);
   }
   50% {
-    transform: translateY(-20px) scale(1.1);
+    transform: translateY(-20px) scale(1.05);
   }
 }
 
-@keyframes coinRotate {
+@keyframes coin3DRotate {
   from {
     transform: rotateY(0deg);
   }
