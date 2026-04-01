@@ -248,7 +248,7 @@ function Dashboard({ user, logout }) {
                     <defs>
                       <path id="topCurve" d="M 15,60 A 55,55 0 0,1 125,60" />
                     </defs>
-                    <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="bold" letterSpacing="1.5">
+                    <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.5">
                       <textPath href="#topCurve" startOffset="50%" textAnchor="middle">
                         PLATINUM • NETWORK
                       </textPath>
@@ -261,7 +261,7 @@ function Dashboard({ user, logout }) {
                     <defs>
                       <path id="topCurveBack" d="M 15,60 A 55,55 0 0,1 125,60" />
                     </defs>
-                    <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="bold" letterSpacing="1.5">
+                    <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.5">
                       <textPath href="#topCurveBack" startOffset="50%" textAnchor="middle">
                         PLATINUM • NETWORK
                       </textPath>
