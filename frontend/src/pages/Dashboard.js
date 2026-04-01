@@ -244,18 +244,42 @@ function Dashboard({ user, logout }) {
             <div className="coin-spin inline-block mb-6">
               <div className="pnrp-coin-3d">
                 <div className="pnrp-coin-side pnrp-coin-front">
-                  <div className="flex flex-col items-center justify-center gap-0">
-                    <div className="text-xs font-bold text-white/90 tracking-widest">PLATINUM</div>
-                    <div className="pnrp-coin-text">PNRP</div>
-                    <div className="text-xs font-bold text-white/90 tracking-widest">NETWORK</div>
-                  </div>
+                  <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
+                    <defs>
+                      <path id="topCurve" d="M 20,70 A 50,50 0 0,1 120,70" />
+                      <path id="bottomCurve" d="M 20,70 A 50,50 0 0,0 120,70" />
+                    </defs>
+                    <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="bold" letterSpacing="2">
+                      <textPath href="#topCurve" startOffset="50%" textAnchor="middle">
+                        PLATINUM
+                      </textPath>
+                    </text>
+                    <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="bold" letterSpacing="2">
+                      <textPath href="#bottomCurve" startOffset="50%" textAnchor="middle">
+                        NETWORK
+                      </textPath>
+                    </text>
+                  </svg>
+                  <div className="pnrp-coin-text">PNRP</div>
                 </div>
                 <div className="pnrp-coin-side pnrp-coin-back">
-                  <div className="flex flex-col items-center justify-center gap-0">
-                    <div className="text-xs font-bold text-white/90 tracking-widest" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>PLATINUM</div>
-                    <div className="pnrp-coin-text">PNRP</div>
-                    <div className="text-xs font-bold text-white/90 tracking-widest" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>NETWORK</div>
-                  </div>
+                  <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>
+                    <defs>
+                      <path id="topCurveBack" d="M 20,70 A 50,50 0 0,1 120,70" />
+                      <path id="bottomCurveBack" d="M 20,70 A 50,50 0 0,0 120,70" />
+                    </defs>
+                    <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="bold" letterSpacing="2">
+                      <textPath href="#topCurveBack" startOffset="50%" textAnchor="middle">
+                        PLATINUM
+                      </textPath>
+                    </text>
+                    <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="bold" letterSpacing="2">
+                      <textPath href="#bottomCurveBack" startOffset="50%" textAnchor="middle">
+                        NETWORK
+                      </textPath>
+                    </text>
+                  </svg>
+                  <div className="pnrp-coin-text">PNRP</div>
                 </div>
               </div>
             </div>

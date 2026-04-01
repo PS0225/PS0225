@@ -129,6 +129,12 @@ body {
     2px 2px 4px rgba(0, 0, 0, 0.3),
     0 0 10px rgba(255, 255, 255, 0.5);
   letter-spacing: 1px;
+  position: relative;
+  z-index: 2;
+}
+
+.coin-curved-text {
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
 }
 
 .pnrp-coin-back .pnrp-coin-text {
