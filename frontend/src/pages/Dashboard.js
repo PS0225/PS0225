@@ -249,6 +249,15 @@ function Dashboard({ user, logout }) {
                       <path id="topCurve" d="M 20,42 A 56,56 0 0,1 120,42" />
                       <path id="bottomCurve" d="M 20,100 A 56,56 0 0,0 120,100" />
                     </defs>
+                    
+                    {/* Top decorative lines */}
+                    <line x1="18" y1="42" x2="32" y2="42" stroke="white" strokeWidth="2" opacity="0.8" />
+                    <line x1="108" y1="42" x2="122" y2="42" stroke="white" strokeWidth="2" opacity="0.8" />
+                    
+                    {/* Bottom decorative lines */}
+                    <line x1="18" y1="100" x2="32" y2="100" stroke="white" strokeWidth="2" opacity="0.8" />
+                    <line x1="108" y1="100" x2="122" y2="100" stroke="white" strokeWidth="2" opacity="0.8" />
+                    
                     <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
                       <textPath href="#topCurve" startOffset="50%" textAnchor="middle">
                         PLATINUM • NETWORK
@@ -268,6 +277,15 @@ function Dashboard({ user, logout }) {
                       <path id="topCurveBack" d="M 20,42 A 56,56 0 0,1 120,42" />
                       <path id="bottomCurveBack" d="M 20,100 A 56,56 0 0,0 120,100" />
                     </defs>
+                    
+                    {/* Top decorative lines */}
+                    <line x1="18" y1="42" x2="32" y2="42" stroke="white" strokeWidth="2" opacity="0.8" />
+                    <line x1="108" y1="42" x2="122" y2="42" stroke="white" strokeWidth="2" opacity="0.8" />
+                    
+                    {/* Bottom decorative lines */}
+                    <line x1="18" y1="100" x2="32" y2="100" stroke="white" strokeWidth="2" opacity="0.8" />
+                    <line x1="108" y1="100" x2="122" y2="100" stroke="white" strokeWidth="2" opacity="0.8" />
+                    
                     <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
                       <textPath href="#topCurveBack" startOffset="50%" textAnchor="middle">
                         PLATINUM • NETWORK
