@@ -250,16 +250,12 @@ function Dashboard({ user, logout }) {
                       <path id="bottomCurve" d="M 20,100 A 56,56 0 0,0 120,100" />
                     </defs>
                     
-                    {/* Decorative curved lines - more curved */}
-                    {/* Top left curved line */}
-                    <path d="M 22,50 A 45,45 0 0,1 42,48" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
-                    {/* Top right curved line */}
-                    <path d="M 98,48 A 45,45 0 0,1 118,50" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
+                    {/* Decorative curved lines wrapping around text */}
+                    {/* Top text - curved line below wrapping left to right */}
+                    <path d="M 25,48 A 52,52 0 0,1 115,48" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
                     
-                    {/* Bottom left curved line */}
-                    <path d="M 22,90 A 45,45 0 0,0 42,92" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
-                    {/* Bottom right curved line */}
-                    <path d="M 98,92 A 45,45 0 0,0 118,90" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
+                    {/* Bottom text - curved line above wrapping left to right */}
+                    <path d="M 25,94 A 52,52 0 0,0 115,94" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
                     
                     <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
                       <textPath href="#topCurve" startOffset="50%" textAnchor="middle">
@@ -281,16 +277,12 @@ function Dashboard({ user, logout }) {
                       <path id="bottomCurveBack" d="M 20,100 A 56,56 0 0,0 120,100" />
                     </defs>
                     
-                    {/* Decorative curved lines - more curved */}
-                    {/* Top left curved line */}
-                    <path d="M 22,50 A 45,45 0 0,1 42,48" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
-                    {/* Top right curved line */}
-                    <path d="M 98,48 A 45,45 0 0,1 118,50" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
+                    {/* Decorative curved lines wrapping around text */}
+                    {/* Top text - curved line below wrapping left to right */}
+                    <path d="M 25,48 A 52,52 0 0,1 115,48" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
                     
-                    {/* Bottom left curved line */}
-                    <path d="M 22,90 A 45,45 0 0,0 42,92" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
-                    {/* Bottom right curved line */}
-                    <path d="M 98,92 A 45,45 0 0,0 118,90" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
+                    {/* Bottom text - curved line above wrapping left to right */}
+                    <path d="M 25,94 A 52,52 0 0,0 115,94" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
                     
                     <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
                       <textPath href="#topCurveBack" startOffset="50%" textAnchor="middle">
