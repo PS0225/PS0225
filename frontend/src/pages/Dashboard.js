@@ -178,7 +178,29 @@ function Dashboard({ user, logout }) {
           {/* Balance */}
           <div className="card-gradient p-6 rounded-xl hover:scale-105 transition-transform duration-300" data-testid="balance-box">
             <div className="flex items-center justify-center mb-2">
-              <Coins className="w-6 h-6 text-blue-400" />
+              {/* Small stable PNRP coin */}
+              <div style={{width: '32px', height: '32px', position: 'relative'}}>
+                <div className="pnrp-coin-side" style={{
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #f7931a 0%, #fdb931 50%, #f7931a 100%)',
+                  border: '3px solid #ffb938',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: 'inset 0 0 15px rgba(255, 255, 255, 0.3), 0 0 15px rgba(247, 147, 26, 0.5)'
+                }}>
+                  <div style={{
+                    fontSize: '9px',
+                    fontWeight: '900',
+                    color: '#fff',
+                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)',
+                    letterSpacing: '0.5px'
+                  }}>PNRP</div>
+                </div>
+              </div>
             </div>
             <div className="text-2xl font-bold number-counter gradient-text text-center">{user.total_pnrp.toFixed(2)}</div>
             <div className="text-xs text-gray-400 text-center mt-1">Balance</div>
