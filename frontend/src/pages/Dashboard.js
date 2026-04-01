@@ -250,15 +250,16 @@ function Dashboard({ user, logout }) {
                       <path id="bottomCurve" d="M 20,100 A 56,56 0 0,0 120,100" />
                     </defs>
                     
-                    {/* Top left crescent */}
-                    <path d="M 26,42 A 4,4 0 0,1 26,38 A 3,3 0 0,0 26,42 Z" fill="white" opacity="0.9" />
-                    {/* Top right crescent */}
-                    <path d="M 114,42 A 4,4 0 0,0 114,38 A 3,3 0 0,1 114,42 Z" fill="white" opacity="0.9" />
+                    {/* Decorative curved lines below text - matching outer border style */}
+                    {/* Top left curved line */}
+                    <path d="M 25,48 A 50,50 0 0,1 40,48" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
+                    {/* Top right curved line */}
+                    <path d="M 100,48 A 50,50 0 0,1 115,48" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
                     
-                    {/* Bottom left crescent */}
-                    <path d="M 26,100 A 4,4 0 0,0 26,104 A 3,3 0 0,1 26,100 Z" fill="white" opacity="0.9" />
-                    {/* Bottom right crescent */}
-                    <path d="M 114,100 A 4,4 0 0,1 114,104 A 3,3 0 0,0 114,100 Z" fill="white" opacity="0.9" />
+                    {/* Bottom left curved line */}
+                    <path d="M 25,94 A 50,50 0 0,0 40,94" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
+                    {/* Bottom right curved line */}
+                    <path d="M 100,94 A 50,50 0 0,0 115,94" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
                     
                     <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
                       <textPath href="#topCurve" startOffset="50%" textAnchor="middle">
@@ -280,15 +281,16 @@ function Dashboard({ user, logout }) {
                       <path id="bottomCurveBack" d="M 20,100 A 56,56 0 0,0 120,100" />
                     </defs>
                     
-                    {/* Top left crescent */}
-                    <path d="M 26,42 A 4,4 0 0,1 26,38 A 3,3 0 0,0 26,42 Z" fill="white" opacity="0.9" />
-                    {/* Top right crescent */}
-                    <path d="M 114,42 A 4,4 0 0,0 114,38 A 3,3 0 0,1 114,42 Z" fill="white" opacity="0.9" />
+                    {/* Decorative curved lines below text - matching outer border style */}
+                    {/* Top left curved line */}
+                    <path d="M 25,48 A 50,50 0 0,1 40,48" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
+                    {/* Top right curved line */}
+                    <path d="M 100,48 A 50,50 0 0,1 115,48" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
                     
-                    {/* Bottom left crescent */}
-                    <path d="M 26,100 A 4,4 0 0,0 26,104 A 3,3 0 0,1 26,100 Z" fill="white" opacity="0.9" />
-                    {/* Bottom right crescent */}
-                    <path d="M 114,100 A 4,4 0 0,1 114,104 A 3,3 0 0,0 114,100 Z" fill="white" opacity="0.9" />
+                    {/* Bottom left curved line */}
+                    <path d="M 25,94 A 50,50 0 0,0 40,94" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
+                    {/* Bottom right curved line */}
+                    <path d="M 100,94 A 50,50 0 0,0 115,94" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
                     
                     <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
                       <textPath href="#topCurveBack" startOffset="50%" textAnchor="middle">
