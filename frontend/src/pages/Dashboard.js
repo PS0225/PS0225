@@ -247,16 +247,10 @@ function Dashboard({ user, logout }) {
                   <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
                     <defs>
                       <path id="topCurve" d="M 20,70 A 50,50 0 0,1 120,70" />
-                      <path id="bottomCurve" d="M 20,70 A 50,50 0 0,0 120,70" />
                     </defs>
-                    <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="bold" letterSpacing="2">
+                    <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="bold" letterSpacing="1.5">
                       <textPath href="#topCurve" startOffset="50%" textAnchor="middle">
-                        PLATINUM
-                      </textPath>
-                    </text>
-                    <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="bold" letterSpacing="2">
-                      <textPath href="#bottomCurve" startOffset="50%" textAnchor="middle">
-                        NETWORK
+                        PLATINUM • NETWORK
                       </textPath>
                     </text>
                   </svg>
@@ -266,16 +260,10 @@ function Dashboard({ user, logout }) {
                   <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>
                     <defs>
                       <path id="topCurveBack" d="M 20,70 A 50,50 0 0,1 120,70" />
-                      <path id="bottomCurveBack" d="M 20,70 A 50,50 0 0,0 120,70" />
                     </defs>
-                    <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="bold" letterSpacing="2">
+                    <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="bold" letterSpacing="1.5">
                       <textPath href="#topCurveBack" startOffset="50%" textAnchor="middle">
-                        PLATINUM
-                      </textPath>
-                    </text>
-                    <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="bold" letterSpacing="2">
-                      <textPath href="#bottomCurveBack" startOffset="50%" textAnchor="middle">
-                        NETWORK
+                        PLATINUM • NETWORK
                       </textPath>
                     </text>
                   </svg>
