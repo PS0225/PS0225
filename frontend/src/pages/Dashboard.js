@@ -242,9 +242,12 @@ function Dashboard({ user, logout }) {
           
           <div className="text-center relative z-10">
             <div className="coin-spin inline-block mb-6">
-              <div className="platinum-coin-container">
-                <div className="platinum-coin">
-                  <div className="platinum-text">PT</div>
+              <div className="pnrp-coin-3d">
+                <div className="pnrp-coin-side pnrp-coin-front">
+                  <div className="pnrp-coin-text">PNRP</div>
+                </div>
+                <div className="pnrp-coin-side pnrp-coin-back">
+                  <div className="pnrp-coin-text">PNRP</div>
                 </div>
               </div>
             </div>
