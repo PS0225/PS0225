@@ -247,7 +247,7 @@ function Dashboard({ user, logout }) {
                   <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
                     <defs>
                       <path id="topCurve" d="M 20,42 A 56,56 0 0,1 120,42" />
-                      <path id="bottomCurve" d="M 18,98 A 62,58 0 0,0 122,98" />
+                      <path id="bottomCurve" d="M 18,101 A 62,58 0 0,0 122,101" />
                     </defs>
                     
                     {/* Decorative curved lines wrapping around text */}
@@ -274,7 +274,7 @@ function Dashboard({ user, logout }) {
                   <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>
                     <defs>
                       <path id="topCurveBack" d="M 20,42 A 56,56 0 0,1 120,42" />
-                      <path id="bottomCurveBack" d="M 18,98 A 62,58 0 0,0 122,98" />
+                      <path id="bottomCurveBack" d="M 18,101 A 62,58 0 0,0 122,101" />
                     </defs>
                     
                     {/* Decorative curved lines wrapping around text */}
