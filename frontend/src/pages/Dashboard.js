@@ -255,7 +255,7 @@ function Dashboard({ user, logout }) {
                     <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
                     
                     {/* Bottom text - curved line above wrapping left to right */}
-                    <path d="M 25,92 A 52,52 0 0,0 115,92" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                    <path d="M 25,89 A 52,52 0 0,0 115,89" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
                     
                     <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
                       <textPath href="#topCurve" startOffset="50%" textAnchor="middle">
@@ -282,7 +282,7 @@ function Dashboard({ user, logout }) {
                     <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
                     
                     {/* Bottom text - curved line above wrapping left to right */}
-                    <path d="M 25,92 A 52,52 0 0,0 115,92" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                    <path d="M 25,89 A 52,52 0 0,0 115,89" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
                     
                     <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
                       <textPath href="#topCurveBack" startOffset="50%" textAnchor="middle">
