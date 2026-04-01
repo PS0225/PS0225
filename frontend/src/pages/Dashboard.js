@@ -247,9 +247,15 @@ function Dashboard({ user, logout }) {
                   <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
                     <defs>
                       <path id="topCurve" d="M 15,60 A 55,55 0 0,1 125,60" />
+                      <path id="bottomCurve" d="M 15,80 A 55,55 0 0,0 125,80" />
                     </defs>
                     <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.5">
                       <textPath href="#topCurve" startOffset="50%" textAnchor="middle">
+                        PLATINUM • NETWORK
+                      </textPath>
+                    </text>
+                    <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.5">
+                      <textPath href="#bottomCurve" startOffset="50%" textAnchor="middle">
                         PLATINUM • NETWORK
                       </textPath>
                     </text>
@@ -260,9 +266,15 @@ function Dashboard({ user, logout }) {
                   <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>
                     <defs>
                       <path id="topCurveBack" d="M 15,60 A 55,55 0 0,1 125,60" />
+                      <path id="bottomCurveBack" d="M 15,80 A 55,55 0 0,0 125,80" />
                     </defs>
                     <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.5">
                       <textPath href="#topCurveBack" startOffset="50%" textAnchor="middle">
+                        PLATINUM • NETWORK
+                      </textPath>
+                    </text>
+                    <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.5">
+                      <textPath href="#bottomCurveBack" startOffset="50%" textAnchor="middle">
                         PLATINUM • NETWORK
                       </textPath>
                     </text>
