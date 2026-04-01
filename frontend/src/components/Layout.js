@@ -49,7 +49,7 @@ function Layout({ user, logout, children }) {
                         <textPath href="#headerBottomCurve" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
                       </text>
                     </svg>
-                    <div className="pnrp-coin-text" style={{fontSize: '16px'}}>PNRP</div>
+                    <div className="pnrp-coin-text" style={{fontSize: '12px'}}>PNRP</div>
                   </div>
                   <div className="pnrp-coin-side pnrp-coin-back">
                     <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>
@@ -66,7 +66,7 @@ function Layout({ user, logout, children }) {
                         <textPath href="#headerBottomCurveBack" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
                       </text>
                     </svg>
-                    <div className="pnrp-coin-text" style={{fontSize: '16px'}}>PNRP</div>
+                    <div className="pnrp-coin-text" style={{fontSize: '12px'}}>PNRP</div>
                   </div>
                 </div>
               </div>
