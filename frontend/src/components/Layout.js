@@ -90,10 +90,11 @@ function Layout({ user, logout, children }) {
                     boxShadow: 'inset 0 0 10px rgba(255, 255, 255, 0.3), 0 0 10px rgba(247, 147, 26, 0.5)'
                   }}>
                     <div style={{
-                      fontSize: '10px',
+                      fontSize: '7px',
                       fontWeight: '900',
                       color: '#fff',
-                      textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)'
+                      textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)',
+                      letterSpacing: '0.5px'
                     }}>PNRP</div>
                   </div>
                 </div>
