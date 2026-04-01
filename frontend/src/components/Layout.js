@@ -31,10 +31,44 @@ function Layout({ user, logout, children }) {
       <header className="bg-gray-900/50 backdrop-blur-xl border-b border-blue-500/20 sticky top-0 z-40 shadow-lg shadow-blue-500/5">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-2" data-testid="layout-logo">
-              <div className="relative">
-                <Coins className="w-8 h-8 text-blue-400 coin-spin" />
-                <div className="absolute inset-0 w-8 h-8 bg-blue-400 rounded-full blur-md opacity-50"></div>
+            <div className="flex items-center space-x-3" data-testid="layout-logo">
+              <div className="coin-spin" style={{width: '40px', height: '40px'}}>
+                <div className="pnrp-coin-3d" style={{width: '40px', height: '40px'}}>
+                  <div className="pnrp-coin-side pnrp-coin-front">
+                    <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
+                      <defs>
+                        <path id="headerTopCurve" d="M 20,42 A 56,56 0 0,1 120,42" />
+                        <path id="headerBottomCurve" d="M 18,104 A 62,58 0 0,0 122,104" />
+                      </defs>
+                      <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                      <path d="M 25,89 A 52,52 0 0,0 115,89" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                      <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
+                        <textPath href="#headerTopCurve" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
+                      </text>
+                      <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.8">
+                        <textPath href="#headerBottomCurve" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
+                      </text>
+                    </svg>
+                    <div className="pnrp-coin-text" style={{fontSize: '16px'}}>PNRP</div>
+                  </div>
+                  <div className="pnrp-coin-side pnrp-coin-back">
+                    <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>
+                      <defs>
+                        <path id="headerTopCurveBack" d="M 20,42 A 56,56 0 0,1 120,42" />
+                        <path id="headerBottomCurveBack" d="M 18,104 A 62,58 0 0,0 122,104" />
+                      </defs>
+                      <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                      <path d="M 25,89 A 52,52 0 0,0 115,89" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                      <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
+                        <textPath href="#headerTopCurveBack" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
+                      </text>
+                      <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.8">
+                        <textPath href="#headerBottomCurveBack" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
+                      </text>
+                    </svg>
+                    <div className="pnrp-coin-text" style={{fontSize: '16px'}}>PNRP</div>
+                  </div>
+                </div>
               </div>
               <span className="text-2xl font-bold gradient-text">Platinum Network</span>
             </div>
