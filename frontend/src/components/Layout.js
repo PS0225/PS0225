@@ -75,7 +75,28 @@ function Layout({ user, logout, children }) {
 
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2 px-5 py-2.5 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-full border border-blue-500/30 glow" data-testid="header-balance">
-                <Coins className="w-5 h-5 text-blue-400" />
+                {/* Small stable PNRP coin */}
+                <div style={{width: '24px', height: '24px', position: 'relative'}}>
+                  <div className="pnrp-coin-side" style={{
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #f7931a 0%, #fdb931 50%, #f7931a 100%)',
+                    border: '2px solid #ffb938',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: 'inset 0 0 10px rgba(255, 255, 255, 0.3), 0 0 10px rgba(247, 147, 26, 0.5)'
+                  }}>
+                    <div style={{
+                      fontSize: '10px',
+                      fontWeight: '900',
+                      color: '#fff',
+                      textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)'
+                    }}>PNRP</div>
+                  </div>
+                </div>
                 <span className="font-bold text-lg gradient-text">{user.total_pnrp.toFixed(2)} PNRP</span>
               </div>
               <Link
