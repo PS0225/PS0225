@@ -74,7 +74,7 @@ function Dashboard({ user, logout }) {
         const response = await axios.post(`${API}/daily-reward/watch-ad`);
         
         // Detailed success message
-        alert(`✅ Daily Reward Claimed!\n\n🎁 Ad ${response.data.ad_number}/3 Completed\n💰 Earned: +${response.data.reward} PNRP\n📊 New Balance: ${response.data.new_balance} PNRP\n⏳ Remaining Ads: ${response.data.remaining_ads}\n\nPage will refresh to update your balance...`);
+        alert(`✅ Daily Reward Claimed!\n\n🎁 Reward ${response.data.ad_number}/3 Completed\n💰 Earned: +${response.data.reward} PNRP\n📊 New Balance: ${response.data.new_balance} PNRP\n⏳ Remaining: ${response.data.remaining_ads}\n\nPage will refresh to update your balance...`);
         
         // Force reload
         setTimeout(() => {
@@ -173,8 +173,58 @@ function Dashboard({ user, logout }) {
           <p className="text-gray-400">Welcome back, {user.username}!</p>
         </div>
 
+        {/* Stats Cards - 4 Part Square Grid below Mining */}
+        <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
+          {/* Balance */}
+          <div className="card-gradient p-6 rounded-xl hover:scale-105 transition-transform duration-300" data-testid="balance-box">
+            <div className="flex items-center justify-center mb-2">
+              <Coins className="w-6 h-6 text-blue-400" />
+            </div>
+            <div className="text-2xl font-bold number-counter gradient-text text-center">{user.total_pnrp.toFixed(2)}</div>
+            <div className="text-xs text-gray-400 text-center mt-1">Balance</div>
+          </div>
+
+          {/* Level */}
+          <div className="card-gradient p-6 rounded-xl hover:scale-105 transition-transform duration-300" data-testid="level-box">
+            <div className="flex items-center justify-center mb-2">
+              <TrendingUp className="w-6 h-6 text-green-400" />
+            </div>
+            <div className="text-2xl font-bold number-counter text-green-400 text-center">{user.level}</div>
+            <div className="text-xs text-gray-400 text-center mt-1">Level</div>
+          </div>
+
+          {/* Daily Reward */}
+          {dailyRewardStatus && (
+            <div className="card-gradient p-6 rounded-xl hover:scale-105 transition-transform duration-300" data-testid="daily-reward-box">
+              <div className="flex items-center justify-center mb-2">
+                <Gift className="w-6 h-6 text-purple-400" />
+              </div>
+              <div className="text-2xl font-bold text-purple-400 text-center">{dailyRewardStatus.ads_watched}/3</div>
+              <div className="text-xs text-gray-400 text-center mt-1">Daily Reward</div>
+              {dailyRewardStatus.can_claim && (
+                <button
+                  onClick={watchDailyRewardAd}
+                  disabled={watchingDailyAd}
+                  className="w-full mt-2 py-1.5 bg-purple-600 hover:bg-purple-700 rounded-lg text-xs font-semibold transition disabled:opacity-50"
+                >
+                  {watchingDailyAd ? '⏳...' : `+${dailyRewardStatus.next_reward}`}
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* Daily Check-in */}
+          <div className="card-gradient p-6 rounded-xl cursor-pointer hover:scale-105 transition-transform duration-300" onClick={() => setShowCheckin(true)} data-testid="checkin-box">
+            <div className="flex items-center justify-center mb-2">
+              <Gift className="w-6 h-6 text-yellow-400" />
+            </div>
+            <div className="text-2xl font-bold text-yellow-400 text-center">Claim</div>
+            <div className="text-xs text-gray-400 text-center mt-1">Daily Check-in</div>
+          </div>
+        </div>
+
         {/* Stats Cards */}
-        <div className="grid md:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-4 gap-6" style={{display: 'none'}}>
           <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300" data-testid="total-pnrp-card">
             <div className="flex items-center justify-between mb-4">
               <div className="p-3 bg-blue-500/20 rounded-xl">
@@ -378,11 +428,11 @@ function Dashboard({ user, logout }) {
                     <div className="flex items-center justify-between mb-4">
                       <Clock className="w-8 h-8 text-blue-400" />
                       <span className="text-sm px-3 py-1 bg-blue-500/30 rounded-full text-blue-300">
-                        {miningStatus.session.time_boost_ads_watched}/2 ads
+                        {miningStatus.session.time_boost_ads_watched}/2
                       </span>
                     </div>
                     <h3 className="font-bold text-lg mb-2">⏰ Time Boost</h3>
-                    <p className="text-sm text-gray-400 mb-4">Watch 2 ads to extend mining from 12h to 24h</p>
+                    <p className="text-sm text-gray-400 mb-4">Extend mining from 12h to 24h</p>
                     {miningStatus.session.time_boost_ads_watched < 2 ? (
                       <button
                         onClick={() => watchAd('time_boost')}
@@ -390,7 +440,7 @@ function Dashboard({ user, logout }) {
                         data-testid="watch-time-boost-btn"
                         className="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition disabled:opacity-50"
                       >
-                        {watchingAd && adType === 'time_boost' ? '⏳ Watching...' : '📺 Watch Ad'}
+                        {watchingAd && adType === 'time_boost' ? '⏳ Activating...' : '⚡ Activate'}
                       </button>
                     ) : (
                       <div className="text-green-400 text-center font-semibold">
@@ -404,11 +454,11 @@ function Dashboard({ user, logout }) {
                     <div className="flex items-center justify-between mb-4">
                       <Zap className="w-8 h-8 text-purple-400" />
                       <span className="text-sm px-3 py-1 bg-purple-500/30 rounded-full text-purple-300">
-                        {miningStatus.session.speed_boost_ads_watched}/5 ads
+                        {miningStatus.session.speed_boost_ads_watched}/5
                       </span>
                     </div>
                     <h3 className="font-bold text-lg mb-2">⚡ Boost Mining</h3>
-                    <p className="text-sm text-gray-400 mb-4">Watch 5 ads to activate 2x mining speed</p>
+                    <p className="text-sm text-gray-400 mb-4">Activate 2x mining speed</p>
                     {miningStatus.session.speed_boost_ads_watched < 5 ? (
                       <button
                         onClick={() => watchAd('speed_boost')}
@@ -416,7 +466,7 @@ function Dashboard({ user, logout }) {
                         data-testid="watch-speed-boost-btn"
                         className="w-full py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition disabled:opacity-50"
                       >
-                        {watchingAd && adType === 'speed_boost' ? '⏳ Watching...' : '📺 Watch Ad'}
+                        {watchingAd && adType === 'speed_boost' ? '⏳ Activating...' : '⚡ Activate'}
                       </button>
                     ) : (
                       <div className="text-green-400 text-center font-semibold">
