@@ -173,67 +173,6 @@ function Dashboard({ user, logout }) {
           <p className="text-gray-400">Welcome back, {user.username}!</p>
         </div>
 
-        {/* Stats Cards (hidden now - replaced by 4-part grid below mining) */}
-        <div className="grid md:grid-cols-4 gap-6" style={{display: 'none'}}>
-          <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300" data-testid="total-pnrp-card">
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-blue-500/20 rounded-xl">
-                <Coins className="w-8 h-8 text-blue-400" />
-              </div>
-              <div className="text-4xl font-bold number-counter gradient-text">{user.total_pnrp.toFixed(2)}</div>
-            </div>
-            <div className="text-sm text-gray-400">Total PNRP Balance</div>
-            <div className="mt-2 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
-          </div>
-
-          <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300" data-testid="level-card">
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-green-500/20 rounded-xl">
-                <TrendingUp className="w-8 h-8 text-green-400" />
-              </div>
-              <div className="text-4xl font-bold number-counter text-green-400">{user.level}</div>
-            </div>
-            <div className="text-sm text-gray-400">Your Level</div>
-            <div className="mt-2 h-1 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full"></div>
-          </div>
-
-          {/* Daily Reward Card */}
-          {dailyRewardStatus && (
-            <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300" data-testid="daily-reward-card">
-              <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-purple-500/20 rounded-xl">
-                  <Gift className="w-8 h-8 text-purple-400" />
-                </div>
-                <div className="text-2xl font-bold text-purple-400">{dailyRewardStatus.ads_watched}/3</div>
-              </div>
-              <div className="text-sm text-gray-400 mb-2">Daily Reward Ads</div>
-              {dailyRewardStatus.can_claim ? (
-                <button
-                  onClick={watchDailyRewardAd}
-                  disabled={watchingDailyAd}
-                  className="w-full mt-2 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm font-semibold transition disabled:opacity-50"
-                >
-                  {watchingDailyAd ? '⏳ Watching...' : `🎁 +${dailyRewardStatus.next_reward} PNRP`}
-                </button>
-              ) : (
-                <div className="text-green-400 text-sm text-center mt-2">✅ All claimed!</div>
-              )}
-              <div className="mt-2 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
-            </div>
-          )}
-
-          <div className="card-gradient p-6 rounded-2xl cursor-pointer hover:scale-105 transition-transform duration-300 group" onClick={() => setShowCheckin(true)} data-testid="daily-checkin-card">
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-yellow-500/20 rounded-xl group-hover:scale-110 transition">
-                <Gift className="w-8 h-8 text-yellow-400" />
-              </div>
-              <div className="text-2xl font-bold text-yellow-400">Claim</div>
-            </div>
-            <div className="text-sm text-gray-400">Daily Check-in Reward</div>
-            <div className="mt-2 h-1 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full group-hover:animate-pulse"></div>
-          </div>
-        </div>
-
         {/* Mining Section */}
         <div className="card-gradient p-8 rounded-2xl relative overflow-hidden" data-testid="mining-section">
           {/* Animated Background Circles */}
@@ -474,6 +413,70 @@ function Dashboard({ user, logout }) {
             </div>
           </div>
         )}
+
+        {/* 4-Part Stats Grid - Below Mining Section */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {/* Balance Box */}
+          <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300" data-testid="balance-box">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-3 bg-blue-500/20 rounded-xl">
+                <Coins className="w-6 h-6 text-blue-400" />
+              </div>
+            </div>
+            <div className="text-3xl font-bold number-counter gradient-text mb-2">{user.total_pnrp.toFixed(2)}</div>
+            <div className="text-sm text-gray-400">Balance</div>
+            <div className="mt-2 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
+          </div>
+
+          {/* Level Box */}
+          <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300" data-testid="level-box">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-3 bg-green-500/20 rounded-xl">
+                <TrendingUp className="w-6 h-6 text-green-400" />
+              </div>
+            </div>
+            <div className="text-3xl font-bold number-counter text-green-400 mb-2">{user.level}</div>
+            <div className="text-sm text-gray-400">Level</div>
+            <div className="mt-2 h-1 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full"></div>
+          </div>
+
+          {/* Daily Reward Box */}
+          {dailyRewardStatus && (
+            <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300" data-testid="daily-reward-box">
+              <div className="flex items-center justify-between mb-4">
+                <div className="p-3 bg-purple-500/20 rounded-xl">
+                  <Gift className="w-6 h-6 text-purple-400" />
+                </div>
+              </div>
+              <div className="text-2xl font-bold text-purple-400 mb-2">{dailyRewardStatus.ads_watched}/3</div>
+              <div className="text-sm text-gray-400 mb-2">Daily Reward</div>
+              {dailyRewardStatus.can_claim ? (
+                <button
+                  onClick={watchDailyRewardAd}
+                  disabled={watchingDailyAd}
+                  className="w-full mt-2 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-xs font-semibold transition disabled:opacity-50"
+                >
+                  {watchingDailyAd ? '⏳...' : `🎁 +${dailyRewardStatus.next_reward}`}
+                </button>
+              ) : (
+                <div className="text-green-400 text-xs text-center mt-2">✅ Done!</div>
+              )}
+              <div className="mt-2 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
+            </div>
+          )}
+
+          {/* Daily Check-in Box */}
+          <div className="card-gradient p-6 rounded-2xl cursor-pointer hover:scale-105 transition-transform duration-300 group" onClick={() => setShowCheckin(true)} data-testid="daily-checkin-box">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-3 bg-yellow-500/20 rounded-xl group-hover:scale-110 transition">
+                <Gift className="w-6 h-6 text-yellow-400" />
+              </div>
+            </div>
+            <div className="text-2xl font-bold text-yellow-400 mb-2">Claim</div>
+            <div className="text-sm text-gray-400">Daily Check-in</div>
+            <div className="mt-2 h-1 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full group-hover:animate-pulse"></div>
+          </div>
+        </div>
 
         {/* Daily Checkin Modal */}
         {showCheckin && (
