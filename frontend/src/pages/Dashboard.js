@@ -250,13 +250,15 @@ function Dashboard({ user, logout }) {
                       <path id="bottomCurve" d="M 20,100 A 56,56 0 0,0 120,100" />
                     </defs>
                     
-                    {/* Top decorative lines */}
-                    <line x1="18" y1="42" x2="32" y2="42" stroke="white" strokeWidth="2" opacity="0.8" />
-                    <line x1="108" y1="42" x2="122" y2="42" stroke="white" strokeWidth="2" opacity="0.8" />
+                    {/* Top left crescent */}
+                    <path d="M 26,42 A 4,4 0 0,1 26,38 A 3,3 0 0,0 26,42 Z" fill="white" opacity="0.9" />
+                    {/* Top right crescent */}
+                    <path d="M 114,42 A 4,4 0 0,0 114,38 A 3,3 0 0,1 114,42 Z" fill="white" opacity="0.9" />
                     
-                    {/* Bottom decorative lines */}
-                    <line x1="18" y1="100" x2="32" y2="100" stroke="white" strokeWidth="2" opacity="0.8" />
-                    <line x1="108" y1="100" x2="122" y2="100" stroke="white" strokeWidth="2" opacity="0.8" />
+                    {/* Bottom left crescent */}
+                    <path d="M 26,100 A 4,4 0 0,0 26,104 A 3,3 0 0,1 26,100 Z" fill="white" opacity="0.9" />
+                    {/* Bottom right crescent */}
+                    <path d="M 114,100 A 4,4 0 0,1 114,104 A 3,3 0 0,0 114,100 Z" fill="white" opacity="0.9" />
                     
                     <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
                       <textPath href="#topCurve" startOffset="50%" textAnchor="middle">
@@ -278,13 +280,15 @@ function Dashboard({ user, logout }) {
                       <path id="bottomCurveBack" d="M 20,100 A 56,56 0 0,0 120,100" />
                     </defs>
                     
-                    {/* Top decorative lines */}
-                    <line x1="18" y1="42" x2="32" y2="42" stroke="white" strokeWidth="2" opacity="0.8" />
-                    <line x1="108" y1="42" x2="122" y2="42" stroke="white" strokeWidth="2" opacity="0.8" />
+                    {/* Top left crescent */}
+                    <path d="M 26,42 A 4,4 0 0,1 26,38 A 3,3 0 0,0 26,42 Z" fill="white" opacity="0.9" />
+                    {/* Top right crescent */}
+                    <path d="M 114,42 A 4,4 0 0,0 114,38 A 3,3 0 0,1 114,42 Z" fill="white" opacity="0.9" />
                     
-                    {/* Bottom decorative lines */}
-                    <line x1="18" y1="100" x2="32" y2="100" stroke="white" strokeWidth="2" opacity="0.8" />
-                    <line x1="108" y1="100" x2="122" y2="100" stroke="white" strokeWidth="2" opacity="0.8" />
+                    {/* Bottom left crescent */}
+                    <path d="M 26,100 A 4,4 0 0,0 26,104 A 3,3 0 0,1 26,100 Z" fill="white" opacity="0.9" />
+                    {/* Bottom right crescent */}
+                    <path d="M 114,100 A 4,4 0 0,1 114,104 A 3,3 0 0,0 114,100 Z" fill="white" opacity="0.9" />
                     
                     <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
                       <textPath href="#topCurveBack" startOffset="50%" textAnchor="middle">
