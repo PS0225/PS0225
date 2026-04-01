@@ -242,7 +242,11 @@ function Dashboard({ user, logout }) {
           
           <div className="text-center relative z-10">
             <div className="coin-spin inline-block mb-6">
-              <Coins className="w-32 h-32 text-blue-400" />
+              <div className="platinum-coin-container">
+                <div className="platinum-coin">
+                  <div className="platinum-text">PT</div>
+                </div>
+              </div>
             </div>
 
             {!miningStatus.has_active_session ? (
