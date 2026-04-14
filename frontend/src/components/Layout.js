@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Coins, Home, Wallet as WalletIcon, Users, Gift, Trophy, User, LogOut, Shield } from 'lucide-react';
+import { Coins, Home, Wallet as WalletIcon, Users, Gift, Trophy, User, LogOut, Shield, Info } from 'lucide-react';
 
 function Layout({ user, logout, children }) {
   const location = useLocation();
@@ -11,6 +11,7 @@ function Layout({ user, logout, children }) {
     { path: '/social-tasks', icon: Gift, label: 'Tasks' },
     { path: '/leaderboard', icon: Trophy, label: 'Leaderboard' },
     { path: '/profile', icon: User, label: 'Profile' },
+    { path: '/about', icon: Info, label: 'About' },
   ];
 
   if (user.is_admin) {
