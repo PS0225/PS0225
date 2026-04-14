@@ -121,6 +121,69 @@ function Profile({ user, logout, setUser }) {
             <div className="text-gray-400">Tasks Completed</div>
           </div>
         </div>
+
+        {/* About Section */}
+        <div className="card-gradient p-8 rounded-xl" data-testid="about-section">
+          <h2 className="text-2xl font-bold mb-6 flex items-center">
+            <User className="w-6 h-6 mr-3 text-purple-400" />
+            About
+          </h2>
+          
+          <div className="space-y-4">
+            <div className="bg-gray-800/50 p-6 rounded-lg">
+              <h3 className="text-lg font-semibold mb-3 text-purple-400">Welcome to Platinum Network!</h3>
+              <p className="text-gray-300 leading-relaxed mb-4">
+                You are part of an exclusive mining community earning PNRP tokens through our innovative platform. 
+                Your journey started on <span className="text-white font-semibold">{formatDate(user.created_at)}</span> and 
+                you've already achieved <span className="text-white font-semibold">Level {user.level}</span>!
+              </p>
+              <p className="text-gray-300 leading-relaxed">
+                Continue mining, invite friends using your referral code, and complete social tasks to maximize your rewards. 
+                The more active you are, the more PNRP you earn!
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="bg-gradient-to-br from-purple-900/30 to-blue-900/30 p-5 rounded-lg border border-purple-500/20">
+                <h4 className="font-semibold mb-2 text-purple-300">🎯 Your Achievements</h4>
+                <ul className="text-sm text-gray-300 space-y-2">
+                  <li>✓ Account created and verified</li>
+                  <li>✓ {stats.totalMined.toFixed(0)} PNRP mined successfully</li>
+                  <li>✓ {stats.totalReferrals} friends referred</li>
+                  <li>✓ {stats.tasksCompleted} social tasks completed</li>
+                </ul>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-900/30 to-emerald-900/30 p-5 rounded-lg border border-green-500/20">
+                <h4 className="font-semibold mb-2 text-green-300">📊 Account Status</h4>
+                <ul className="text-sm text-gray-300 space-y-2">
+                  <li>🟢 Active Mining Account</li>
+                  <li>💰 Current Balance: <span className="font-bold text-white">{user.total_pnrp.toFixed(2)} PNRP</span></li>
+                  <li>🎖️ Rank: Level {user.level}</li>
+                  <li>🔗 Referral Code: <span className="font-mono text-purple-400">{user.referral_code}</span></li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="bg-gray-800/50 p-5 rounded-lg">
+              <h4 className="font-semibold mb-3 text-yellow-400">💡 Tips for Success</h4>
+              <div className="grid md:grid-cols-3 gap-4 text-sm text-gray-300">
+                <div>
+                  <div className="font-semibold text-white mb-1">⛏️ Daily Mining</div>
+                  <p>Mine every 12 hours for consistent rewards</p>
+                </div>
+                <div>
+                  <div className="font-semibold text-white mb-1">👥 Refer Friends</div>
+                  <p>Earn 10% of your referrals' mining rewards</p>
+                </div>
+                <div>
+                  <div className="font-semibold text-white mb-1">✅ Complete Tasks</div>
+                  <p>Follow social media for bonus PNRP</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </Layout>
   );
