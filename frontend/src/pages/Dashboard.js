@@ -364,9 +364,36 @@ function Dashboard({ user, logout }) {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {/* Balance Box */}
           <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300" data-testid="balance-box">
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-blue-500/20 rounded-xl">
-                <Coins className="w-6 h-6 text-blue-400" />
+            <div className="flex items-center justify-center mb-3">
+              {/* Small PNRP Coin Logo - Stable (no rotation) */}
+              <div className="pnrp-coin-small">
+                <svg viewBox="0 0 60 60" className="w-12 h-12">
+                  <defs>
+                    <linearGradient id="coinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style={{stopColor: '#FFD700', stopOpacity: 1}} />
+                      <stop offset="50%" style={{stopColor: '#FFA500', stopOpacity: 1}} />
+                      <stop offset="100%" style={{stopColor: '#FF8C00', stopOpacity: 1}} />
+                    </linearGradient>
+                    <filter id="coinShadow">
+                      <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#000" floodOpacity="0.3"/>
+                    </filter>
+                  </defs>
+                  
+                  {/* Outer circle with gradient */}
+                  <circle cx="30" cy="30" r="28" fill="url(#coinGradient)" filter="url(#coinShadow)" />
+                  
+                  {/* Inner circle border */}
+                  <circle cx="30" cy="30" r="25" fill="none" stroke="#FFD700" strokeWidth="1.5" opacity="0.8" />
+                  
+                  {/* PNRP Text */}
+                  <text x="30" y="36" textAnchor="middle" fill="white" fontSize="14" fontWeight="900" style={{textShadow: '0 1px 2px rgba(0,0,0,0.5)'}}>
+                    PNRP
+                  </text>
+                  
+                  {/* Decorative dots */}
+                  <circle cx="30" cy="10" r="1.5" fill="white" opacity="0.8" />
+                  <circle cx="30" cy="50" r="1.5" fill="white" opacity="0.8" />
+                </svg>
               </div>
             </div>
             <div className="text-3xl font-bold number-counter gradient-text mb-2">{user.total_pnrp.toFixed(2)}</div>
