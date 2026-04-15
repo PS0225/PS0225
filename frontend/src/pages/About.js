@@ -1,4 +1,5 @@
 import Layout from '../components/Layout';
+import AdSense from '../components/AdSense';
 import { Info, FileText, Shield, AlertTriangle, Mail, MapPin, Phone } from 'lucide-react';
 
 function About({ user, logout }) {
@@ -41,6 +42,11 @@ function About({ user, logout }) {
             </p>
           </div>
         </section>
+
+        {/* AdSense Ad - After About Section */}
+        <div className="my-8">
+          <AdSense adSlot="1234567890" adFormat="horizontal" />
+        </div>
 
         {/* Terms and Conditions */}
         <section className="card-gradient p-8 rounded-xl" id="terms">
