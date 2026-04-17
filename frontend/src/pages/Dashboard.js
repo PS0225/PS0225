@@ -173,74 +173,75 @@ function Dashboard({ user, logout }) {
           <p className="text-gray-400">Welcome back, {user.username}!</p>
         </div>
 
-        {/* Mining Section */}
-        <div className="card-gradient p-8 rounded-2xl relative overflow-hidden" data-testid="mining-section">
-          {/* Animated Background Circles */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"></div>
-          
-          <div className="text-center relative z-10">
-            {/* PNRP Coin - Always visible */}
-            <div className="coin-spin inline-block mb-6">
-              <div className="pnrp-coin-3d">
-                <div className="pnrp-coin-side pnrp-coin-front">
-                  <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
-                    <defs>
-                      <path id="topCurve" d="M 20,42 A 56,56 0 0,1 120,42" />
-                      <path id="bottomCurve" d="M 20,106 A 56,56 0 0,0 120,106" />
-                    </defs>
-                    
-                    {/* Decorative curved lines wrapping around text */}
-                    {/* Top text - curved line below wrapping left to right */}
-                    <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
-                    
-                    {/* Bottom text - curved line above wrapping left to right */}
-                    <path d="M 25,96 A 52,52 0 0,0 115,96" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
-                    
-                    <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
-                      <textPath href="#topCurve" startOffset="50%" textAnchor="middle">
-                        PLATINUM • NETWORK
-                      </textPath>
-                    </text>
-                    <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
-                      <textPath href="#bottomCurve" startOffset="50%" textAnchor="middle">
-                        PLATINUM • NETWORK
-                      </textPath>
-                    </text>
-                  </svg>
-                  <div className="pnrp-coin-text">PNRP</div>
-                </div>
-                <div className="pnrp-coin-side pnrp-coin-back">
-                  <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>
-                    <defs>
-                      <path id="topCurveBack" d="M 20,42 A 56,56 0 0,1 120,42" />
-                      <path id="bottomCurveBack" d="M 20,106 A 56,56 0 0,0 120,106" />
-                    </defs>
-                    
-                    {/* Decorative curved lines wrapping around text */}
-                    {/* Top text - curved line below wrapping left to right */}
-                    <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
-                    
-                    {/* Bottom text - curved line above wrapping left to right */}
-                    <path d="M 25,96 A 52,52 0 0,0 115,96" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
-                    
-                    <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
-                      <textPath href="#topCurveBack" startOffset="50%" textAnchor="middle">
-                        PLATINUM • NETWORK
-                      </textPath>
-                    </text>
-                    <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
-                      <textPath href="#bottomCurveBack" startOffset="50%" textAnchor="middle">
-                        PLATINUM • NETWORK
-                      </textPath>
-                    </text>
-                  </svg>
-                  <div className="pnrp-coin-text">PNRP</div>
+        {/* Mining Section - Responsive Box */}
+        <div className="w-full max-w-4xl mx-auto">
+          <div className="card-gradient p-6 md:p-8 rounded-2xl relative overflow-hidden" data-testid="mining-section">
+            {/* Animated Background Circles */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"></div>
+            
+            <div className="text-center relative z-10">
+              {/* PNRP Coin - Always visible */}
+              <div className="coin-spin inline-block mb-6">
+                <div className="pnrp-coin-3d">
+                  <div className="pnrp-coin-side pnrp-coin-front">
+                    <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
+                      <defs>
+                        <path id="topCurve" d="M 20,42 A 56,56 0 0,1 120,42" />
+                        <path id="bottomCurve" d="M 20,106 A 56,56 0 0,0 120,106" />
+                      </defs>
+                      
+                      {/* Decorative curved lines wrapping around text */}
+                      {/* Top text - curved line below wrapping left to right */}
+                      <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                      
+                      {/* Bottom text - curved line above wrapping left to right */}
+                      <path d="M 25,96 A 52,52 0 0,0 115,96" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                      
+                      <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
+                        <textPath href="#topCurve" startOffset="50%" textAnchor="middle">
+                          PLATINUM • NETWORK
+                        </textPath>
+                      </text>
+                      <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
+                        <textPath href="#bottomCurve" startOffset="50%" textAnchor="middle">
+                          PLATINUM • NETWORK
+                        </textPath>
+                      </text>
+                    </svg>
+                    <div className="pnrp-coin-text">PNRP</div>
+                  </div>
+                  <div className="pnrp-coin-side pnrp-coin-back">
+                    <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>
+                      <defs>
+                        <path id="topCurveBack" d="M 20,42 A 56,56 0 0,1 120,42" />
+                        <path id="bottomCurveBack" d="M 20,106 A 56,56 0 0,0 120,106" />
+                      </defs>
+                      
+                      {/* Decorative curved lines wrapping around text */}
+                      {/* Top text - curved line below wrapping left to right */}
+                      <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                      
+                      {/* Bottom text - curved line above wrapping left to right */}
+                      <path d="M 25,96 A 52,52 0 0,0 115,96" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                      
+                      <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
+                        <textPath href="#topCurveBack" startOffset="50%" textAnchor="middle">
+                          PLATINUM • NETWORK
+                        </textPath>
+                      </text>
+                      <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
+                        <textPath href="#bottomCurveBack" startOffset="50%" textAnchor="middle">
+                          PLATINUM • NETWORK
+                        </textPath>
+                      </text>
+                    </svg>
+                    <div className="pnrp-coin-text">PNRP</div>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {!miningStatus.has_active_session ? (
+              {!miningStatus.has_active_session ? (
               <div data-testid="start-mining-section" className="slide-in">
                 <h2 className="text-4xl font-bold mb-2 neon-text">Start Mining PNRP</h2>
                 <p className="text-xl text-gray-400 mb-2">Earn rewards every 12 hours</p>
@@ -314,6 +315,7 @@ function Dashboard({ user, logout }) {
             )}
           </div>
         </div>
+      </div>
 
         {/* Ad Watching Modal - Mining */}
         {watchingAd && (
