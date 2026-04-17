@@ -23,46 +23,46 @@ function LandingPage() {
 
         {/* Hero Content */}
         <div className="text-center py-20">
-          {/* Enhanced PNRP Coin Logo */}
+          {/* 3D Spinning PNRP Coin Logo (same as Dashboard) */}
           <div className="inline-block mb-8">
-            <svg viewBox="0 0 140 140" className="w-40 h-40">
-              <defs>
-                <linearGradient id="heroGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style={{stopColor: '#FFD700', stopOpacity: 1}} />
-                  <stop offset="50%" style={{stopColor: '#FFA500', stopOpacity: 1}} />
-                  <stop offset="100%" style={{stopColor: '#FF8C00', stopOpacity: 1}} />
-                </linearGradient>
-                <filter id="heroShadow">
-                  <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#000" floodOpacity="0.4"/>
-                </filter>
-                <path id="heroTopCurve" d="M 20,42 A 56,56 0 0,1 120,42" />
-                <path id="heroBottomCurve" d="M 18,104 A 62,58 0 0,0 122,104" />
-              </defs>
-              
-              {/* Outer circle */}
-              <circle cx="70" cy="70" r="65" fill="url(#heroGradient)" filter="url(#heroShadow)" />
-              
-              {/* Inner border */}
-              <circle cx="70" cy="70" r="58" fill="none" stroke="#FFD700" strokeWidth="3" opacity="0.8" />
-              
-              {/* Inner half ring (bottom semicircle) */}
-              <path d="M 30,70 A 40,40 0 0,0 110,70" fill="none" stroke="white" strokeWidth="2.5" opacity="0.6" />
-              
-              {/* Curved text - PLATINUM on top */}
-              <text fill="white" fontSize="11" fontWeight="bold" letterSpacing="1.5">
-                <textPath href="#heroTopCurve" startOffset="50%" textAnchor="middle">PLATINUM</textPath>
-              </text>
-              
-              {/* Curved text - NETWORK on bottom */}
-              <text fill="white" fontSize="11" fontWeight="bold" letterSpacing="1.5">
-                <textPath href="#heroBottomCurve" startOffset="50%" textAnchor="middle">NETWORK</textPath>
-              </text>
-              
-              {/* PNRP Text */}
-              <text x="70" y="77" textAnchor="middle" fill="white" fontSize="28" fontWeight="900" style={{textShadow: '0 2px 4px rgba(0,0,0,0.6)', letterSpacing: '1.8px'}}>
-                PNRP
-              </text>
-            </svg>
+            <div className="coin-spin" style={{width: '140px', height: '140px'}}>
+              <div className="pnrp-coin-3d" style={{width: '140px', height: '140px'}}>
+                <div className="pnrp-coin-side pnrp-coin-front">
+                  <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
+                    <defs>
+                      <path id="landingTopCurve" d="M 20,42 A 56,56 0 0,1 120,42" />
+                      <path id="landingBottomCurve" d="M 18,104 A 62,58 0 0,0 122,104" />
+                    </defs>
+                    <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                    <path d="M 25,89 A 52,52 0 0,0 115,89" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                    <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
+                      <textPath href="#landingTopCurve" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
+                    </text>
+                    <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.8">
+                      <textPath href="#landingBottomCurve" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
+                    </text>
+                  </svg>
+                  <div className="pnrp-coin-text" style={{fontSize: '42px'}}>PNRP</div>
+                </div>
+                <div className="pnrp-coin-side pnrp-coin-back">
+                  <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>
+                    <defs>
+                      <path id="landingTopCurveBack" d="M 20,42 A 56,56 0 0,1 120,42" />
+                      <path id="landingBottomCurveBack" d="M 18,104 A 62,58 0 0,0 122,104" />
+                    </defs>
+                    <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                    <path d="M 25,89 A 52,52 0 0,0 115,89" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                    <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
+                      <textPath href="#landingTopCurveBack" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
+                    </text>
+                    <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.8">
+                      <textPath href="#landingBottomCurveBack" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
+                    </text>
+                  </svg>
+                  <div className="pnrp-coin-text" style={{fontSize: '42px'}}>PNRP</div>
+                </div>
+              </div>
+            </div>
           </div>
           <h1 className="text-6xl font-bold mb-6" data-testid="landing-title">
             Start Mining <span className="gradient-text">PNRP</span>
