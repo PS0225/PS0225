@@ -367,8 +367,8 @@ function Dashboard({ user, logout }) {
           {/* Balance Box */}
           <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300" data-testid="balance-box">
             <div className="flex items-center justify-center mb-3">
-              {/* 3D Spinning PNRP Coin Logo */}
-              <div className="coin-spin" style={{width: '56px', height: '56px'}}>
+              {/* Stable PNRP Coin Logo (No Spinning) */}
+              <div style={{width: '56px', height: '56px', position: 'relative'}}>
                 <div className="pnrp-coin-3d" style={{width: '56px', height: '56px'}}>
                   <div className="pnrp-coin-side pnrp-coin-front">
                     <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
@@ -383,23 +383,6 @@ function Dashboard({ user, logout }) {
                       </text>
                       <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.8">
                         <textPath href="#balanceBoxBottomCurve" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
-                      </text>
-                    </svg>
-                    <div className="pnrp-coin-text" style={{fontSize: '16px'}}>PNRP</div>
-                  </div>
-                  <div className="pnrp-coin-side pnrp-coin-back">
-                    <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>
-                      <defs>
-                        <path id="balanceBoxTopCurveBack" d="M 20,42 A 56,56 0 0,1 120,42" />
-                        <path id="balanceBoxBottomCurveBack" d="M 18,104 A 62,58 0 0,0 122,104" />
-                      </defs>
-                      <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
-                      <path d="M 25,89 A 52,52 0 0,0 115,89" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
-                      <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
-                        <textPath href="#balanceBoxTopCurveBack" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
-                      </text>
-                      <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.8">
-                        <textPath href="#balanceBoxBottomCurveBack" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
                       </text>
                     </svg>
                     <div className="pnrp-coin-text" style={{fontSize: '16px'}}>PNRP</div>
