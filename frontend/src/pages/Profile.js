@@ -104,7 +104,22 @@ function Profile({ user, logout, setUser }) {
         {/* Statistics */}
         <div className="grid md:grid-cols-3 gap-6">
           <div className="card-gradient p-6 rounded-xl" data-testid="total-mined-card">
-            <Coins className="w-8 h-8 text-purple-400 mb-4" />
+            <div className="flex items-center justify-between mb-4">
+              <Coins className="w-8 h-8 text-purple-400" />
+              {/* PNRP Logo */}
+              <svg viewBox="0 0 60 60" className="w-8 h-8">
+                <defs>
+                  <linearGradient id="statsCoinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style={{stopColor: '#FFD700', stopOpacity: 1}} />
+                    <stop offset="50%" style={{stopColor: '#FFA500', stopOpacity: 1}} />
+                    <stop offset="100%" style={{stopColor: '#FF8C00', stopOpacity: 1}} />
+                  </linearGradient>
+                </defs>
+                <circle cx="30" cy="30" r="28" fill="url(#statsCoinGradient)" />
+                <circle cx="30" cy="30" r="25" fill="none" stroke="#FFD700" strokeWidth="1.5" opacity="0.8" />
+                <text x="30" y="36" textAnchor="middle" fill="white" fontSize="14" fontWeight="900">PNRP</text>
+              </svg>
+            </div>
             <div className="text-3xl font-bold mb-2" data-testid="total-mined">{stats.totalMined.toFixed(2)}</div>
             <div className="text-gray-400">Total Mined PNRP</div>
           </div>
@@ -158,7 +173,24 @@ function Profile({ user, logout, setUser }) {
                 <h4 className="font-semibold mb-2 text-green-300">📊 Account Status</h4>
                 <ul className="text-sm text-gray-300 space-y-2">
                   <li>🟢 Active Mining Account</li>
-                  <li>💰 Current Balance: <span className="font-bold text-white">{user.total_pnrp.toFixed(2)} PNRP</span></li>
+                  <li className="flex items-center">
+                    💰 Current Balance: 
+                    <span className="font-bold text-white ml-2 flex items-center">
+                      {user.total_pnrp.toFixed(2)}
+                      <svg viewBox="0 0 60 60" className="w-5 h-5 ml-1 inline-block">
+                        <defs>
+                          <linearGradient id="profileCoinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style={{stopColor: '#FFD700', stopOpacity: 1}} />
+                            <stop offset="50%" style={{stopColor: '#FFA500', stopOpacity: 1}} />
+                            <stop offset="100%" style={{stopColor: '#FF8C00', stopOpacity: 1}} />
+                          </linearGradient>
+                        </defs>
+                        <circle cx="30" cy="30" r="28" fill="url(#profileCoinGradient)" />
+                        <circle cx="30" cy="30" r="25" fill="none" stroke="#FFD700" strokeWidth="1.5" opacity="0.8" />
+                        <text x="30" y="36" textAnchor="middle" fill="white" fontSize="14" fontWeight="900">PNRP</text>
+                      </svg>
+                    </span>
+                  </li>
                   <li>🎖️ Rank: Level {user.level}</li>
                   <li>🔗 Referral Code: <span className="font-mono text-purple-400">{user.referral_code}</span></li>
                 </ul>

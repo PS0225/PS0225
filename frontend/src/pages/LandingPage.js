@@ -23,8 +23,35 @@ function LandingPage() {
 
         {/* Hero Content */}
         <div className="text-center py-20">
-          <div className="coin-spin inline-block mb-8">
-            <Coins className="w-24 h-24 text-purple-400" />
+          {/* PNRP Coin Logo */}
+          <div className="inline-block mb-8">
+            <svg viewBox="0 0 140 140" className="w-32 h-32">
+              <defs>
+                <linearGradient id="heroGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style={{stopColor: '#FFD700', stopOpacity: 1}} />
+                  <stop offset="50%" style={{stopColor: '#FFA500', stopOpacity: 1}} />
+                  <stop offset="100%" style={{stopColor: '#FF8C00', stopOpacity: 1}} />
+                </linearGradient>
+                <filter id="heroShadow">
+                  <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#000" floodOpacity="0.4"/>
+                </filter>
+              </defs>
+              
+              {/* Outer circle */}
+              <circle cx="70" cy="70" r="65" fill="url(#heroGradient)" filter="url(#heroShadow)" />
+              
+              {/* Inner border */}
+              <circle cx="70" cy="70" r="58" fill="none" stroke="#FFD700" strokeWidth="3" opacity="0.8" />
+              
+              {/* PNRP Text */}
+              <text x="70" y="82" textAnchor="middle" fill="white" fontSize="32" fontWeight="900" style={{textShadow: '0 2px 4px rgba(0,0,0,0.6)', letterSpacing: '1.2px'}}>
+                PNRP
+              </text>
+              
+              {/* Decorative dots */}
+              <circle cx="70" cy="20" r="3" fill="white" opacity="0.8" />
+              <circle cx="70" cy="120" r="3" fill="white" opacity="0.8" />
+            </svg>
           </div>
           <h1 className="text-6xl font-bold mb-6" data-testid="landing-title">
             Start Mining <span className="gradient-text">PNRP</span>
