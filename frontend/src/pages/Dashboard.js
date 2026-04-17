@@ -196,14 +196,14 @@ function Dashboard({ user, logout }) {
                       <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
                       
                       {/* Bottom text - curved line above wrapping left to right */}
-                      <path d="M 25,100 A 52,52 0 0,0 115,100" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                      <path d="M 25,98 A 52,52 0 0,0 115,98" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
                       
                       <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
                         <textPath href="#topCurve" startOffset="50%" textAnchor="middle">
                           PLATINUM • NETWORK
                         </textPath>
                       </text>
-                      <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.8">
+                      <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.8">
                         <textPath href="#bottomCurve" startOffset="50%" textAnchor="middle">
                           PLATINUM • NETWORK
                         </textPath>
@@ -223,14 +223,14 @@ function Dashboard({ user, logout }) {
                       <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
                       
                       {/* Bottom text - curved line above wrapping left to right */}
-                      <path d="M 25,100 A 52,52 0 0,0 115,100" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                      <path d="M 25,98 A 52,52 0 0,0 115,98" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
                       
                       <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
                         <textPath href="#topCurveBack" startOffset="50%" textAnchor="middle">
                           PLATINUM • NETWORK
                         </textPath>
                       </text>
-                      <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.8">
+                      <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.8">
                         <textPath href="#bottomCurveBack" startOffset="50%" textAnchor="middle">
                           PLATINUM • NETWORK
                         </textPath>
