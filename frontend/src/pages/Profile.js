@@ -106,18 +106,27 @@ function Profile({ user, logout, setUser }) {
           <div className="card-gradient p-6 rounded-xl" data-testid="total-mined-card">
             <div className="flex items-center justify-between mb-4">
               <Coins className="w-8 h-8 text-purple-400" />
-              {/* PNRP Logo */}
-              <svg viewBox="0 0 60 60" className="w-8 h-8">
+              {/* Enhanced PNRP Logo */}
+              <svg viewBox="0 0 140 140" className="w-10 h-10">
                 <defs>
                   <linearGradient id="statsCoinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" style={{stopColor: '#FFD700', stopOpacity: 1}} />
                     <stop offset="50%" style={{stopColor: '#FFA500', stopOpacity: 1}} />
                     <stop offset="100%" style={{stopColor: '#FF8C00', stopOpacity: 1}} />
                   </linearGradient>
+                  <path id="statsTopCurve" d="M 20,42 A 56,56 0 0,1 120,42" />
+                  <path id="statsBottomCurve" d="M 18,104 A 62,58 0 0,0 122,104" />
                 </defs>
-                <circle cx="30" cy="30" r="28" fill="url(#statsCoinGradient)" />
-                <circle cx="30" cy="30" r="25" fill="none" stroke="#FFD700" strokeWidth="1.5" opacity="0.8" />
-                <text x="30" y="36" textAnchor="middle" fill="white" fontSize="14" fontWeight="900">PNRP</text>
+                <circle cx="70" cy="70" r="65" fill="url(#statsCoinGradient)" />
+                <circle cx="70" cy="70" r="58" fill="none" stroke="#FFD700" strokeWidth="3" opacity="0.8" />
+                <path d="M 30,70 A 40,40 0 0,0 110,70" fill="none" stroke="white" strokeWidth="2.5" opacity="0.6" />
+                <text fill="white" fontSize="11" fontWeight="bold" letterSpacing="1.5">
+                  <textPath href="#statsTopCurve" startOffset="50%" textAnchor="middle">PLATINUM</textPath>
+                </text>
+                <text fill="white" fontSize="11" fontWeight="bold" letterSpacing="1.5">
+                  <textPath href="#statsBottomCurve" startOffset="50%" textAnchor="middle">NETWORK</textPath>
+                </text>
+                <text x="70" y="77" textAnchor="middle" fill="white" fontSize="28" fontWeight="900">PNRP</text>
               </svg>
             </div>
             <div className="text-3xl font-bold mb-2" data-testid="total-mined">{stats.totalMined.toFixed(2)}</div>
@@ -177,17 +186,27 @@ function Profile({ user, logout, setUser }) {
                     💰 Current Balance: 
                     <span className="font-bold text-white ml-2 flex items-center">
                       {user.total_pnrp.toFixed(2)}
-                      <svg viewBox="0 0 60 60" className="w-5 h-5 ml-1 inline-block">
+                      {/* Enhanced PNRP Logo */}
+                      <svg viewBox="0 0 140 140" className="w-6 h-6 ml-1 inline-block">
                         <defs>
-                          <linearGradient id="profileCoinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <linearGradient id="profileBalanceCoinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                             <stop offset="0%" style={{stopColor: '#FFD700', stopOpacity: 1}} />
                             <stop offset="50%" style={{stopColor: '#FFA500', stopOpacity: 1}} />
                             <stop offset="100%" style={{stopColor: '#FF8C00', stopOpacity: 1}} />
                           </linearGradient>
+                          <path id="balanceTopCurve" d="M 20,42 A 56,56 0 0,1 120,42" />
+                          <path id="balanceBottomCurve" d="M 18,104 A 62,58 0 0,0 122,104" />
                         </defs>
-                        <circle cx="30" cy="30" r="28" fill="url(#profileCoinGradient)" />
-                        <circle cx="30" cy="30" r="25" fill="none" stroke="#FFD700" strokeWidth="1.5" opacity="0.8" />
-                        <text x="30" y="36" textAnchor="middle" fill="white" fontSize="14" fontWeight="900">PNRP</text>
+                        <circle cx="70" cy="70" r="65" fill="url(#profileBalanceCoinGradient)" />
+                        <circle cx="70" cy="70" r="58" fill="none" stroke="#FFD700" strokeWidth="3" opacity="0.8" />
+                        <path d="M 30,70 A 40,40 0 0,0 110,70" fill="none" stroke="white" strokeWidth="2.5" opacity="0.6" />
+                        <text fill="white" fontSize="11" fontWeight="bold" letterSpacing="1.5">
+                          <textPath href="#balanceTopCurve" startOffset="50%" textAnchor="middle">PLATINUM</textPath>
+                        </text>
+                        <text fill="white" fontSize="11" fontWeight="bold" letterSpacing="1.5">
+                          <textPath href="#balanceBottomCurve" startOffset="50%" textAnchor="middle">NETWORK</textPath>
+                        </text>
+                        <text x="70" y="77" textAnchor="middle" fill="white" fontSize="28" fontWeight="900">PNRP</text>
                       </svg>
                     </span>
                   </li>

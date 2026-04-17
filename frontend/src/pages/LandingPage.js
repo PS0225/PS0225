@@ -23,9 +23,9 @@ function LandingPage() {
 
         {/* Hero Content */}
         <div className="text-center py-20">
-          {/* PNRP Coin Logo */}
+          {/* Enhanced PNRP Coin Logo */}
           <div className="inline-block mb-8">
-            <svg viewBox="0 0 140 140" className="w-32 h-32">
+            <svg viewBox="0 0 140 140" className="w-40 h-40">
               <defs>
                 <linearGradient id="heroGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" style={{stopColor: '#FFD700', stopOpacity: 1}} />
@@ -35,6 +35,8 @@ function LandingPage() {
                 <filter id="heroShadow">
                   <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#000" floodOpacity="0.4"/>
                 </filter>
+                <path id="heroTopCurve" d="M 20,42 A 56,56 0 0,1 120,42" />
+                <path id="heroBottomCurve" d="M 18,104 A 62,58 0 0,0 122,104" />
               </defs>
               
               {/* Outer circle */}
@@ -43,14 +45,23 @@ function LandingPage() {
               {/* Inner border */}
               <circle cx="70" cy="70" r="58" fill="none" stroke="#FFD700" strokeWidth="3" opacity="0.8" />
               
-              {/* PNRP Text */}
-              <text x="70" y="82" textAnchor="middle" fill="white" fontSize="32" fontWeight="900" style={{textShadow: '0 2px 4px rgba(0,0,0,0.6)', letterSpacing: '1.2px'}}>
-                PNRP
+              {/* Inner half ring (bottom semicircle) */}
+              <path d="M 30,70 A 40,40 0 0,0 110,70" fill="none" stroke="white" strokeWidth="2.5" opacity="0.6" />
+              
+              {/* Curved text - PLATINUM on top */}
+              <text fill="white" fontSize="11" fontWeight="bold" letterSpacing="1.5">
+                <textPath href="#heroTopCurve" startOffset="50%" textAnchor="middle">PLATINUM</textPath>
               </text>
               
-              {/* Decorative dots */}
-              <circle cx="70" cy="20" r="3" fill="white" opacity="0.8" />
-              <circle cx="70" cy="120" r="3" fill="white" opacity="0.8" />
+              {/* Curved text - NETWORK on bottom */}
+              <text fill="white" fontSize="11" fontWeight="bold" letterSpacing="1.5">
+                <textPath href="#heroBottomCurve" startOffset="50%" textAnchor="middle">NETWORK</textPath>
+              </text>
+              
+              {/* PNRP Text */}
+              <text x="70" y="77" textAnchor="middle" fill="white" fontSize="28" fontWeight="900" style={{textShadow: '0 2px 4px rgba(0,0,0,0.6)', letterSpacing: '1.8px'}}>
+                PNRP
+              </text>
             </svg>
           </div>
           <h1 className="text-6xl font-bold mb-6" data-testid="landing-title">

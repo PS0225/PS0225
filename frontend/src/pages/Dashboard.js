@@ -241,7 +241,7 @@ function Dashboard({ user, logout }) {
                 </div>
               </div>
 
-              {!miningStatus.has_active_session ? (
+              {!miningStatus?.has_active_session ? (
               <div data-testid="start-mining-section" className="slide-in">
                 <h2 className="text-4xl font-bold mb-2 neon-text">Start Mining PNRP</h2>
                 <p className="text-xl text-gray-400 mb-2">Earn rewards every 12 hours</p>
@@ -263,7 +263,7 @@ function Dashboard({ user, logout }) {
                   🚀 Start Mining Now
                 </button>
               </div>
-            ) : miningStatus.session.is_completed ? (
+            ) : miningStatus?.session?.is_completed ? (
               <div data-testid="claim-mining-section" className="success-effect">
                 <div className="mb-6">
                   <div className="text-6xl mb-4">✅</div>
@@ -367,34 +367,36 @@ function Dashboard({ user, logout }) {
           {/* Balance Box */}
           <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300" data-testid="balance-box">
             <div className="flex items-center justify-center mb-3">
-              {/* Small PNRP Coin Logo - Stable (no rotation) */}
+              {/* Enhanced PNRP Coin Logo */}
               <div className="pnrp-coin-small">
-                <svg viewBox="0 0 60 60" className="w-12 h-12">
+                <svg viewBox="0 0 140 140" className="w-14 h-14">
                   <defs>
-                    <linearGradient id="coinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient id="balanceBoxGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" style={{stopColor: '#FFD700', stopOpacity: 1}} />
                       <stop offset="50%" style={{stopColor: '#FFA500', stopOpacity: 1}} />
                       <stop offset="100%" style={{stopColor: '#FF8C00', stopOpacity: 1}} />
                     </linearGradient>
-                    <filter id="coinShadow">
+                    <filter id="balanceBoxShadow">
                       <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#000" floodOpacity="0.3"/>
                     </filter>
+                    <path id="balanceBoxTopCurve" d="M 20,42 A 56,56 0 0,1 120,42" />
+                    <path id="balanceBoxBottomCurve" d="M 18,104 A 62,58 0 0,0 122,104" />
                   </defs>
                   
-                  {/* Outer circle with gradient */}
-                  <circle cx="30" cy="30" r="28" fill="url(#coinGradient)" filter="url(#coinShadow)" />
+                  <circle cx="70" cy="70" r="65" fill="url(#balanceBoxGradient)" filter="url(#balanceBoxShadow)" />
+                  <circle cx="70" cy="70" r="58" fill="none" stroke="#FFD700" strokeWidth="3" opacity="0.8" />
+                  <path d="M 30,70 A 40,40 0 0,0 110,70" fill="none" stroke="white" strokeWidth="2.5" opacity="0.6" />
                   
-                  {/* Inner circle border */}
-                  <circle cx="30" cy="30" r="25" fill="none" stroke="#FFD700" strokeWidth="1.5" opacity="0.8" />
-                  
-                  {/* PNRP Text */}
-                  <text x="30" y="36" textAnchor="middle" fill="white" fontSize="14" fontWeight="900" style={{textShadow: '0 1px 2px rgba(0,0,0,0.5)'}}>
-                    PNRP
+                  <text fill="white" fontSize="11" fontWeight="bold" letterSpacing="1.5">
+                    <textPath href="#balanceBoxTopCurve" startOffset="50%" textAnchor="middle">PLATINUM</textPath>
+                  </text>
+                  <text fill="white" fontSize="11" fontWeight="bold" letterSpacing="1.5">
+                    <textPath href="#balanceBoxBottomCurve" startOffset="50%" textAnchor="middle">NETWORK</textPath>
                   </text>
                   
-                  {/* Decorative dots */}
-                  <circle cx="30" cy="10" r="1.5" fill="white" opacity="0.8" />
-                  <circle cx="30" cy="50" r="1.5" fill="white" opacity="0.8" />
+                  <text x="70" y="77" textAnchor="middle" fill="white" fontSize="28" fontWeight="900" style={{textShadow: '0 1px 2px rgba(0,0,0,0.5)'}}>
+                    PNRP
+                  </text>
                 </svg>
               </div>
             </div>
@@ -454,7 +456,7 @@ function Dashboard({ user, logout }) {
         </div>
 
         {/* Boost Cards - Below 4-Part Grid (Only visible when mining is active) */}
-        {miningStatus.has_active_session && !miningStatus.session.is_completed && (
+        {miningStatus?.has_active_session && !miningStatus?.session?.is_completed && (
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {/* Time Boost Card */}
             <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 p-6 rounded-xl border border-blue-500/30 hover:border-blue-500/50 transition" data-testid="time-boost-card">
