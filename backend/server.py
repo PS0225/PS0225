@@ -295,8 +295,15 @@ async def get_mining_status(current_user: dict = Depends(get_current_user)):
     
     # Calculate end time
     start_time = session['start_time']
+    
+    # Make datetime timezone-aware if it's naive (from MySQL)
+    if start_time.tzinfo is None:
+        start_time = start_time.replace(tzinfo=timezone.utc)
+    
     if session['end_time']:
         end_time = session['end_time']
+        if end_time.tzinfo is None:
+            end_time = end_time.replace(tzinfo=timezone.utc)
     else:
         # Calculate based on duration (12h base, 24h if time_boost_ads_watched >= 2)
         duration_hours = 24 if session['time_boost_ads_watched'] >= 2 else 12
