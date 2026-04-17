@@ -2,7 +2,7 @@ from fastapi import FastAPI, APIRouter, HTTPException, Depends, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
-from motor.motor_asyncio import AsyncIOMotorClient
+import aiomysql
 import os
 import logging
 from pathlib import Path
@@ -18,10 +18,24 @@ import jwt
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-# MongoDB connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+# MySQL connection pool
+db_pool = None
+
+async def get_db_pool():
+    """Get MySQL connection pool"""
+    global db_pool
+    if db_pool is None:
+        db_pool = await aiomysql.create_pool(
+            host=os.environ.get('MYSQL_HOST', 'localhost'),
+            port=int(os.environ.get('MYSQL_PORT', 3306)),
+            user=os.environ.get('MYSQL_USER', 'root'),
+            password=os.environ.get('MYSQL_PASSWORD', ''),
+            db=os.environ.get('MYSQL_DB', 'platinum_network'),
+            autocommit=True,
+            minsize=1,
+            maxsize=10
+        )
+    return db_pool
 
 # Create the main app without a prefix
 app = FastAPI(title="Platinum Network API")
@@ -43,6 +57,24 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+
+
+# ==================== STARTUP/SHUTDOWN ====================
+
+@app.on_event("startup")
+async def startup():
+    """Initialize database pool on startup"""
+    await get_db_pool()
+    logger.info("MySQL connection pool created")
+
+@app.on_event("shutdown")
+async def shutdown():
+    """Close database pool on shutdown"""
+    global db_pool
+    if db_pool:
+        db_pool.close()
+        await db_pool.wait_closed()
+        logger.info("MySQL connection pool closed")
 
 
 # ==================== UTILITY FUNCTIONS ====================
@@ -85,7 +117,12 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
     except jwt.JWTError:
         raise HTTPException(status_code=401, detail="Could not validate credentials")
     
-    user = await db.users.find_one({"id": user_id}, {"_id": 0})
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            await cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+            user = await cursor.fetchone()
+    
     if user is None:
         raise HTTPException(status_code=401, detail="User not found")
     return user
@@ -113,107 +150,15 @@ class User(BaseModel):
     
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     username: str
-    name: str
+    full_name: str
     email: EmailStr
-    password: str  # hashed
+    hashed_password: str
     referral_code: str = Field(default_factory=lambda: generate_referral_code())
-    referred_by: Optional[str] = None  # referrer's user_id
+    referred_by: Optional[str] = None
     total_pnrp: float = 0.0
     level: int = 1
     is_admin: bool = False
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-
-
-class MiningSession(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    user_id: str
-    start_time: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    duration_hours: int = 12  # 12 or 24
-    base_reward: float = 50.0
-    speed_multiplier: float = 1.0  # 1x or 2x
-    total_reward: float = 50.0
-    status: str = "active"  # active, completed, claimed
-    time_boost_ads_watched: int = 0  # 0-2
-    speed_boost_ads_watched: int = 0  # 0-5
-    end_time: Optional[datetime] = None
-    claimed_at: Optional[datetime] = None
-
-
-class DailyCheckin(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    user_id: str
-    day_number: int  # 1-7
-    reward: float
-    ad_watched: bool = False
-    claimed_at: Optional[datetime] = None
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-
-
-class SocialTask(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    name: str
-    platform: str
-    reward: float = 30.0
-    icon: str
-    url: str
-    description: str
-
-
-class UserSocialTask(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    user_id: str
-    social_task_id: str
-    completed_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-
-
-class Transaction(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    user_id: str
-    type: str  # mining, referral, daily_checkin, social_task, admin_bonus
-    amount: float
-    description: str
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-
-
-class ReferralEarning(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    referrer_id: str
-    referred_id: str
-    amount: float
-    date: str  # YYYY-MM-DD
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-
-
-class AdWatch(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    user_id: str
-    ad_type: str  # daily_checkin, mining_time_boost, daily_reward_1, daily_reward_2, daily_reward_3
-    watched_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-
-
-class DailyReward(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    user_id: str
-    ad_number: int  # 1, 2, or 3
-    reward: float  # 10, 15, or 25
-    claimed_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    date: str  # YYYY-MM-DD
 
 
 # ==================== AUTHENTICATION ROUTES ====================
@@ -225,52 +170,56 @@ async def register(user_data: UserRegister):
     if user_data.password != user_data.confirm_password:
         raise HTTPException(status_code=400, detail="Passwords do not match")
     
-    # Check if username exists
-    existing_user = await db.users.find_one({"username": user_data.username})
-    if existing_user:
-        raise HTTPException(status_code=400, detail="Username already exists")
-    
-    # Check if email exists
-    existing_email = await db.users.find_one({"email": user_data.email})
-    if existing_email:
-        raise HTTPException(status_code=400, detail="Email already exists")
-    
-    # Validate referral code if provided
-    referrer_id = None
-    if user_data.referral_code:
-        referrer = await db.users.find_one({"referral_code": user_data.referral_code})
-        if not referrer:
-            raise HTTPException(status_code=400, detail="Invalid referral code")
-        referrer_id = referrer["id"]
-    
-    # Create user
-    user = User(
-        username=user_data.username,
-        name=user_data.name,
-        email=user_data.email,
-        password=hash_password(user_data.password),
-        referred_by=referrer_id
-    )
-    
-    user_dict = user.model_dump()
-    user_dict['created_at'] = user_dict['created_at'].isoformat()
-    
-    await db.users.insert_one(user_dict)
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            # Check if username exists
+            await cursor.execute("SELECT id FROM users WHERE username = %s", (user_data.username,))
+            if await cursor.fetchone():
+                raise HTTPException(status_code=400, detail="Username already exists")
+            
+            # Check if email exists
+            await cursor.execute("SELECT id FROM users WHERE email = %s", (user_data.email,))
+            if await cursor.fetchone():
+                raise HTTPException(status_code=400, detail="Email already exists")
+            
+            # Validate referral code if provided
+            referrer_id = None
+            if user_data.referral_code:
+                await cursor.execute("SELECT id FROM users WHERE referral_code = %s", (user_data.referral_code,))
+                referrer = await cursor.fetchone()
+                if not referrer:
+                    raise HTTPException(status_code=400, detail="Invalid referral code")
+                referrer_id = referrer["id"]
+            
+            # Create user
+            user_id = str(uuid.uuid4())
+            referral_code = generate_referral_code()
+            hashed_pwd = hash_password(user_data.password)
+            created_at = datetime.now(timezone.utc)
+            
+            await cursor.execute(
+                """INSERT INTO users (id, username, full_name, email, hashed_password, 
+                   referral_code, referred_by, total_pnrp, level, is_admin, created_at)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                (user_id, user_data.username, user_data.name, user_data.email, hashed_pwd,
+                 referral_code, referrer_id, 0.0, 1, False, created_at)
+            )
     
     # Create access token
-    access_token = create_access_token(data={"sub": user.id})
+    access_token = create_access_token(data={"sub": user_id})
     
     return {
         "message": "User registered successfully",
         "access_token": access_token,
         "token_type": "bearer",
         "user": {
-            "id": user.id,
-            "username": user.username,
-            "name": user.name,
-            "email": user.email,
-            "referral_code": user.referral_code,
-            "total_pnrp": user.total_pnrp
+            "id": user_id,
+            "username": user_data.username,
+            "name": user_data.name,
+            "email": user_data.email,
+            "referral_code": referral_code,
+            "total_pnrp": 0.0
         }
     }
 
@@ -278,11 +227,16 @@ async def register(user_data: UserRegister):
 @api_router.post("/auth/login")
 async def login(login_data: UserLogin):
     """Login user"""
-    user = await db.users.find_one({"email": login_data.email}, {"_id": 0})
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            await cursor.execute("SELECT * FROM users WHERE email = %s", (login_data.email,))
+            user = await cursor.fetchone()
+    
     if not user:
         raise HTTPException(status_code=401, detail="Invalid email or password")
     
-    if not verify_password(login_data.password, user["password"]):
+    if not verify_password(login_data.password, user["hashed_password"]):
         raise HTTPException(status_code=401, detail="Invalid email or password")
     
     # Create access token
@@ -295,11 +249,11 @@ async def login(login_data: UserLogin):
         "user": {
             "id": user["id"],
             "username": user["username"],
-            "name": user["name"],
+            "name": user["full_name"],
             "email": user["email"],
             "referral_code": user["referral_code"],
-            "total_pnrp": user["total_pnrp"],
-            "is_admin": user.get("is_admin", False)
+            "total_pnrp": float(user["total_pnrp"]),
+            "is_admin": bool(user.get("is_admin", 0))
         }
     }
 
@@ -310,13 +264,13 @@ async def get_me(current_user: dict = Depends(get_current_user)):
     return {
         "id": current_user["id"],
         "username": current_user["username"],
-        "name": current_user["name"],
+        "name": current_user["full_name"],
         "email": current_user["email"],
         "referral_code": current_user["referral_code"],
-        "total_pnrp": current_user["total_pnrp"],
+        "total_pnrp": float(current_user["total_pnrp"]),
         "level": current_user["level"],
-        "is_admin": current_user.get("is_admin", False),
-        "created_at": current_user["created_at"]
+        "is_admin": bool(current_user.get("is_admin", 0)),
+        "created_at": current_user["created_at"].isoformat() if isinstance(current_user["created_at"], datetime) else current_user["created_at"]
     }
 
 
@@ -325,44 +279,55 @@ async def get_me(current_user: dict = Depends(get_current_user)):
 @api_router.get("/mining/status")
 async def get_mining_status(current_user: dict = Depends(get_current_user)):
     """Get current mining session status"""
-    session = await db.mining_sessions.find_one(
-        {"user_id": current_user["id"], "status": {"$in": ["active", "completed"]}},
-        {"_id": 0},
-        sort=[("start_time", -1)]  # Get latest session
-    )
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            await cursor.execute(
+                """SELECT * FROM mining_sessions 
+                   WHERE user_id = %s AND status IN ('active', 'completed')
+                   ORDER BY start_time DESC LIMIT 1""",
+                (current_user["id"],)
+            )
+            session = await cursor.fetchone()
     
     if not session:
         return {"has_active_session": False, "session": None}
     
-    # Convert ISO strings to datetime
-    if isinstance(session.get('start_time'), str):
-        session['start_time'] = datetime.fromisoformat(session['start_time'])
-    if isinstance(session.get('end_time'), str):
-        session['end_time'] = datetime.fromisoformat(session['end_time'])
-    
     # Calculate end time
+    start_time = session['start_time']
     if session['end_time']:
         end_time = session['end_time']
     else:
-        end_time = session['start_time'] + timedelta(hours=session['duration_hours'])
+        # Calculate based on duration (12h base, 24h if time_boost_ads_watched >= 2)
+        duration_hours = 24 if session['time_boost_ads_watched'] >= 2 else 12
+        end_time = start_time + timedelta(hours=duration_hours)
     
     # Check if completed
     now = datetime.now(timezone.utc)
     is_completed = now >= end_time
     
     if is_completed and session['status'] == 'active':
-        await db.mining_sessions.update_one(
-            {"id": session["id"]},
-            {"$set": {"status": "completed"}}
-        )
+        pool = await get_db_pool()
+        async with pool.acquire() as conn:
+            async with conn.cursor() as cursor:
+                await cursor.execute(
+                    "UPDATE mining_sessions SET status = 'completed' WHERE id = %s",
+                    (session["id"],)
+                )
         session['status'] = 'completed'
     
     return {
         "has_active_session": True,
         "session": {
-            **session,
-            "start_time": session['start_time'].isoformat(),
+            "id": session['id'],
+            "user_id": session['user_id'],
+            "start_time": start_time.isoformat(),
             "end_time": end_time.isoformat(),
+            "base_reward": float(session['base_reward']),
+            "status": session['status'],
+            "time_boost_ads_watched": session['time_boost_ads_watched'],
+            "speed_boost_ads_watched": session['speed_boost_ads_watched'],
+            "speed_multiplier": float(session['speed_multiplier']),
             "is_completed": is_completed,
             "time_remaining_seconds": max(0, int((end_time - now).total_seconds()))
         }
@@ -372,40 +337,46 @@ async def get_mining_status(current_user: dict = Depends(get_current_user)):
 @api_router.post("/mining/start")
 async def start_mining(current_user: dict = Depends(get_current_user)):
     """Start a new mining session"""
-    # Check if user already has an active session
-    existing_session = await db.mining_sessions.find_one(
-        {"user_id": current_user["id"], "status": {"$in": ["active", "completed"]}},
-        {"_id": 0}
-    )
-    
-    if existing_session:
-        raise HTTPException(status_code=400, detail="You already have an active mining session. Please claim it first.")
-    
-    # Create new mining session
-    session = MiningSession(user_id=current_user["id"])
-    session_dict = session.model_dump()
-    session_dict['start_time'] = session_dict['start_time'].isoformat()
-    if session_dict.get('end_time'):
-        session_dict['end_time'] = session_dict['end_time'].isoformat()
-    if session_dict.get('claimed_at'):
-        session_dict['claimed_at'] = session_dict['claimed_at'].isoformat()
-    
-    await db.mining_sessions.insert_one(session_dict)
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            # Check if user already has an active session
+            await cursor.execute(
+                """SELECT id FROM mining_sessions 
+                   WHERE user_id = %s AND status IN ('active', 'completed')""",
+                (current_user["id"],)
+            )
+            existing_session = await cursor.fetchone()
+            
+            if existing_session:
+                raise HTTPException(status_code=400, detail="You already have an active mining session. Please claim it first.")
+            
+            # Create new mining session
+            session_id = str(uuid.uuid4())
+            start_time = datetime.now(timezone.utc)
+            
+            await cursor.execute(
+                """INSERT INTO mining_sessions 
+                   (id, user_id, start_time, base_reward, status, time_boost_ads_watched, 
+                    speed_boost_ads_watched, speed_multiplier, created_at)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                (session_id, current_user["id"], start_time, 50.0, 'active', 0, 0, 1.0, start_time)
+            )
     
     return {
         "message": "Mining started successfully",
         "session": {
-            "id": session_dict["id"],
-            "user_id": session_dict["user_id"],
-            "start_time": session_dict['start_time'],
-            "duration_hours": session_dict["duration_hours"],
-            "base_reward": session_dict["base_reward"],
-            "speed_multiplier": session_dict["speed_multiplier"],
-            "total_reward": session_dict["total_reward"],
-            "status": session_dict["status"],
-            "time_boost_ads_watched": session_dict["time_boost_ads_watched"],
-            "speed_boost_ads_watched": session_dict["speed_boost_ads_watched"],
-            "end_time": (session.start_time + timedelta(hours=session.duration_hours)).isoformat()
+            "id": session_id,
+            "user_id": current_user["id"],
+            "start_time": start_time.isoformat(),
+            "duration_hours": 12,
+            "base_reward": 50.0,
+            "speed_multiplier": 1.0,
+            "total_reward": 50.0,
+            "status": "active",
+            "time_boost_ads_watched": 0,
+            "speed_boost_ads_watched": 0,
+            "end_time": (start_time + timedelta(hours=12)).isoformat()
         }
     }
 
@@ -413,169 +384,138 @@ async def start_mining(current_user: dict = Depends(get_current_user)):
 @api_router.post("/mining/claim")
 async def claim_mining(current_user: dict = Depends(get_current_user)):
     """Claim mining rewards"""
-    session = await db.mining_sessions.find_one(
-        {"user_id": current_user["id"], "status": "completed"},
-        {"_id": 0}
-    )
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            await cursor.execute(
+                """SELECT * FROM mining_sessions 
+                   WHERE user_id = %s AND status = 'completed'
+                   ORDER BY start_time DESC LIMIT 1""",
+                (current_user["id"],)
+            )
+            session = await cursor.fetchone()
     
     if not session:
         raise HTTPException(status_code=400, detail="No completed mining session to claim")
     
-    # Convert ISO strings to datetime
-    if isinstance(session.get('start_time'), str):
-        session['start_time'] = datetime.fromisoformat(session['start_time'])
-    
     # Calculate reward
-    reward = session['base_reward'] * session['speed_multiplier']
+    time_boost_multiplier = 2.0 if session['time_boost_ads_watched'] >= 2 else 1.0
+    reward = session['base_reward'] * time_boost_multiplier * session['speed_multiplier']
     
-    # Update user balance
-    await db.users.update_one(
-        {"id": current_user["id"]},
-        {"$inc": {"total_pnrp": reward}}
-    )
-    
-    # Mark session as claimed
-    await db.mining_sessions.update_one(
-        {"id": session["id"]},
-        {"$set": {"status": "claimed", "claimed_at": datetime.now(timezone.utc).isoformat()}}
-    )
-    
-    # Create transaction
-    transaction = Transaction(
-        user_id=current_user["id"],
-        type="mining",
-        amount=reward,
-        description=f"Mining reward ({session['duration_hours']}h, {session['speed_multiplier']}x speed)"
-    )
-    transaction_dict = transaction.model_dump()
-    transaction_dict['created_at'] = transaction_dict['created_at'].isoformat()
-    await db.transactions.insert_one(transaction_dict)
-    
-    # Give referral bonus (10% to referrer)
-    if current_user.get("referred_by"):
-        referral_bonus = reward * 0.1
-        await db.users.update_one(
-            {"id": current_user["referred_by"]},
-            {"$inc": {"total_pnrp": referral_bonus}}
-        )
-        
-        # Create referral earning record
-        referral_earning = ReferralEarning(
-            referrer_id=current_user["referred_by"],
-            referred_id=current_user["id"],
-            amount=referral_bonus,
-            date=datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        )
-        ref_dict = referral_earning.model_dump()
-        ref_dict['created_at'] = ref_dict['created_at'].isoformat()
-        await db.referral_earnings.insert_one(ref_dict)
-        
-        # Create transaction for referrer
-        ref_transaction = Transaction(
-            user_id=current_user["referred_by"],
-            type="referral",
-            amount=referral_bonus,
-            description=f"Referral bonus from {current_user['username']}"
-        )
-        ref_trans_dict = ref_transaction.model_dump()
-        ref_trans_dict['created_at'] = ref_trans_dict['created_at'].isoformat()
-        await db.transactions.insert_one(ref_trans_dict)
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            # Update user balance
+            await cursor.execute(
+                "UPDATE users SET total_pnrp = total_pnrp + %s WHERE id = %s",
+                (reward, current_user["id"])
+            )
+            
+            # Mark session as claimed
+            await cursor.execute(
+                "UPDATE mining_sessions SET status = 'claimed', end_time = %s WHERE id = %s",
+                (datetime.now(timezone.utc), session["id"])
+            )
+            
+            # Give referral bonus (10% to referrer)
+            if current_user.get("referred_by"):
+                referral_bonus = reward * 0.1
+                await cursor.execute(
+                    "UPDATE users SET total_pnrp = total_pnrp + %s WHERE id = %s",
+                    (referral_bonus, current_user["referred_by"])
+                )
+                
+                # Create referral reward record
+                await cursor.execute(
+                    """INSERT INTO referral_rewards (id, referrer_id, referred_user_id, reward_amount, reward_type, created_at)
+                       VALUES (%s, %s, %s, %s, %s, %s)""",
+                    (str(uuid.uuid4()), current_user["referred_by"], current_user["id"], 
+                     referral_bonus, "mining", datetime.now(timezone.utc))
+                )
     
     return {
         "message": "Mining rewards claimed successfully",
         "reward": reward,
-        "new_balance": current_user["total_pnrp"] + reward
+        "new_balance": float(current_user["total_pnrp"]) + reward
     }
 
 
 @api_router.post("/mining/watch-ad")
 async def watch_ad(ad_type: str, current_user: dict = Depends(get_current_user)):
-    """Watch an ad to boost mining - time boost (2 ads) or speed boost (5 ads)"""
+    """Watch an ad to boost mining"""
     if ad_type not in ["time_boost", "speed_boost"]:
-        raise HTTPException(status_code=400, detail="Invalid ad type. Use 'time_boost' or 'speed_boost'")
+        raise HTTPException(status_code=400, detail="Invalid ad type")
     
-    # Get active mining session
-    session = await db.mining_sessions.find_one(
-        {"user_id": current_user["id"], "status": "active"},
-        {"_id": 0}
-    )
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            # Get active mining session
+            await cursor.execute(
+                """SELECT * FROM mining_sessions 
+                   WHERE user_id = %s AND status = 'active'
+                   ORDER BY start_time DESC LIMIT 1""",
+                (current_user["id"],)
+            )
+            session = await cursor.fetchone()
     
     if not session:
         raise HTTPException(status_code=400, detail="No active mining session")
     
     if ad_type == "time_boost":
-        # Check ad limit for time boost
         if session['time_boost_ads_watched'] >= 2:
             raise HTTPException(status_code=400, detail="Maximum time boost ads already watched")
         
-        # Increment ad count
         new_count = session['time_boost_ads_watched'] + 1
-        await db.mining_sessions.update_one(
-            {"id": session["id"]},
-            {"$set": {"time_boost_ads_watched": new_count}}
-        )
         
-        # If 2 ads watched, extend duration to 24 hours and recalculate reward
+        pool = await get_db_pool()
+        async with pool.acquire() as conn:
+            async with conn.cursor() as cursor:
+                await cursor.execute(
+                    "UPDATE mining_sessions SET time_boost_ads_watched = %s WHERE id = %s",
+                    (new_count, session["id"])
+                )
+                
+                # Record ad interaction
+                await cursor.execute(
+                    """INSERT INTO ad_interactions (id, user_id, ad_type, interaction_type, reward_pnrp, created_at)
+                       VALUES (%s, %s, %s, %s, %s, %s)""",
+                    (str(uuid.uuid4()), current_user["id"], "time_boost", "watched", 0.0, datetime.now(timezone.utc))
+                )
+        
+        message = f"Ad watched ({new_count}/2 for time boost)"
         if new_count == 2:
-            new_duration = 24
-            # Calculate new reward: base_reward × (duration/12) × speed_multiplier
-            # 50 × (24/12) × speed = 50 × 2 × speed
-            new_total_reward = session['base_reward'] * (new_duration / 12) * session['speed_multiplier']
-            
-            await db.mining_sessions.update_one(
-                {"id": session["id"]},
-                {"$set": {
-                    "duration_hours": new_duration,
-                    "total_reward": new_total_reward
-                }}
-            )
-            message = f"Time boost activated! Mining duration extended to 24 hours (Reward: {new_total_reward} PNRP)"
-        else:
-            message = f"Ad watched ({new_count}/2 for time boost)"
-        
-        ad_watch_type = "mining_time_boost"
+            message = "Time boost activated! Mining duration extended to 24 hours"
     
     elif ad_type == "speed_boost":
-        # Check ad limit for speed boost
         if session['speed_boost_ads_watched'] >= 5:
             raise HTTPException(status_code=400, detail="Maximum speed boost ads already watched")
         
-        # Increment ad count
         new_count = session['speed_boost_ads_watched'] + 1
-        await db.mining_sessions.update_one(
-            {"id": session["id"]},
-            {"$set": {"speed_boost_ads_watched": new_count}}
-        )
         
-        # If 5 ads watched, activate 2x speed multiplier and recalculate reward
+        pool = await get_db_pool()
+        async with pool.acquire() as conn:
+            async with conn.cursor() as cursor:
+                await cursor.execute(
+                    "UPDATE mining_sessions SET speed_boost_ads_watched = %s WHERE id = %s",
+                    (new_count, session["id"])
+                )
+                
+                if new_count == 5:
+                    await cursor.execute(
+                        "UPDATE mining_sessions SET speed_multiplier = 2.0 WHERE id = %s",
+                        (session["id"],)
+                    )
+                
+                # Record ad interaction
+                await cursor.execute(
+                    """INSERT INTO ad_interactions (id, user_id, ad_type, interaction_type, reward_pnrp, created_at)
+                       VALUES (%s, %s, %s, %s, %s, %s)""",
+                    (str(uuid.uuid4()), current_user["id"], "speed_boost", "watched", 0.0, datetime.now(timezone.utc))
+                )
+        
+        message = f"Ad watched ({new_count}/5 for speed boost)"
         if new_count == 5:
-            new_speed = 2.0
-            # Calculate new reward: base_reward × (duration/12) × speed_multiplier
-            # If duration is 12h: 50 × 1 × 2 = 100
-            # If duration is 24h: 50 × 2 × 2 = 200
-            new_total_reward = session['base_reward'] * (session['duration_hours'] / 12) * new_speed
-            
-            await db.mining_sessions.update_one(
-                {"id": session["id"]},
-                {"$set": {
-                    "speed_multiplier": new_speed,
-                    "total_reward": new_total_reward
-                }}
-            )
-            message = f"Speed boost activated! Mining speed is now 2x (Reward: {new_total_reward} PNRP)"
-        else:
-            message = f"Ad watched ({new_count}/5 for speed boost)"
-        
-        ad_watch_type = "mining_speed_boost"
-    
-    # Record ad watch
-    ad_watch = AdWatch(
-        user_id=current_user["id"],
-        ad_type=ad_watch_type
-    )
-    ad_dict = ad_watch.model_dump()
-    ad_dict['watched_at'] = ad_dict['watched_at'].isoformat()
-    await db.ad_watches.insert_one(ad_dict)
+            message = "Speed boost activated! Mining speed is now 2x"
     
     return {"message": message, "ads_watched": new_count}
 
@@ -584,22 +524,20 @@ async def watch_ad(ad_type: str, current_user: dict = Depends(get_current_user))
 
 @api_router.get("/daily-reward/status")
 async def get_daily_reward_status(current_user: dict = Depends(get_current_user)):
-    """Get daily reward status (3 ads system)"""
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    """Get daily reward status"""
+    today = datetime.now(timezone.utc).date()
     
-    # Get today's rewards
-    rewards_today = await db.daily_rewards.find(
-        {
-            "user_id": current_user["id"],
-            "date": today
-        },
-        {"_id": 0}
-    ).to_list(10)
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            await cursor.execute(
+                """SELECT * FROM daily_rewards 
+                   WHERE user_id = %s AND DATE(claimed_at) = %s""",
+                (current_user["id"], today)
+            )
+            rewards_today = await cursor.fetchall()
     
-    # Count how many ads watched today
     ads_watched = len(rewards_today)
-    
-    # Determine next reward
     reward_amounts = {1: 10, 2: 15, 3: 25}
     next_ad_number = ads_watched + 1 if ads_watched < 3 else None
     next_reward = reward_amounts.get(next_ad_number, 0)
@@ -610,253 +548,62 @@ async def get_daily_reward_status(current_user: dict = Depends(get_current_user)
         "next_ad_number": next_ad_number,
         "next_reward": next_reward,
         "can_claim": next_ad_number is not None,
-        "rewards_claimed": rewards_today,
-        "total_earned_today": sum(r["reward"] for r in rewards_today)
+        "total_earned_today": sum(float(r["reward_amount"]) for r in rewards_today)
     }
 
 
 @api_router.post("/daily-reward/watch-ad")
 async def watch_daily_reward_ad(current_user: dict = Depends(get_current_user)):
     """Watch ad for daily reward"""
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    today = datetime.now(timezone.utc).date()
     
-    # Check how many ads already watched today
-    rewards_today = await db.daily_rewards.count_documents({
-        "user_id": current_user["id"],
-        "date": today
-    })
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            await cursor.execute(
+                """SELECT COUNT(*) as count FROM daily_rewards 
+                   WHERE user_id = %s AND DATE(claimed_at) = %s""",
+                (current_user["id"], today)
+            )
+            result = await cursor.fetchone()
+            rewards_count = result['count']
     
-    if rewards_today >= 3:
+    if rewards_count >= 3:
         raise HTTPException(status_code=400, detail="All 3 daily reward ads already claimed today")
     
-    # Determine which ad number this is
-    ad_number = rewards_today + 1
+    ad_number = rewards_count + 1
     reward_amounts = {1: 10, 2: 15, 3: 25}
     reward = reward_amounts[ad_number]
     
-    # Create reward record
-    daily_reward = DailyReward(
-        user_id=current_user["id"],
-        ad_number=ad_number,
-        reward=reward,
-        date=today
-    )
-    reward_dict = daily_reward.model_dump()
-    reward_dict['claimed_at'] = reward_dict['claimed_at'].isoformat()
-    await db.daily_rewards.insert_one(reward_dict)
-    
-    # Update user balance
-    await db.users.update_one(
-        {"id": current_user["id"]},
-        {"$inc": {"total_pnrp": reward}}
-    )
-    
-    # Create transaction
-    transaction = Transaction(
-        user_id=current_user["id"],
-        type="daily_reward",
-        amount=reward,
-        description=f"Daily reward ad {ad_number}/3"
-    )
-    trans_dict = transaction.model_dump()
-    trans_dict['created_at'] = trans_dict['created_at'].isoformat()
-    await db.transactions.insert_one(trans_dict)
-    
-    # Record ad watch
-    ad_watch = AdWatch(
-        user_id=current_user["id"],
-        ad_type=f"daily_reward_{ad_number}"
-    )
-    ad_dict = ad_watch.model_dump()
-    ad_dict['watched_at'] = ad_dict['watched_at'].isoformat()
-    await db.ad_watches.insert_one(ad_dict)
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        async with conn.cursor() as cursor:
+            # Create reward record
+            await cursor.execute(
+                """INSERT INTO daily_rewards (id, user_id, reward_date, day_number, reward_amount, ad_watched, claimed_at)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (str(uuid.uuid4()), current_user["id"], today, ad_number, reward, True, datetime.now(timezone.utc))
+            )
+            
+            # Update user balance
+            await cursor.execute(
+                "UPDATE users SET total_pnrp = total_pnrp + %s WHERE id = %s",
+                (reward, current_user["id"])
+            )
+            
+            # Record ad interaction
+            await cursor.execute(
+                """INSERT INTO ad_interactions (id, user_id, ad_type, interaction_type, reward_pnrp, created_at)
+                   VALUES (%s, %s, %s, %s, %s, %s)""",
+                (str(uuid.uuid4()), current_user["id"], f"daily_reward_{ad_number}", "watched", reward, datetime.now(timezone.utc))
+            )
     
     return {
         "message": f"Daily reward ad {ad_number}/3 claimed successfully!",
         "ad_number": ad_number,
         "reward": reward,
-        "new_balance": current_user["total_pnrp"] + reward,
+        "new_balance": float(current_user["total_pnrp"]) + reward,
         "remaining_ads": 3 - ad_number
-    }
-
-
-# ==================== DAILY CHECK-IN ROUTES ====================
-
-@api_router.get("/checkin/status")
-async def get_checkin_status(current_user: dict = Depends(get_current_user)):
-    """Get daily check-in status"""
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    
-    # Check if already checked in today
-    today_checkin = await db.daily_checkins.find_one(
-        {
-            "user_id": current_user["id"],
-            "created_at": {"$regex": f"^{today}"}
-        },
-        {"_id": 0}
-    )
-    
-    if today_checkin:
-        return {
-            "checked_in_today": True,
-            "checkin": today_checkin
-        }
-    
-    # Get last check-in to determine current day
-    last_checkin = await db.daily_checkins.find_one(
-        {"user_id": current_user["id"]},
-        {"_id": 0},
-        sort=[("created_at", -1)]
-    )
-    
-    if not last_checkin:
-        current_day = 1
-    else:
-        # Check if last check-in was yesterday
-        if isinstance(last_checkin.get('created_at'), str):
-            last_date = datetime.fromisoformat(last_checkin['created_at']).date()
-        else:
-            last_date = last_checkin['created_at'].date()
-        
-        yesterday = (datetime.now(timezone.utc) - timedelta(days=1)).date()
-        
-        if last_date == yesterday:
-            # Continue streak
-            current_day = (last_checkin['day_number'] % 7) + 1
-        else:
-            # Reset streak
-            current_day = 1
-    
-    # Calculate reward for current day
-    rewards = {1: 5, 2: 10, 3: 15, 4: 20, 5: 25, 6: 30, 7: 50}
-    reward = rewards[current_day]
-    
-    return {
-        "checked_in_today": False,
-        "current_day": current_day,
-        "reward": reward
-    }
-
-
-@api_router.post("/checkin/watch-ad")
-async def watch_checkin_ad(current_user: dict = Depends(get_current_user)):
-    """Watch ad for daily check-in"""
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    
-    # Check if already checked in today
-    today_checkin = await db.daily_checkins.find_one(
-        {
-            "user_id": current_user["id"],
-            "created_at": {"$regex": f"^{today}"}
-        }
-    )
-    
-    if today_checkin:
-        raise HTTPException(status_code=400, detail="Already checked in today")
-    
-    # Record ad watch
-    ad_watch = AdWatch(
-        user_id=current_user["id"],
-        ad_type="daily_checkin"
-    )
-    ad_dict = ad_watch.model_dump()
-    ad_dict['watched_at'] = ad_dict['watched_at'].isoformat()
-    await db.ad_watches.insert_one(ad_dict)
-    
-    return {"message": "Ad watched successfully. You can now claim your reward."}
-
-
-@api_router.post("/checkin/claim")
-async def claim_checkin(current_user: dict = Depends(get_current_user)):
-    """Claim daily check-in reward"""
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    
-    # Check if already checked in today
-    today_checkin = await db.daily_checkins.find_one(
-        {
-            "user_id": current_user["id"],
-            "created_at": {"$regex": f"^{today}"}
-        }
-    )
-    
-    if today_checkin:
-        raise HTTPException(status_code=400, detail="Already checked in today")
-    
-    # Check if ad was watched
-    ad_watched = await db.ad_watches.find_one(
-        {
-            "user_id": current_user["id"],
-            "ad_type": "daily_checkin",
-            "watched_at": {"$regex": f"^{today}"}
-        }
-    )
-    
-    if not ad_watched:
-        raise HTTPException(status_code=400, detail="Please watch the ad first")
-    
-    # Get current day
-    last_checkin = await db.daily_checkins.find_one(
-        {"user_id": current_user["id"]},
-        {"_id": 0},
-        sort=[("created_at", -1)]
-    )
-    
-    if not last_checkin:
-        current_day = 1
-    else:
-        if isinstance(last_checkin.get('created_at'), str):
-            last_date = datetime.fromisoformat(last_checkin['created_at']).date()
-        else:
-            last_date = last_checkin['created_at'].date()
-        
-        yesterday = (datetime.now(timezone.utc) - timedelta(days=1)).date()
-        
-        if last_date == yesterday:
-            current_day = (last_checkin['day_number'] % 7) + 1
-        else:
-            current_day = 1
-    
-    # Calculate reward
-    rewards = {1: 5, 2: 10, 3: 15, 4: 20, 5: 25, 6: 30, 7: 50}
-    reward = rewards[current_day]
-    
-    # Create check-in record
-    checkin = DailyCheckin(
-        user_id=current_user["id"],
-        day_number=current_day,
-        reward=reward,
-        ad_watched=True,
-        claimed_at=datetime.now(timezone.utc)
-    )
-    checkin_dict = checkin.model_dump()
-    checkin_dict['created_at'] = checkin_dict['created_at'].isoformat()
-    if checkin_dict['claimed_at']:
-        checkin_dict['claimed_at'] = checkin_dict['claimed_at'].isoformat()
-    
-    await db.daily_checkins.insert_one(checkin_dict)
-    
-    # Update user balance
-    await db.users.update_one(
-        {"id": current_user["id"]},
-        {"$inc": {"total_pnrp": reward}}
-    )
-    
-    # Create transaction
-    transaction = Transaction(
-        user_id=current_user["id"],
-        type="daily_checkin",
-        amount=reward,
-        description=f"Daily check-in Day {current_day}"
-    )
-    trans_dict = transaction.model_dump()
-    trans_dict['created_at'] = trans_dict['created_at'].isoformat()
-    await db.transactions.insert_one(trans_dict)
-    
-    return {
-        "message": "Daily check-in reward claimed successfully",
-        "day": current_day,
-        "reward": reward,
-        "new_balance": current_user["total_pnrp"] + reward
     }
 
 
@@ -865,100 +612,116 @@ async def claim_checkin(current_user: dict = Depends(get_current_user)):
 @api_router.get("/social-tasks")
 async def get_social_tasks(current_user: dict = Depends(get_current_user)):
     """Get all social tasks with completion status"""
-    # Get all social tasks
-    tasks = await db.social_tasks.find({}, {"_id": 0}).to_list(100)
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            # Get all tasks
+            await cursor.execute("SELECT * FROM social_tasks WHERE is_active = TRUE")
+            tasks = await cursor.fetchall()
+            
+            # Get user's completed tasks
+            await cursor.execute(
+                "SELECT task_id FROM user_social_tasks WHERE user_id = %s",
+                (current_user["id"],)
+            )
+            completed_tasks = await cursor.fetchall()
+            completed_task_ids = {t["task_id"] for t in completed_tasks}
     
-    # Get user's completed tasks
-    completed_tasks = await db.user_social_tasks.find(
-        {"user_id": current_user["id"]},
-        {"_id": 0}
-    ).to_list(100)
-    
-    completed_task_ids = [task["social_task_id"] for task in completed_tasks]
-    
-    # Mark tasks as completed
+    tasks_with_status = []
     for task in tasks:
-        task["completed"] = task["id"] in completed_task_ids
+        tasks_with_status.append({
+            "id": task["id"],
+            "platform": task["platform"],
+            "task_name": task["task_name"],
+            "reward": float(task["reward_amount"]),
+            "url": task["task_url"],
+            "completed": task["id"] in completed_task_ids
+        })
     
-    return tasks
+    return {"tasks": tasks_with_status}
 
 
 @api_router.post("/social-tasks/{task_id}/complete")
 async def complete_social_task(task_id: str, current_user: dict = Depends(get_current_user)):
     """Complete a social task"""
-    # Check if task exists
-    task = await db.social_tasks.find_one({"id": task_id}, {"_id": 0})
-    if not task:
-        raise HTTPException(status_code=404, detail="Social task not found")
-    
-    # Check if already completed
-    existing = await db.user_social_tasks.find_one({
-        "user_id": current_user["id"],
-        "social_task_id": task_id
-    })
-    
-    if existing:
-        raise HTTPException(status_code=400, detail="Task already completed")
-    
-    # Create completion record
-    user_task = UserSocialTask(
-        user_id=current_user["id"],
-        social_task_id=task_id
-    )
-    user_task_dict = user_task.model_dump()
-    user_task_dict['completed_at'] = user_task_dict['completed_at'].isoformat()
-    await db.user_social_tasks.insert_one(user_task_dict)
-    
-    # Update user balance
-    reward = task["reward"]
-    await db.users.update_one(
-        {"id": current_user["id"]},
-        {"$inc": {"total_pnrp": reward}}
-    )
-    
-    # Create transaction
-    transaction = Transaction(
-        user_id=current_user["id"],
-        type="social_task",
-        amount=reward,
-        description=f"Social task completed: {task['name']}"
-    )
-    trans_dict = transaction.model_dump()
-    trans_dict['created_at'] = trans_dict['created_at'].isoformat()
-    await db.transactions.insert_one(trans_dict)
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            # Check if task exists
+            await cursor.execute("SELECT * FROM social_tasks WHERE id = %s", (task_id,))
+            task = await cursor.fetchone()
+            
+            if not task:
+                raise HTTPException(status_code=404, detail="Task not found")
+            
+            # Check if already completed
+            await cursor.execute(
+                "SELECT id FROM user_social_tasks WHERE user_id = %s AND task_id = %s",
+                (current_user["id"], task_id)
+            )
+            if await cursor.fetchone():
+                raise HTTPException(status_code=400, detail="Task already completed")
+            
+            # Mark task as completed
+            await cursor.execute(
+                """INSERT INTO user_social_tasks (id, user_id, task_id, completed_at)
+                   VALUES (%s, %s, %s, %s)""",
+                (str(uuid.uuid4()), current_user["id"], task_id, datetime.now(timezone.utc))
+            )
+            
+            # Update user balance
+            reward = float(task["reward_amount"])
+            await cursor.execute(
+                "UPDATE users SET total_pnrp = total_pnrp + %s WHERE id = %s",
+                (reward, current_user["id"])
+            )
     
     return {
         "message": "Social task completed successfully",
         "reward": reward,
-        "new_balance": current_user["total_pnrp"] + reward
+        "new_balance": float(current_user["total_pnrp"]) + reward
     }
 
 
-# ==================== REFERRAL ROUTES ====================
+# ==================== REFERRALS ROUTES ====================
 
 @api_router.get("/referrals")
 async def get_referrals(current_user: dict = Depends(get_current_user)):
-    """Get user's referrals and earnings"""
-    # Get referred users
-    referrals = await db.users.find(
-        {"referred_by": current_user["id"]},
-        {"_id": 0, "id": 1, "username": 1, "name": 1, "total_pnrp": 1, "created_at": 1}
-    ).to_list(1000)
+    """Get referral statistics"""
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            # Get referred users
+            await cursor.execute(
+                """SELECT username, full_name, created_at, total_pnrp 
+                   FROM users WHERE referred_by = %s ORDER BY created_at DESC""",
+                (current_user["id"],)
+            )
+            referrals = await cursor.fetchall()
+            
+            # Get total earnings from referrals
+            await cursor.execute(
+                """SELECT SUM(reward_amount) as total FROM referral_rewards 
+                   WHERE referrer_id = %s""",
+                (current_user["id"],)
+            )
+            result = await cursor.fetchone()
+            total_earned = float(result["total"]) if result["total"] else 0.0
     
-    # Get referral earnings
-    earnings = await db.referral_earnings.find(
-        {"referrer_id": current_user["id"]},
-        {"_id": 0}
-    ).to_list(1000)
-    
-    total_earnings = sum(earning["amount"] for earning in earnings)
+    referrals_list = []
+    for ref in referrals:
+        referrals_list.append({
+            "username": ref["username"],
+            "name": ref["full_name"],
+            "joined_date": ref["created_at"].isoformat() if isinstance(ref["created_at"], datetime) else ref["created_at"],
+            "total_pnrp": float(ref["total_pnrp"])
+        })
     
     return {
         "referral_code": current_user["referral_code"],
-        "total_referrals": len(referrals),
-        "total_earnings": total_earnings,
-        "referrals": referrals,
-        "earnings": earnings
+        "total_referrals": len(referrals_list),
+        "total_earned": total_earned,
+        "referrals": referrals_list
     }
 
 
@@ -966,151 +729,95 @@ async def get_referrals(current_user: dict = Depends(get_current_user)):
 
 @api_router.get("/wallet")
 async def get_wallet(current_user: dict = Depends(get_current_user)):
-    """Get wallet balance and transactions"""
-    # Get transactions
-    transactions = await db.transactions.find(
-        {"user_id": current_user["id"]},
-        {"_id": 0}
-    ).sort("created_at", -1).to_list(100)
-    
+    """Get wallet information"""
     return {
-        "total_pnrp": current_user["total_pnrp"],
-        "transactions": transactions
+        "total_pnrp": float(current_user["total_pnrp"]),
+        "level": current_user["level"]
     }
 
 
 # ==================== LEADERBOARD ROUTES ====================
 
 @api_router.get("/leaderboard")
-async def get_leaderboard(limit: int = 100):
-    """Get top users leaderboard"""
-    users = await db.users.find(
-        {},
-        {"_id": 0, "id": 1, "username": 1, "name": 1, "total_pnrp": 1, "level": 1}
-    ).sort("total_pnrp", -1).limit(limit).to_list(limit)
+async def get_leaderboard():
+    """Get top users by PNRP"""
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            await cursor.execute(
+                """SELECT username, full_name, total_pnrp, level 
+                   FROM users ORDER BY total_pnrp DESC LIMIT 100"""
+            )
+            users = await cursor.fetchall()
     
-    return users
+    leaderboard = []
+    for idx, user in enumerate(users, 1):
+        leaderboard.append({
+            "rank": idx,
+            "username": user["username"],
+            "name": user["full_name"],
+            "total_pnrp": float(user["total_pnrp"]),
+            "level": user["level"]
+        })
+    
+    return {"leaderboard": leaderboard}
 
 
 # ==================== ADMIN ROUTES ====================
 
-@api_router.get("/admin/stats")
-async def get_admin_stats(current_user: dict = Depends(get_current_user)):
-    """Get admin statistics"""
+@api_router.get("/admin/users")
+async def get_all_users_admin(current_user: dict = Depends(get_current_user)):
+    """Admin: Get all users"""
     if not current_user.get("is_admin"):
         raise HTTPException(status_code=403, detail="Admin access required")
     
-    total_users = await db.users.count_documents({})
-    total_pnrp_distributed = await db.users.aggregate([
-        {"$group": {"_id": None, "total": {"$sum": "$total_pnrp"}}}
-    ]).to_list(1)
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            await cursor.execute(
+                """SELECT id, username, full_name, email, total_pnrp, level, created_at 
+                   FROM users ORDER BY created_at DESC"""
+            )
+            users = await cursor.fetchall()
     
-    active_mining = await db.mining_sessions.count_documents({"status": "active"})
-    total_transactions = await db.transactions.count_documents({})
+    users_list = []
+    for user in users:
+        users_list.append({
+            "id": user["id"],
+            "username": user["username"],
+            "name": user["full_name"],
+            "email": user["email"],
+            "total_pnrp": float(user["total_pnrp"]),
+            "level": user["level"],
+            "created_at": user["created_at"].isoformat() if isinstance(user["created_at"], datetime) else user["created_at"]
+        })
     
-    return {
-        "total_users": total_users,
-        "total_pnrp_distributed": total_pnrp_distributed[0]["total"] if total_pnrp_distributed else 0,
-        "active_mining_sessions": active_mining,
-        "total_transactions": total_transactions
-    }
+    return {"users": users_list}
 
 
-# ==================== INITIALIZATION ====================
+# ==================== CORS ====================
 
-@app.on_event("startup")
-async def startup_event():
-    """Initialize database with default data"""
-    # Create admin user if not exists
-    admin = await db.users.find_one({"email": "admin@platinumnetwork.com"})
-    if not admin:
-        admin_user = User(
-            username="admin",
-            name="Admin",
-            email="admin@platinumnetwork.com",
-            password=hash_password("Admin@12345"),
-            is_admin=True,
-            total_pnrp=0
-        )
-        admin_dict = admin_user.model_dump()
-        admin_dict['created_at'] = admin_dict['created_at'].isoformat()
-        await db.users.insert_one(admin_dict)
-        logger.info("Admin user created")
-    
-    # Create social tasks if not exist
-    tasks_count = await db.social_tasks.count_documents({})
-    if tasks_count == 0:
-        social_tasks = [
-            {
-                "id": str(uuid.uuid4()),
-                "name": "Join Facebook",
-                "platform": "facebook",
-                "reward": 30.0,
-                "icon": "facebook",
-                "url": "https://facebook.com/platinumnetwork",
-                "description": "Follow us on Facebook"
-            },
-            {
-                "id": str(uuid.uuid4()),
-                "name": "Join Twitter",
-                "platform": "twitter",
-                "reward": 30.0,
-                "icon": "twitter",
-                "url": "https://twitter.com/platinumnetwork",
-                "description": "Follow us on Twitter"
-            },
-            {
-                "id": str(uuid.uuid4()),
-                "name": "Join Instagram",
-                "platform": "instagram",
-                "reward": 30.0,
-                "icon": "instagram",
-                "url": "https://instagram.com/platinumnetwork",
-                "description": "Follow us on Instagram"
-            },
-            {
-                "id": str(uuid.uuid4()),
-                "name": "Join Telegram",
-                "platform": "telegram",
-                "reward": 30.0,
-                "icon": "send",
-                "url": "https://t.me/platinumnetwork",
-                "description": "Join our Telegram channel"
-            },
-            {
-                "id": str(uuid.uuid4()),
-                "name": "Subscribe YouTube",
-                "platform": "youtube",
-                "reward": 30.0,
-                "icon": "youtube",
-                "url": "https://youtube.com/@platinumnetwork",
-                "description": "Subscribe to our YouTube channel"
-            },
-            {
-                "id": str(uuid.uuid4()),
-                "name": "Join WhatsApp",
-                "platform": "whatsapp",
-                "reward": 30.0,
-                "icon": "message-circle",
-                "url": "https://whatsapp.com/platinumnetwork",
-                "description": "Join our WhatsApp community"
-            }
-        ]
-        await db.social_tasks.insert_many(social_tasks)
-        logger.info("Social tasks created")
-
-
-# Include the router in the main app
-app.include_router(api_router)
+origins = os.environ.get('CORS_ORIGINS', '*').split(',')
 
 app.add_middleware(
     CORSMiddleware,
+    allow_origins=origins,
     allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-@app.on_event("shutdown")
-async def shutdown_db_client():
-    client.close()
+# Include the API router
+app.include_router(api_router)
+
+
+# ==================== ROOT ====================
+
+@app.get("/")
+async def root():
+    return {"message": "Platinum Network API - MySQL Version", "status": "active"}
+
+
+@app.get("/health")
+async def health():
+    return {"status": "healthy", "database": "mysql"}
