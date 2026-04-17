@@ -203,7 +203,7 @@ function Dashboard({ user, logout }) {
                           PLATINUM • NETWORK
                         </textPath>
                       </text>
-                      <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.4">
+                      <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.2">
                         <textPath href="#bottomCurve" startOffset="50%" textAnchor="middle">
                           PLATINUM • NETWORK
                         </textPath>
@@ -230,7 +230,7 @@ function Dashboard({ user, logout }) {
                           PLATINUM • NETWORK
                         </textPath>
                       </text>
-                      <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.4">
+                      <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.2">
                         <textPath href="#bottomCurveBack" startOffset="50%" textAnchor="middle">
                           PLATINUM • NETWORK
                         </textPath>
