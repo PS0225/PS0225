@@ -469,7 +469,7 @@ function Dashboard({ user, logout }) {
                 </button>
               ) : (
                 <div className="text-green-400 text-center font-semibold">
-                  ✅ {miningStatus.session.duration_hours}h Active
+                  ✅ 24H Active
                 </div>
               )}
             </div>
