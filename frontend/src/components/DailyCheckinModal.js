@@ -77,7 +77,7 @@ function DailyCheckinModal({ onClose }) {
     }
   };
 
-  const rewards = [5, 10, 15, 20, 25, 30, 50];
+  const rewards = [10, 15, 25];
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4" data-testid="daily-checkin-modal">
@@ -101,7 +101,7 @@ function DailyCheckinModal({ onClose }) {
           ) : !status.can_claim ? (
             <div data-testid="already-checked-in">
               <p className="text-green-400 mb-4 text-lg font-semibold">✅ All Ads Claimed Today!</p>
-              <p className="text-gray-400 mb-4">You've watched all 7 ads for today</p>
+              <p className="text-gray-400 mb-4">You've watched all 3 ads for today</p>
               <div className="bg-green-500/20 border border-green-500/30 rounded-xl p-4 mb-4">
                 <div className="text-sm text-gray-400 mb-2">Total Earned Today</div>
                 <div className="text-3xl font-bold text-green-400 mb-1">
@@ -124,7 +124,7 @@ function DailyCheckinModal({ onClose }) {
           ) : (
             <div data-testid="checkin-available">
               {/* Ads Progress */}
-              <div className="grid grid-cols-7 gap-2 mb-6">
+              <div className="grid grid-cols-3 gap-3 mb-6">
                 {rewards.map((reward, index) => {
                   const adNumber = index + 1;
                   const isCurrent = adNumber === status.next_ad_number;
@@ -133,7 +133,7 @@ function DailyCheckinModal({ onClose }) {
                     <div
                       key={adNumber}
                       data-testid={`ad-${adNumber}`}
-                      className={`p-3 rounded-lg text-center ${
+                      className={`p-4 rounded-lg text-center ${
                         isCurrent
                           ? 'bg-purple-600 ring-2 ring-purple-400'
                           : isPast
@@ -142,7 +142,7 @@ function DailyCheckinModal({ onClose }) {
                       }`}
                     >
                       <div className="text-xs text-gray-400">Ad {adNumber}</div>
-                      <div className="font-bold text-sm">{reward}</div>
+                      <div className="font-bold text-lg">{reward}</div>
                       {isPast && <div className="text-xs text-green-400">✓</div>}
                     </div>
                   );
@@ -150,7 +150,7 @@ function DailyCheckinModal({ onClose }) {
               </div>
 
               <div className="bg-purple-600/20 p-4 rounded-lg mb-4">
-                <div className="text-3xl font-bold text-purple-400 mb-2">Ad {status.next_ad_number}/7</div>
+                <div className="text-3xl font-bold text-purple-400 mb-2">Ad {status.next_ad_number}/3</div>
                 <div className="text-2xl font-bold mb-2">+{status.next_reward} PNRP</div>
                 <p className="text-sm text-gray-400">Watch a 10-second ad to claim your reward</p>
               </div>

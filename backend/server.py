@@ -545,13 +545,13 @@ async def get_daily_reward_status(current_user: dict = Depends(get_current_user)
             rewards_today = await cursor.fetchall()
     
     ads_watched = len(rewards_today)
-    reward_amounts = {1: 5, 2: 10, 3: 15, 4: 20, 5: 25, 6: 30, 7: 50}
-    next_ad_number = ads_watched + 1 if ads_watched < 7 else None
+    reward_amounts = {1: 10, 2: 15, 3: 25}
+    next_ad_number = ads_watched + 1 if ads_watched < 3 else None
     next_reward = reward_amounts.get(next_ad_number, 0)
     
     return {
         "ads_watched": ads_watched,
-        "total_ads": 7,
+        "total_ads": 3,
         "next_ad_number": next_ad_number,
         "next_reward": next_reward,
         "can_claim": next_ad_number is not None,
@@ -575,11 +575,11 @@ async def watch_daily_reward_ad(current_user: dict = Depends(get_current_user)):
             result = await cursor.fetchone()
             rewards_count = result['count']
     
-    if rewards_count >= 7:
-        raise HTTPException(status_code=400, detail="All 7 daily reward ads already claimed today")
+    if rewards_count >= 3:
+        raise HTTPException(status_code=400, detail="All 3 daily reward ads already claimed today")
     
     ad_number = rewards_count + 1
-    reward_amounts = {1: 5, 2: 10, 3: 15, 4: 20, 5: 25, 6: 30, 7: 50}
+    reward_amounts = {1: 10, 2: 15, 3: 25}
     reward = reward_amounts[ad_number]
     
     pool = await get_db_pool()
