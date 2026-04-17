@@ -77,7 +77,7 @@ function DailyCheckinModal({ onClose }) {
     }
   };
 
-  const rewards = [10];
+  const rewards = [10, 15, 20, 25, 30, 35, 50];
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4" data-testid="daily-checkin-modal">
@@ -100,15 +100,38 @@ function DailyCheckinModal({ onClose }) {
             <div>Error loading status. Please try again.</div>
           ) : !status.can_claim ? (
             <div data-testid="already-checked-in">
-              <p className="text-green-400 mb-4 text-lg font-semibold">✅ Daily Ad Claimed!</p>
-              <p className="text-gray-400 mb-4">You've already claimed your daily reward</p>
+              <p className="text-green-400 mb-4 text-lg font-semibold">✅ Daily Reward Claimed!</p>
+              <p className="text-gray-400 mb-4">You've claimed Day {status.current_streak} reward</p>
+              
+              {/* Current streak info */}
               <div className="bg-green-500/20 border border-green-500/30 rounded-xl p-4 mb-4">
                 <div className="text-sm text-gray-400 mb-2">Today's Reward</div>
                 <div className="text-3xl font-bold text-green-400 mb-1">
                   +{status.total_earned_today} PNRP
                 </div>
+                <div className="text-xs text-gray-500 mt-2">
+                  🔥 {status.current_streak} day streak!
+                </div>
               </div>
-              <p className="text-gray-500 text-sm mb-4">Come back tomorrow for another reward!</p>
+              
+              {/* Next day preview */}
+              {status.current_streak < 7 && (
+                <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4 mb-4">
+                  <div className="text-sm text-purple-400 mb-2">Come back tomorrow for</div>
+                  <div className="text-2xl font-bold text-purple-400">
+                    +{rewards[status.current_streak]} PNRP
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">Day {status.current_streak + 1}</div>
+                </div>
+              )}
+              
+              {status.current_streak === 7 && (
+                <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-4 mb-4">
+                  <div className="text-sm text-yellow-400 mb-2">🎉 7-Day Streak Complete!</div>
+                  <div className="text-sm text-gray-400">Come back tomorrow to restart from Day 1</div>
+                </div>
+              )}
+              
               <button
                 onClick={onClose}
                 className="mt-6 w-full py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition"
@@ -124,19 +147,37 @@ function DailyCheckinModal({ onClose }) {
             </div>
           ) : (
             <div data-testid="checkin-available">
-              {/* Single Ad */}
-              <div className="flex justify-center mb-6">
-                <div className="p-6 rounded-lg text-center bg-purple-600 ring-2 ring-purple-400 w-48">
-                  <div className="text-sm text-gray-300 mb-2">Daily Ad</div>
-                  <div className="font-bold text-3xl text-white">{status.next_reward}</div>
-                  <div className="text-xs text-gray-400 mt-1">PNRP</div>
-                </div>
+              {/* 7-Day Streak Progress */}
+              <div className="grid grid-cols-7 gap-2 mb-6">
+                {rewards.map((reward, index) => {
+                  const day = index + 1;
+                  const isCurrent = day === status.current_streak;
+                  const isPast = day < status.current_streak;
+                  return (
+                    <div
+                      key={day}
+                      data-testid={`day-${day}`}
+                      className={`p-3 rounded-lg text-center ${
+                        isCurrent
+                          ? 'bg-purple-600 ring-2 ring-purple-400 animate-pulse'
+                          : isPast
+                          ? 'bg-green-600/30 border border-green-500'
+                          : 'bg-gray-700'
+                      }`}
+                    >
+                      <div className="text-xs text-gray-400 mb-1">D{day}</div>
+                      <div className="font-bold text-sm">{reward}</div>
+                      {isPast && <div className="text-xs text-green-400 mt-1">✓</div>}
+                    </div>
+                  );
+                })}
               </div>
 
               <div className="bg-purple-600/20 p-4 rounded-lg mb-4">
-                <div className="text-3xl font-bold text-purple-400 mb-2">Daily Reward</div>
+                <div className="text-3xl font-bold text-purple-400 mb-2">Day {status.current_streak}</div>
                 <div className="text-2xl font-bold mb-2">+{status.next_reward} PNRP</div>
                 <p className="text-sm text-gray-400">Watch a 10-second ad to claim your reward</p>
+                <p className="text-xs text-gray-500 mt-2">Keep your streak going for bigger rewards!</p>
               </div>
 
               <button
