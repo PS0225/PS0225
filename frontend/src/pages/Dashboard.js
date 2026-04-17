@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API } from '../App';
 import Layout from '../components/Layout';
-import { Coins, Zap, Clock, TrendingUp, Gift, Video, Send, MessageCircle, Instagram, Youtube, Twitter, Facebook } from 'lucide-react';
+import { Coins, Zap, Clock, TrendingUp, Gift, Video, Send, Youtube, Twitter, Download, Smartphone } from 'lucide-react';
 import DailyCheckinModal from '../components/DailyCheckinModal';
 
 function Dashboard({ user, logout }) {
@@ -520,17 +520,6 @@ function Dashboard({ user, logout }) {
               <Send className="w-8 h-8 text-white group-hover:rotate-12 transition-transform" />
             </a>
 
-            {/* Discord */}
-            <a 
-              href="https://discord.gg/platinumnetwork" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="group bg-[#5865F2] hover:bg-[#4752C4] p-4 rounded-full transition-all duration-300 transform hover:scale-110 hover:shadow-2xl"
-              title="Discord"
-            >
-              <MessageCircle className="w-8 h-8 text-white group-hover:rotate-12 transition-transform" />
-            </a>
-
             {/* Twitter/X */}
             <a 
               href="https://twitter.com/platinumnetwork" 
@@ -542,17 +531,6 @@ function Dashboard({ user, logout }) {
               <Twitter className="w-8 h-8 text-white group-hover:rotate-12 transition-transform" />
             </a>
 
-            {/* Instagram */}
-            <a 
-              href="https://instagram.com/platinumnetwork" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="group bg-gradient-to-br from-[#833AB4] via-[#E1306C] to-[#F77737] hover:opacity-90 p-4 rounded-full transition-all duration-300 transform hover:scale-110 hover:shadow-2xl"
-              title="Instagram"
-            >
-              <Instagram className="w-8 h-8 text-white group-hover:rotate-12 transition-transform" />
-            </a>
-
             {/* YouTube */}
             <a 
               href="https://youtube.com/@platinumnetwork" 
@@ -562,6 +540,27 @@ function Dashboard({ user, logout }) {
               title="YouTube"
             >
               <Youtube className="w-8 h-8 text-white group-hover:rotate-12 transition-transform" />
+            </a>
+
+            {/* Download APK */}
+            <a 
+              href="/platinum-network.apk" 
+              download
+              className="group bg-gradient-to-br from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 p-4 rounded-full transition-all duration-300 transform hover:scale-110 hover:shadow-2xl"
+              title="Download APK"
+            >
+              <Download className="w-8 h-8 text-white group-hover:translate-y-1 transition-transform" />
+            </a>
+
+            {/* Play Store */}
+            <a 
+              href="https://play.google.com/store/apps/details?id=com.platinumnetwork" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group bg-gradient-to-br from-blue-600 via-blue-700 to-purple-600 hover:opacity-90 p-4 rounded-full transition-all duration-300 transform hover:scale-110 hover:shadow-2xl"
+              title="Play Store"
+            >
+              <Smartphone className="w-8 h-8 text-white group-hover:scale-110 transition-transform" />
             </a>
           </div>
         </div>
