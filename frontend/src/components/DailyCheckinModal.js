@@ -15,7 +15,11 @@ function DailyCheckinModal({ onClose }) {
 
   const fetchStatus = async () => {
     try {
-      const response = await axios.get(`${API}/checkin/status`);
+      const response = await axios.get(`${API}/daily-reward/status`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
       setStatus(response.data);
     } catch (error) {
       console.error('Error fetching check-in status:', error);
@@ -29,11 +33,18 @@ function DailyCheckinModal({ onClose }) {
     // Simulate ad watching (5 seconds)
     setTimeout(async () => {
       try {
-        await axios.post(`${API}/checkin/watch-ad`);
+        await axios.post(`${API}/daily-reward/watch-ad`, {}, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
         setWatching(false);
-        claimReward();
+        // Refresh status after watching ad
+        await fetchStatus();
+        alert('✅ Daily reward claimed successfully!');
+        window.location.reload();
       } catch (error) {
-        alert(error.response?.data?.detail || 'Failed to watch ad');
+        alert(error.response?.data?.detail || 'Failed to claim reward');
         setWatching(false);
       }
     }, 5000);
@@ -66,7 +77,7 @@ function DailyCheckinModal({ onClose }) {
     }
   };
 
-  const rewards = [5, 10, 15, 20, 25, 30, 50];
+  const rewards = [10, 15, 25];
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4" data-testid="daily-checkin-modal">
@@ -85,38 +96,18 @@ function DailyCheckinModal({ onClose }) {
 
           {loading ? (
             <div>Loading...</div>
-          ) : status.checked_in_today ? (
+          ) : !status ? (
+            <div>Error loading status. Please try again.</div>
+          ) : !status.can_claim ? (
             <div data-testid="already-checked-in">
-              <p className="text-green-400 mb-4 text-lg font-semibold">✅ Already Checked In Today!</p>
-              
-              {/* Show today's claimed reward details */}
-              {status.checkin && (
-                <div className="bg-green-500/20 border border-green-500/30 rounded-xl p-4 mb-4">
-                  <div className="text-sm text-gray-400 mb-2">Today's Reward</div>
-                  <div className="text-3xl font-bold text-green-400 mb-1">
-                    +{status.checkin.reward} PNRP
-                  </div>
-                  <div className="text-sm text-gray-400">
-                    Day {status.checkin.day_number}/7 ✓
-                  </div>
-                </div>
-              )}
-              
-              <p className="text-gray-400 mb-4">Your reward has been added to your wallet</p>
-              
-              {/* Next day reward preview */}
-              <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4">
-                <div className="text-sm text-purple-400 mb-2">Come back tomorrow for</div>
-                <div className="text-2xl font-bold text-purple-400">
-                  {status.checkin && status.checkin.day_number < 7 
-                    ? `+${rewards[status.checkin.day_number]} PNRP` 
-                    : '+5 PNRP (Day 1)'}
-                </div>
-                <div className="text-xs text-gray-500 mt-2">
-                  Next claim available in ~{24 - new Date().getHours()} hours
+              <p className="text-green-400 mb-4 text-lg font-semibold">✅ All Ads Claimed Today!</p>
+              <p className="text-gray-400 mb-4">You've watched all {status.total_ads} ads for today</p>
+              <div className="bg-green-500/20 border border-green-500/30 rounded-xl p-4 mb-4">
+                <div className="text-sm text-gray-400 mb-2">Total Earned Today</div>
+                <div className="text-3xl font-bold text-green-400 mb-1">
+                  +{status.total_earned_today} PNRP
                 </div>
               </div>
-              
               <button
                 onClick={onClose}
                 className="mt-6 w-full py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition"
@@ -132,16 +123,16 @@ function DailyCheckinModal({ onClose }) {
             </div>
           ) : (
             <div data-testid="checkin-available">
-              {/* Days Progress */}
-              <div className="grid grid-cols-7 gap-2 mb-6">
+              {/* Ads Progress */}
+              <div className="grid grid-cols-3 gap-2 mb-6">
                 {rewards.map((reward, index) => {
-                  const day = index + 1;
-                  const isCurrent = day === status.current_day;
-                  const isPast = day < status.current_day;
+                  const adNumber = index + 1;
+                  const isCurrent = adNumber === status.next_ad_number;
+                  const isPast = adNumber <= status.ads_watched;
                   return (
                     <div
-                      key={day}
-                      data-testid={`day-${day}`}
+                      key={adNumber}
+                      data-testid={`ad-${adNumber}`}
                       className={`p-3 rounded-lg text-center ${
                         isCurrent
                           ? 'bg-purple-600 ring-2 ring-purple-400'
@@ -150,7 +141,7 @@ function DailyCheckinModal({ onClose }) {
                           : 'bg-gray-700'
                       }`}
                     >
-                      <div className="text-xs text-gray-400">Day {day}</div>
+                      <div className="text-xs text-gray-400">Ad {adNumber}</div>
                       <div className="font-bold text-sm">{reward}</div>
                       {isPast && <div className="text-xs text-green-400">✓</div>}
                     </div>
@@ -159,8 +150,8 @@ function DailyCheckinModal({ onClose }) {
               </div>
 
               <div className="bg-purple-600/20 p-4 rounded-lg mb-4">
-                <div className="text-3xl font-bold text-purple-400 mb-2">Day {status.current_day}</div>
-                <div className="text-2xl font-bold mb-2">+{status.reward} PNRP</div>
+                <div className="text-3xl font-bold text-purple-400 mb-2">Ad {status.next_ad_number}/3</div>
+                <div className="text-2xl font-bold mb-2">+{status.next_reward} PNRP</div>
                 <p className="text-sm text-gray-400">Watch an ad to claim your reward</p>
               </div>
 
