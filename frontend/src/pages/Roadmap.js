@@ -42,22 +42,38 @@ function Roadmap({ user, logout }) {
       ]
     },
     {
-      phase: "Phase 3: TGE & Token Launch",
+      phase: "Phase 3: KYC & Other Features",
       status: "upcoming",
       icon: Rocket,
       color: "text-yellow-400",
       bgColor: "bg-yellow-500/20",
       borderColor: "border-yellow-500/50",
       items: [
-        { title: "KYC Integration", done: false, description: "Aadhar/PAN verification system" },
-        { title: "Token Generation Event (TGE)", done: false, description: "Official PNRP token mainnet launch" },
-        { title: "Mainnet Wallet Activation", done: false, description: "Enable live wallet features" },
-        { title: "Withdrawal System", done: false, description: "Convert PNRP to real tokens" },
-        { title: "Admin Panel", done: false, description: "KYC approval and user management" }
+        { title: "KYC Integration", done: false, description: "Aadhar/PAN document upload & verification" },
+        { title: "Admin KYC Approval Panel", done: false, description: "Admin dashboard for KYC verification" },
+        { title: "User Verification System", done: false, description: "Multi-level user verification process" },
+        { title: "Document Storage & Security", done: false, description: "Encrypted document storage system" },
+        { title: "Enhanced Profile Features", done: false, description: "Verified badge, trust score, achievements" },
+        { title: "Community Features", done: false, description: "User chat, forums, community groups" }
       ]
     },
     {
-      phase: "Phase 4: Mobile Expansion",
+      phase: "Phase 4: TGE & Token Launch",
+      status: "upcoming",
+      icon: TrendingUp,
+      color: "text-green-400",
+      bgColor: "bg-green-500/20",
+      borderColor: "border-green-500/50",
+      items: [
+        { title: "Token Generation Event (TGE)", done: false, description: "Official PNRP token mainnet launch" },
+        { title: "Mainnet Wallet Activation", done: false, description: "Enable live wallet transfer features" },
+        { title: "Withdrawal System", done: false, description: "Convert PNRP to real tokens after KYC" },
+        { title: "Exchange Integration", done: false, description: "Direct exchange swap integration" },
+        { title: "Liquidity Pool Launch", done: false, description: "PNRP liquidity pools on DEX" }
+      ]
+    },
+    {
+      phase: "Phase 5: Mobile Expansion",
       status: "upcoming",
       icon: Smartphone,
       color: "text-purple-400",
@@ -71,17 +87,17 @@ function Roadmap({ user, logout }) {
       ]
     },
     {
-      phase: "Phase 5: Ecosystem Growth",
+      phase: "Phase 6: Ecosystem Growth",
       status: "future",
-      icon: TrendingUp,
+      icon: Users,
       color: "text-pink-400",
       bgColor: "bg-pink-500/20",
       borderColor: "border-pink-500/50",
       items: [
-        { title: "Exchange Listings", done: false, description: "Major crypto exchange partnerships" },
-        { title: "Staking System", done: false, description: "Earn passive income by staking PNRP" },
-        { title: "NFT Integration", done: false, description: "Platinum Network NFT marketplace" },
-        { title: "DeFi Features", done: false, description: "Lending, borrowing, yield farming" }
+        { title: "Major Exchange Listings", done: false, description: "Binance, Coinbase, KuCoin partnerships" },
+        { title: "Staking System", done: false, description: "Earn 12% APY by staking PNRP" },
+        { title: "NFT Marketplace", done: false, description: "Platinum Network NFT collection" },
+        { title: "DeFi Integration", done: false, description: "Lending, borrowing, yield farming" }
       ]
     }
   ];
