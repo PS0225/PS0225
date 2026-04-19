@@ -870,6 +870,42 @@ async def get_leaderboard():
 
 # ==================== ADMIN ROUTES ====================
 
+@api_router.get("/admin/stats")
+async def get_admin_stats(current_user: dict = Depends(get_current_user)):
+    """Admin: Get platform statistics"""
+    if not current_user.get("is_admin"):
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            # Total users
+            await cursor.execute("SELECT COUNT(*) as count FROM users")
+            total_users = (await cursor.fetchone())['count']
+            
+            # Total PNRP distributed
+            await cursor.execute("SELECT SUM(total_pnrp) as total FROM users")
+            total_pnrp = (await cursor.fetchone())['total'] or 0
+            
+            # Active mining sessions
+            await cursor.execute(
+                """SELECT COUNT(*) as count FROM mining_sessions 
+                   WHERE status = 'active'"""
+            )
+            active_mining = (await cursor.fetchone())['count']
+            
+            # Total transactions (all ad interactions + social tasks + referrals)
+            await cursor.execute("SELECT COUNT(*) as count FROM ad_interactions")
+            total_transactions = (await cursor.fetchone())['count']
+    
+    return {
+        "total_users": total_users,
+        "total_pnrp_distributed": float(total_pnrp),
+        "active_mining_sessions": active_mining,
+        "total_transactions": total_transactions
+    }
+
+
 @api_router.get("/admin/users")
 async def get_all_users_admin(current_user: dict = Depends(get_current_user)):
     """Admin: Get all users"""
