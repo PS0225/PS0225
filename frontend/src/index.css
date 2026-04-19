@@ -119,6 +119,9 @@ code {
     color: white;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .coin-curved-text {
