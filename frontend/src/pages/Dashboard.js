@@ -68,7 +68,7 @@ function Dashboard({ user, logout }) {
   const watchDailyRewardAd = async () => {
     setWatchingDailyAd(true);
     
-    // Simulate ad watching (5 seconds)
+    // Simulate ad watching (10 seconds)
     setTimeout(async () => {
       try {
         const response = await axios.post(`${API}/daily-reward/watch-ad`);
@@ -84,7 +84,7 @@ function Dashboard({ user, logout }) {
         alert(error.response?.data?.detail || 'Failed to claim reward');
         setWatchingDailyAd(false);
       }
-    }, 5000);
+    }, 10000);
   };
 
   const startMining = async () => {
@@ -126,7 +126,7 @@ function Dashboard({ user, logout }) {
     setAdType(type);
     setWatchingAd(true);
 
-    // Simulate ad watching (5 seconds)
+    // Simulate ad watching (10 seconds)
     setTimeout(async () => {
       try {
         await axios.post(`${API}/mining/watch-ad?ad_type=${type}`);
@@ -138,7 +138,7 @@ function Dashboard({ user, logout }) {
         setWatchingAd(false);
         setAdType(null);
       }
-    }, 5000);
+    }, 10000);
   };
 
   const formatTime = (seconds) => {
@@ -334,7 +334,7 @@ function Dashboard({ user, logout }) {
                 <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
                 <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
               </div>
-              <div className="mt-6 text-blue-400 font-semibold">⏱️ 5 seconds remaining</div>
+              <div className="mt-6 text-blue-400 font-semibold">⏱️ 10 seconds remaining</div>
             </div>
           </div>
         )}
@@ -359,7 +359,7 @@ function Dashboard({ user, logout }) {
                 <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
                 <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
               </div>
-              <div className="mt-6 text-purple-400 font-semibold">⏱️ 5 seconds remaining</div>
+              <div className="mt-6 text-purple-400 font-semibold">⏱️ 10 seconds remaining</div>
             </div>
           </div>
         )}

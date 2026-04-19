@@ -143,7 +143,7 @@ function DailyCheckinModal({ onClose }) {
             <div data-testid="watching-ad">
               <Video className="w-16 h-16 text-purple-400 mx-auto mb-4 animate-pulse" />
               <h3 className="text-xl font-bold mb-2">Watching Ad...</h3>
-              <p className="text-gray-400">Please wait 5 seconds</p>
+              <p className="text-gray-400">Please wait 10 seconds</p>
             </div>
           ) : (
             <div data-testid="checkin-available">
