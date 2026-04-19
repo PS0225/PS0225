@@ -26,22 +26,38 @@ function Roadmap({ user, logout }) {
       ]
     },
     {
-      phase: "Phase 2: TGE & Token Launch",
+      phase: "Phase 2: Testnet Wallet Test & Feature Implementation",
       status: "upcoming",
       icon: Shield,
       color: "text-blue-400",
       bgColor: "bg-blue-500/20",
       borderColor: "border-blue-500/50",
       items: [
+        { title: "Testnet Wallet Launch", done: false, description: "Test wallet for PNRP token testing" },
+        { title: "Send/Receive Testing", done: false, description: "Test token transfers on testnet" },
+        { title: "Swap Feature Testing", done: false, description: "Test token swapping functionality" },
+        { title: "Transaction History Testing", done: false, description: "Verify all transactions on testnet" },
+        { title: "Bug Fixes & Optimization", done: false, description: "Fix issues found during testing" },
+        { title: "Security Audit", done: false, description: "Complete security review of wallet features" }
+      ]
+    },
+    {
+      phase: "Phase 3: TGE & Token Launch",
+      status: "upcoming",
+      icon: Rocket,
+      color: "text-yellow-400",
+      bgColor: "bg-yellow-500/20",
+      borderColor: "border-yellow-500/50",
+      items: [
         { title: "KYC Integration", done: false, description: "Aadhar/PAN verification system" },
-        { title: "Token Generation Event (TGE)", done: false, description: "Official PNRP token launch" },
-        { title: "Send/Receive/Swap Activation", done: false, description: "Enable wallet transfer features" },
+        { title: "Token Generation Event (TGE)", done: false, description: "Official PNRP token mainnet launch" },
+        { title: "Mainnet Wallet Activation", done: false, description: "Enable live wallet features" },
         { title: "Withdrawal System", done: false, description: "Convert PNRP to real tokens" },
         { title: "Admin Panel", done: false, description: "KYC approval and user management" }
       ]
     },
     {
-      phase: "Phase 3: Mobile Expansion",
+      phase: "Phase 4: Mobile Expansion",
       status: "upcoming",
       icon: Smartphone,
       color: "text-purple-400",
@@ -55,9 +71,9 @@ function Roadmap({ user, logout }) {
       ]
     },
     {
-      phase: "Phase 4: Ecosystem Growth",
+      phase: "Phase 5: Ecosystem Growth",
       status: "future",
-      icon: Rocket,
+      icon: TrendingUp,
       color: "text-pink-400",
       bgColor: "bg-pink-500/20",
       borderColor: "border-pink-500/50",
