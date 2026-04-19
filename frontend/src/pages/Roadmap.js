@@ -79,11 +79,10 @@ function Roadmap({ user, logout }) {
       bgColor: "bg-orange-500/20",
       borderColor: "border-orange-500/50",
       items: [
-        { title: "Token Generation Event (TGE)", done: false, description: "Official PNRP token mainnet launch" },
-        { title: "Mainnet Wallet Activation", done: false, description: "Enable live wallet transfer features" },
-        { title: "Exchange Listings", done: false, description: "List PNRP on major exchanges" },
+        { title: "Smart Contract Audit", done: false, description: "Third-party security audit" },
         { title: "Liquidity Pool Launch", done: false, description: "PNRP liquidity pools on DEX" },
-        { title: "Smart Contract Audit", done: false, description: "Third-party security audit" }
+        { title: "Mainnet Wallet Activation", done: false, description: "Enable live wallet transfer features" },
+        { title: "Token Generation Event (TGE) AND Exchange Listings", done: false, description: "Official PNRP token mainnet launch with exchange partnerships" }
       ]
     },
     {
