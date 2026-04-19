@@ -13,6 +13,9 @@ import Profile from './pages/Profile';
 import AdminPanel from './pages/AdminPanel';
 import About from './pages/About';
 import Roadmap from './pages/Roadmap';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
+import Disclaimer from './pages/Disclaimer';
 import './App.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -98,6 +101,9 @@ function App() {
         <Route path="/profile" element={user ? <Profile user={user} logout={logout} setUser={setUser} /> : <Navigate to="/login" />} />
         <Route path="/about" element={user ? <About user={user} logout={logout} /> : <Navigate to="/login" />} />
         <Route path="/roadmap" element={user ? <Roadmap user={user} logout={logout} /> : <Navigate to="/login" />} />
+        <Route path="/terms" element={user ? <Terms user={user} logout={logout} /> : <Navigate to="/login" />} />
+        <Route path="/privacy" element={user ? <Privacy user={user} logout={logout} /> : <Navigate to="/login" />} />
+        <Route path="/disclaimer" element={user ? <Disclaimer user={user} logout={logout} /> : <Navigate to="/login" />} />
         <Route path="/admin" element={user && user.is_admin ? <AdminPanel user={user} logout={logout} /> : <Navigate to="/dashboard" />} />
       </Routes>
     </BrowserRouter>
