@@ -4,7 +4,7 @@ import { CheckCircle, Circle, Clock, Rocket, Shield, Smartphone, TrendingUp, Use
 function Roadmap({ user, logout }) {
   const roadmapPhases = [
     {
-      phase: "Phase 1: Platform Launch",
+      phase: "Phase 1: Platform Launch & Core Features",
       status: "completed",
       icon: CheckCircle,
       color: "text-green-400",
@@ -13,27 +13,20 @@ function Roadmap({ user, logout }) {
       items: [
         { title: "Mining System Launch", done: true, description: "12-hour base mining with 24-hour boost" },
         { title: "Daily Check-in Rewards", done: true, description: "7-day streak system with increasing rewards" },
+        { title: "Daily Reward Box", done: true, description: "3-day reward system with ad boost" },
         { title: "Referral Program", done: true, description: "10% commission on referral mining" },
         { title: "Social Tasks", done: true, description: "Earn PNRP by completing social media tasks" },
-        { title: "Leaderboard System", done: true, description: "Global ranking system for top miners" }
-      ]
-    },
-    {
-      phase: "Phase 2: Wallet & Features",
-      status: "in-progress",
-      icon: Clock,
-      color: "text-yellow-400",
-      bgColor: "bg-yellow-500/20",
-      borderColor: "border-yellow-500/50",
-      items: [
+        { title: "Leaderboard System", done: true, description: "Global ranking system for top miners" },
         { title: "Wallet Dashboard", done: true, description: "View balance and transaction history" },
-        { title: "Send/Receive/Swap", done: false, description: "Available at TGE (Token Generation Event)" },
-        { title: "Notification System", done: true, description: "Real-time updates and alerts" },
-        { title: "Profile Enhancement", done: true, description: "Detailed user statistics" }
+        { title: "Send/Receive/Swap UI", done: true, description: "Wallet actions ready (activated at TGE)" },
+        { title: "Notification System", done: true, description: "Real-time updates with navigation" },
+        { title: "Profile & Statistics", done: true, description: "Detailed user stats and achievements" },
+        { title: "About & Roadmap Pages", done: true, description: "Platform information and future plans" },
+        { title: "Android APK Release", done: true, description: "Mobile app available for download" }
       ]
     },
     {
-      phase: "Phase 3: TGE & KYC",
+      phase: "Phase 2: TGE & Token Launch",
       status: "upcoming",
       icon: Shield,
       color: "text-blue-400",
@@ -42,26 +35,27 @@ function Roadmap({ user, logout }) {
       items: [
         { title: "KYC Integration", done: false, description: "Aadhar/PAN verification system" },
         { title: "Token Generation Event (TGE)", done: false, description: "Official PNRP token launch" },
+        { title: "Send/Receive/Swap Activation", done: false, description: "Enable wallet transfer features" },
         { title: "Withdrawal System", done: false, description: "Convert PNRP to real tokens" },
         { title: "Admin Panel", done: false, description: "KYC approval and user management" }
       ]
     },
     {
-      phase: "Phase 4: Mobile & Expansion",
+      phase: "Phase 3: Mobile Expansion",
       status: "upcoming",
       icon: Smartphone,
       color: "text-purple-400",
       bgColor: "bg-purple-500/20",
       borderColor: "border-purple-500/50",
       items: [
-        { title: "Android APK Release", done: false, description: "Dedicated mobile app" },
         { title: "PWA Support", done: false, description: "Progressive Web App features" },
-        { title: "iOS App", done: false, description: "iPhone app launch" },
-        { title: "Enhanced Mining", done: false, description: "New mining mechanisms" }
+        { title: "iOS App Release", done: false, description: "iPhone app launch on App Store" },
+        { title: "Push Notifications", done: false, description: "Mobile push notification system" },
+        { title: "Enhanced Mining on Mobile", done: false, description: "Optimized mobile mining experience" }
       ]
     },
     {
-      phase: "Phase 5: Ecosystem Growth",
+      phase: "Phase 4: Ecosystem Growth",
       status: "future",
       icon: Rocket,
       color: "text-pink-400",
