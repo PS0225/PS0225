@@ -177,7 +177,7 @@ function Dashboard({ user, logout }) {
 
         {/* Mining Section - Responsive Box */}
         <div className="w-full max-w-4xl mx-auto">
-          <div className="card-gradient p-6 md:p-8 rounded-2xl relative overflow-hidden" data-testid="mining-section">
+          <div className="card-gradient p-6 md:p-8 rounded-2xl relative overflow-hidden border-2 border-amber-400" data-testid="mining-section">
             {/* Animated Background Circles */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"></div>
@@ -451,7 +451,7 @@ function Dashboard({ user, logout }) {
         {miningStatus?.has_active_session && !miningStatus?.session?.is_completed && (
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {/* Time Boost Card */}
-            <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 p-6 rounded-xl border border-blue-500/30 hover:border-blue-500/50 transition" data-testid="time-boost-card">
+            <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 p-6 rounded-xl border-2 border-amber-400 hover:border-yellow-300 transition" data-testid="time-boost-card">
               <div className="flex items-center justify-between mb-4">
                 <Clock className="w-8 h-8 text-blue-400" />
                 <span className="text-sm px-3 py-1 bg-blue-500/30 rounded-full text-blue-300">
@@ -477,7 +477,7 @@ function Dashboard({ user, logout }) {
             </div>
 
             {/* Speed Boost Card */}
-            <div className="bg-gradient-to-br from-purple-500/10 to-purple-600/10 p-6 rounded-xl border border-purple-500/30 hover:border-purple-500/50 transition" data-testid="speed-boost-card">
+            <div className="bg-gradient-to-br from-purple-500/10 to-purple-600/10 p-6 rounded-xl border-2 border-amber-400 hover:border-yellow-300 transition" data-testid="speed-boost-card">
               <div className="flex items-center justify-between mb-4">
                 <Zap className="w-8 h-8 text-purple-400" />
                 <span className="text-sm px-3 py-1 bg-purple-500/30 rounded-full text-purple-300">
@@ -505,7 +505,7 @@ function Dashboard({ user, logout }) {
         )}
 
         {/* Join Community Section - Icon Only */}
-        <div className="card-gradient p-6 rounded-2xl">
+        <div className="card-gradient p-6 rounded-2xl border-2 border-amber-400">
           <div className="text-center mb-4">
             <h2 className="text-2xl font-bold mb-2">🌐 Join Our Community</h2>
           </div>
