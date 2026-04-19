@@ -205,7 +205,7 @@ function Dashboard({ user, logout }) {
                       
                       {/* Decorative curved lines */}
                       <path d="M 26,42 A 50,50 0 0,1 114,42" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
-                      <path d="M 26,98 A 50,50 0 0,0 114,98" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
+                      <path d="M 26,95 A 50,50 0 0,0 114,95" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
                       
                       <text fill="white" fontSize="9" fontWeight="900" letterSpacing="0.5" textShadow="0 2px 4px rgba(0,0,0,0.5)">
                         <textPath href="#topCurve" startOffset="50%" textAnchor="middle">
@@ -229,7 +229,7 @@ function Dashboard({ user, logout }) {
                       
                       {/* Decorative curved lines */}
                       <path d="M 26,42 A 50,50 0 0,1 114,42" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
-                      <path d="M 26,98 A 50,50 0 0,0 114,98" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
+                      <path d="M 26,95 A 50,50 0 0,0 114,95" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
                       
                       <text fill="white" fontSize="9" fontWeight="900" letterSpacing="0.5" textShadow="0 2px 4px rgba(0,0,0,0.5)">
                         <textPath href="#topCurveBack" startOffset="50%" textAnchor="middle">
