@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API } from '../App';
 import Layout from '../components/Layout';
-import { Wallet as WalletIcon, TrendingUp, TrendingDown, Clock } from 'lucide-react';
+import { Wallet as WalletIcon, TrendingUp, TrendingDown, Clock, Send, Download, RefreshCw } from 'lucide-react';
 
 function Wallet({ user, logout }) {
   const [walletData, setWalletData] = useState(null);
@@ -34,6 +34,10 @@ function Wallet({ user, logout }) {
     return date.toLocaleString();
   };
 
+  const handleTGEFeature = (featureName) => {
+    alert(`🔒 ${featureName}\n\nYe feature TGE (Token Generation Event) ke samay available hoga.\n\nPlease wait for the official token launch!`);
+  };
+
   if (loading) {
     return (
       <Layout user={user} logout={logout}>
@@ -60,6 +64,39 @@ function Wallet({ user, logout }) {
             {walletData.total_pnrp.toFixed(2)}
           </div>
           <div className="text-xl text-gray-400">PNRP</div>
+        </div>
+
+        {/* Wallet Action Buttons */}
+        <div className="grid grid-cols-3 gap-4">
+          <button
+            onClick={() => handleTGEFeature('Send PNRP')}
+            className="card-gradient p-6 rounded-xl hover:scale-105 transition-transform duration-200 border-2 border-purple-500/30 hover:border-purple-400"
+            data-testid="send-button"
+          >
+            <Send className="w-8 h-8 text-purple-400 mx-auto mb-3" />
+            <div className="font-bold text-lg">Send</div>
+            <div className="text-sm text-gray-400 mt-1">Transfer PNRP</div>
+          </button>
+
+          <button
+            onClick={() => handleTGEFeature('Receive PNRP')}
+            className="card-gradient p-6 rounded-xl hover:scale-105 transition-transform duration-200 border-2 border-green-500/30 hover:border-green-400"
+            data-testid="receive-button"
+          >
+            <Download className="w-8 h-8 text-green-400 mx-auto mb-3" />
+            <div className="font-bold text-lg">Receive</div>
+            <div className="text-sm text-gray-400 mt-1">Get PNRP</div>
+          </button>
+
+          <button
+            onClick={() => handleTGEFeature('Swap PNRP')}
+            className="card-gradient p-6 rounded-xl hover:scale-105 transition-transform duration-200 border-2 border-blue-500/30 hover:border-blue-400"
+            data-testid="swap-button"
+          >
+            <RefreshCw className="w-8 h-8 text-blue-400 mx-auto mb-3" />
+            <div className="font-bold text-lg">Swap</div>
+            <div className="text-sm text-gray-400 mt-1">Exchange</div>
+          </button>
         </div>
 
         {/* Transactions */}
