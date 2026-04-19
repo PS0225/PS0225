@@ -90,6 +90,8 @@ function Dashboard({ user, logout }) {
   const startMining = async () => {
     try {
       await axios.post(`${API}/mining/start`);
+      // Update last mining timestamp
+      localStorage.setItem('lastMiningTime', Date.now().toString());
       fetchMiningStatus();
     } catch (error) {
       alert(error.response?.data?.detail || 'Failed to start mining');

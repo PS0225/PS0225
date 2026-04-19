@@ -43,10 +43,26 @@ function App() {
     const token = localStorage.getItem('token');
     if (token) {
       try {
+        // Check for inactivity (7 days without mining)
+        const lastMiningTime = localStorage.getItem('lastMiningTime');
+        if (lastMiningTime) {
+          const daysSinceLastMining = (Date.now() - parseInt(lastMiningTime)) / (1000 * 60 * 60 * 24);
+          if (daysSinceLastMining > 7) {
+            // Auto logout after 7 days of inactivity
+            console.log('Auto logout: 7 days of inactivity');
+            localStorage.removeItem('token');
+            localStorage.removeItem('lastMiningTime');
+            setUser(null);
+            setLoading(false);
+            return;
+          }
+        }
+        
         const response = await axios.get(`${API}/auth/me`);
         setUser(response.data);
       } catch (error) {
         localStorage.removeItem('token');
+        localStorage.removeItem('lastMiningTime');
         setUser(null);
       }
     }
@@ -55,6 +71,7 @@ function App() {
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('lastMiningTime');
     setUser(null);
   };
 
