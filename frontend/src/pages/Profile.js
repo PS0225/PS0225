@@ -185,10 +185,9 @@ function Profile({ user, logout, setUser }) {
                   <li className="flex items-center">
                     💰 Current Balance: 
                     <span className="font-bold text-white ml-2 flex items-center">
-                      {user.total_pnrp.toFixed(2)}
-                      {/* Stable PNRP Logo (No Spinning) */}
-                      <div style={{width: '20px', height: '20px', position: 'relative', display: 'inline-block', marginLeft: '4px'}}>
-                        <div className="pnrp-coin-3d" style={{width: '20px', height: '20px'}}>
+                      {/* Stable PNRP Logo on LEFT (No Spinning) */}
+                      <div style={{width: '24px', height: '24px', position: 'relative', display: 'inline-block', marginRight: '8px'}}>
+                        <div className="pnrp-coin-3d" style={{width: '24px', height: '24px'}}>
                           <div className="pnrp-coin-side pnrp-coin-front">
                             <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
                               <defs>
@@ -204,10 +203,11 @@ function Profile({ user, logout, setUser }) {
                                 <textPath href="#balanceInlineBottomCurve" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
                               </text>
                             </svg>
-                            <div className="pnrp-coin-text" style={{fontSize: '6px'}}>PNRP</div>
+                            <div className="pnrp-coin-text" style={{fontSize: '7px'}}>PNRP</div>
                           </div>
                         </div>
                       </div>
+                      {user.total_pnrp.toFixed(2)} PNRP
                     </span>
                   </li>
                   <li>🎖️ Rank: Level {user.level}</li>
