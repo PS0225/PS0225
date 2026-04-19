@@ -82,6 +82,12 @@ code {
     }
 }
 
+/* Golden Border for All Boxes */
+.golden-border {
+    border: 2px solid #fbbf24 !important;
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+}
+
 @layer base {
     [data-debug-wrapper="true"] {
         display: contents !important;
