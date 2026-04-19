@@ -883,9 +883,18 @@ async def get_admin_stats(current_user: dict = Depends(get_current_user)):
             await cursor.execute("SELECT COUNT(*) as count FROM users")
             total_users = (await cursor.fetchone())['count']
             
-            # Total PNRP distributed
+            # Total PNRP distributed (all sources)
             await cursor.execute("SELECT SUM(total_pnrp) as total FROM users")
             total_pnrp = (await cursor.fetchone())['total'] or 0
+            
+            # Total Mining PNRP (from completed mining sessions)
+            await cursor.execute(
+                """SELECT SUM(base_reward * speed_multiplier) as total 
+                   FROM mining_sessions 
+                   WHERE status = 'completed'"""
+            )
+            mining_result = await cursor.fetchone()
+            total_mining_pnrp = mining_result['total'] or 0
             
             # Active mining sessions
             await cursor.execute(
@@ -901,6 +910,7 @@ async def get_admin_stats(current_user: dict = Depends(get_current_user)):
     return {
         "total_users": total_users,
         "total_pnrp_distributed": float(total_pnrp),
+        "total_mining_pnrp": float(total_mining_pnrp),
         "active_mining_sessions": active_mining,
         "total_transactions": total_transactions
     }

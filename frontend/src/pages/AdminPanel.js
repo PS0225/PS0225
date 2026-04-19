@@ -46,34 +46,34 @@ function AdminPanel({ user, logout }) {
 
         {/* Stats Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="card-gradient p-6 rounded-xl" data-testid="total-users-card">
+          <div className="card-gradient p-6 rounded-xl border-2 border-blue-500/30" data-testid="total-users-card">
             <Users className="w-8 h-8 text-blue-400 mb-4" />
             <div className="text-3xl font-bold mb-2" data-testid="total-users">{stats.total_users}</div>
             <div className="text-gray-400">Total Users</div>
           </div>
 
-          <div className="card-gradient p-6 rounded-xl" data-testid="total-pnrp-card">
+          <div className="card-gradient p-6 rounded-xl border-2 border-green-500/30" data-testid="total-mining-pnrp-card">
+            <TrendingUp className="w-8 h-8 text-green-400 mb-4" />
+            <div className="text-3xl font-bold mb-2 text-green-400" data-testid="total-mining-pnrp">
+              {stats.total_mining_pnrp.toFixed(2)}
+            </div>
+            <div className="text-gray-400">Total Mining PNRP</div>
+          </div>
+
+          <div className="card-gradient p-6 rounded-xl border-2 border-purple-500/30" data-testid="total-pnrp-card">
             <Coins className="w-8 h-8 text-purple-400 mb-4" />
             <div className="text-3xl font-bold mb-2" data-testid="total-pnrp-distributed">
               {stats.total_pnrp_distributed.toFixed(2)}
             </div>
-            <div className="text-gray-400">PNRP Distributed</div>
+            <div className="text-gray-400">Total PNRP Distributed</div>
           </div>
 
-          <div className="card-gradient p-6 rounded-xl" data-testid="active-mining-card">
-            <Activity className="w-8 h-8 text-green-400 mb-4" />
+          <div className="card-gradient p-6 rounded-xl border-2 border-yellow-500/30" data-testid="active-mining-card">
+            <Activity className="w-8 h-8 text-yellow-400 mb-4" />
             <div className="text-3xl font-bold mb-2" data-testid="active-mining">
               {stats.active_mining_sessions}
             </div>
             <div className="text-gray-400">Active Mining</div>
-          </div>
-
-          <div className="card-gradient p-6 rounded-xl" data-testid="total-transactions-card">
-            <TrendingUp className="w-8 h-8 text-yellow-400 mb-4" />
-            <div className="text-3xl font-bold mb-2" data-testid="total-transactions">
-              {stats.total_transactions}
-            </div>
-            <div className="text-gray-400">Total Transactions</div>
           </div>
         </div>
 
