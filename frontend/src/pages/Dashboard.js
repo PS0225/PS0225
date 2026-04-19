@@ -12,15 +12,11 @@ function Dashboard({ user, logout }) {
   const [showCheckin, setShowCheckin] = useState(false);
   const [adType, setAdType] = useState(null);
   const [watchingAd, setWatchingAd] = useState(false);
-  const [dailyRewardStatus, setDailyRewardStatus] = useState(null);
-  const [watchingDailyAd, setWatchingDailyAd] = useState(false);
 
   useEffect(() => {
     fetchMiningStatus();
-    fetchDailyRewardStatus();
     const interval = setInterval(() => {
       fetchMiningStatus();
-      fetchDailyRewardStatus();
     }, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -54,37 +50,6 @@ function Dashboard({ user, logout }) {
     } finally {
       setLoading(false);
     }
-  };
-
-  const fetchDailyRewardStatus = async () => {
-    try {
-      const response = await axios.get(`${API}/daily-reward/status`);
-      setDailyRewardStatus(response.data);
-    } catch (error) {
-      console.error('Error fetching daily reward status:', error);
-    }
-  };
-
-  const watchDailyRewardAd = async () => {
-    setWatchingDailyAd(true);
-    
-    // Simulate ad watching (10 seconds)
-    setTimeout(async () => {
-      try {
-        const response = await axios.post(`${API}/daily-reward/watch-ad`);
-        
-        // Detailed success message
-        alert(`✅ Daily Reward Claimed!\n\n🎁 Reward ${response.data.ad_number}/3 Completed\n💰 Earned: +${response.data.reward} PNRP\n📊 New Balance: ${response.data.new_balance} PNRP\n⏳ Remaining: ${response.data.remaining_ads}\n\nPage will refresh to update your balance...`);
-        
-        // Force reload
-        setTimeout(() => {
-          window.location.href = window.location.href;
-        }, 1000);
-      } catch (error) {
-        alert(error.response?.data?.detail || 'Failed to claim reward');
-        setWatchingDailyAd(false);
-      }
-    }, 10000);
   };
 
   const startMining = async () => {
@@ -339,31 +304,6 @@ function Dashboard({ user, logout }) {
           </div>
         )}
 
-        {/* Ad Watching Modal - Daily Reward */}
-        {watchingDailyAd && (
-          <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50" data-testid="daily-ad-modal">
-            <div className="bg-gradient-to-br from-purple-900 to-pink-900 p-10 rounded-3xl text-center max-w-md border border-purple-500/30 glow">
-              <div className="relative">
-                <Gift className="w-20 h-20 text-purple-400 mx-auto mb-6 animate-pulse" />
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-32 bg-purple-500/20 rounded-full blur-2xl"></div>
-              </div>
-              <h3 className="text-3xl font-bold mb-4 gradient-text">Watching Ad...</h3>
-              <p className="text-gray-400 mb-2">Daily reward advertisement</p>
-              {dailyRewardStatus && (
-                <p className="text-purple-400 font-semibold mb-6">
-                  Ad {dailyRewardStatus.ads_watched + 1}/3 - Earn {dailyRewardStatus.next_reward} PNRP
-                </p>
-              )}
-              <div className="flex items-center justify-center space-x-2">
-                <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce"></div>
-                <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-              </div>
-              <div className="mt-6 text-purple-400 font-semibold">⏱️ 10 seconds remaining</div>
-            </div>
-          </div>
-        )}
-
         {/* 4-Part Stats Grid - Below Mining Section */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {/* Balance Box */}
@@ -408,31 +348,6 @@ function Dashboard({ user, logout }) {
             <div className="text-sm text-gray-400">Level</div>
             <div className="mt-2 h-1 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full"></div>
           </div>
-
-          {/* Daily Reward Box */}
-          {dailyRewardStatus && (
-            <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300" data-testid="daily-reward-box">
-              <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-purple-500/20 rounded-xl">
-                  <Gift className="w-6 h-6 text-purple-400" />
-                </div>
-              </div>
-              <div className="text-2xl font-bold text-purple-400 mb-2">{dailyRewardStatus.ads_watched}/3</div>
-              <div className="text-sm text-gray-400 mb-2">Daily Reward</div>
-              {dailyRewardStatus.can_claim ? (
-                <button
-                  onClick={watchDailyRewardAd}
-                  disabled={watchingDailyAd}
-                  className="w-full mt-2 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-xs font-semibold transition disabled:opacity-50"
-                >
-                  {watchingDailyAd ? '⏳...' : `🎁 +${dailyRewardStatus.next_reward}`}
-                </button>
-              ) : (
-                <div className="text-green-400 text-xs text-center mt-2">✅ Done!</div>
-              )}
-              <div className="mt-2 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
-            </div>
-          )}
 
           {/* Daily Check-in Box */}
           <div className="card-gradient p-6 rounded-2xl cursor-pointer hover:scale-105 transition-transform duration-300 group" onClick={() => setShowCheckin(true)} data-testid="daily-checkin-box">
