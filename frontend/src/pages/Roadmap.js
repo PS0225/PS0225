@@ -66,8 +66,6 @@ function Roadmap({ user, logout }) {
       borderColor: "border-green-500/50",
       items: [
         { title: "PNRP to Crypto Conversion", done: false, description: "Convert PNRP to BTC, ETH, USDT" },
-        { title: "Fiat Withdrawal System", done: false, description: "Withdraw to bank account (INR, USD)" },
-        { title: "Multi-Currency Support", done: false, description: "Support for 50+ cryptocurrencies" },
         { title: "Auto-Conversion Features", done: false, description: "Automatic conversion at best rates" },
         { title: "Conversion History", done: false, description: "Track all conversion transactions" },
         { title: "Rate Alerts", done: false, description: "Notifications for best conversion rates" }
