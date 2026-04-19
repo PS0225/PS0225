@@ -199,20 +199,20 @@ function Dashboard({ user, logout }) {
                   <div className="pnrp-coin-side pnrp-coin-front">
                     <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
                       <defs>
-                        <path id="topCurve" d="M 20,45 A 50,50 0 0,1 120,45" />
-                        <path id="bottomCurve" d="M 20,100 A 50,50 0 0,0 120,100" />
+                        <path id="topCurve" d="M 22,42 A 54,54 0 0,1 118,42" />
+                        <path id="bottomCurve" d="M 22,103 A 54,54 0 0,0 118,103" />
                       </defs>
                       
                       {/* Decorative curved lines */}
-                      <path d="M 25,48 A 47,47 0 0,1 115,48" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
-                      <path d="M 25,96 A 47,47 0 0,0 115,96" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                      <path d="M 26,46 A 50,50 0 0,1 114,46" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
+                      <path d="M 26,99 A 50,50 0 0,0 114,99" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
                       
-                      <text className="coin-curved-text" fill="white" fontSize="7" fontWeight="900" letterSpacing="0.3">
+                      <text fill="white" fontSize="9" fontWeight="900" letterSpacing="0.5" textShadow="0 2px 4px rgba(0,0,0,0.5)">
                         <textPath href="#topCurve" startOffset="50%" textAnchor="middle">
                           PLATINUM NETWORK
                         </textPath>
                       </text>
-                      <text className="coin-curved-text" fill="white" fontSize="7" fontWeight="900" letterSpacing="0.3">
+                      <text fill="white" fontSize="9" fontWeight="900" letterSpacing="0.5" textShadow="0 2px 4px rgba(0,0,0,0.5)">
                         <textPath href="#bottomCurve" startOffset="50%" textAnchor="middle">
                           PLATINUM NETWORK
                         </textPath>
@@ -223,20 +223,20 @@ function Dashboard({ user, logout }) {
                   <div className="pnrp-coin-side pnrp-coin-back">
                     <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>
                       <defs>
-                        <path id="topCurveBack" d="M 20,45 A 50,50 0 0,1 120,45" />
-                        <path id="bottomCurveBack" d="M 20,100 A 50,50 0 0,0 120,100" />
+                        <path id="topCurveBack" d="M 22,42 A 54,54 0 0,1 118,42" />
+                        <path id="bottomCurveBack" d="M 22,103 A 54,54 0 0,0 118,103" />
                       </defs>
                       
                       {/* Decorative curved lines */}
-                      <path d="M 25,48 A 47,47 0 0,1 115,48" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
-                      <path d="M 25,96 A 47,47 0 0,0 115,96" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                      <path d="M 26,46 A 50,50 0 0,1 114,46" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
+                      <path d="M 26,99 A 50,50 0 0,0 114,99" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
                       
-                      <text className="coin-curved-text" fill="white" fontSize="7" fontWeight="900" letterSpacing="0.3">
+                      <text fill="white" fontSize="9" fontWeight="900" letterSpacing="0.5" textShadow="0 2px 4px rgba(0,0,0,0.5)">
                         <textPath href="#topCurveBack" startOffset="50%" textAnchor="middle">
                           PLATINUM NETWORK
                         </textPath>
                       </text>
-                      <text className="coin-curved-text" fill="white" fontSize="7" fontWeight="900" letterSpacing="0.3">
+                      <text fill="white" fontSize="9" fontWeight="900" letterSpacing="0.5" textShadow="0 2px 4px rgba(0,0,0,0.5)">
                         <textPath href="#bottomCurveBack" startOffset="50%" textAnchor="middle">
                           PLATINUM NETWORK
                         </textPath>
