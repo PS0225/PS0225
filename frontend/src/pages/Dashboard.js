@@ -200,7 +200,7 @@ function Dashboard({ user, logout }) {
                     <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
                       <defs>
                         <path id="topCurve" d="M 22,42 A 54,54 0 0,1 118,42" />
-                        <path id="bottomCurve" d="M 22,102 A 54,54 0 0,0 118,102" />
+                        <path id="bottomCurve" d="M 22,104 A 54,54 0 0,0 118,104" />
                       </defs>
                       
                       {/* Decorative curved lines - mirrored */}
@@ -224,7 +224,7 @@ function Dashboard({ user, logout }) {
                     <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>
                       <defs>
                         <path id="topCurveBack" d="M 22,42 A 54,54 0 0,1 118,42" />
-                        <path id="bottomCurveBack" d="M 22,102 A 54,54 0 0,0 118,102" />
+                        <path id="bottomCurveBack" d="M 22,104 A 54,54 0 0,0 118,104" />
                       </defs>
                       
                       {/* Decorative curved lines - mirrored */}
