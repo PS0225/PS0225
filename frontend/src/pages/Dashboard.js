@@ -15,6 +15,15 @@ function Dashboard({ user, logout }) {
   const [dailyRewardStatus, setDailyRewardStatus] = useState(null);
   const [watchingDailyAd, setWatchingDailyAd] = useState(false);
 
+  // Dynamic greeting based on time
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) return 'Good Morning';
+    if (hour >= 12 && hour < 17) return 'Good Afternoon';
+    if (hour >= 17 && hour < 21) return 'Good Evening';
+    return 'Good Night';
+  };
+
   useEffect(() => {
     fetchMiningStatus();
     fetchDailyRewardStatus();
@@ -172,7 +181,8 @@ function Dashboard({ user, logout }) {
         {/* Header */}
         <div>
           <h1 className="text-4xl font-bold mb-2" data-testid="dashboard-title">Dashboard</h1>
-          <p className="text-gray-400">Welcome back, {user.username}!</p>
+          <p className="text-gray-400 mb-1">Welcome back, {user.username}!</p>
+          <p className="text-lg text-amber-400 font-semibold">✨ {getGreeting()}</p>
         </div>
 
         {/* Mining Section - Responsive Box */}
