@@ -5,14 +5,22 @@ import { useState } from 'react';
 function Layout({ user, logout, children }) {
   const location = useLocation();
   const [showNotifications, setShowNotifications] = useState(false);
-
-  const notifications = [
+  const [notifications, setNotifications] = useState([
     { id: 1, message: "Welcome to Platinum Network!", time: "2 hours ago", unread: true },
     { id: 2, message: "Daily check-in reward claimed!", time: "5 hours ago", unread: true },
     { id: 3, message: "New feature: Send/Receive/Swap coming at TGE", time: "1 day ago", unread: true }
-  ];
+  ]);
 
   const unreadCount = notifications.filter(n => n.unread).length;
+
+  const handleNotificationClick = () => {
+    setShowNotifications(!showNotifications);
+    
+    // Mark all as read when opening notifications
+    if (!showNotifications) {
+      setNotifications(notifications.map(n => ({ ...n, unread: false })));
+    }
+  };
 
   const navItems = [
     { path: '/dashboard', icon: Home, label: 'Dashboard' },
@@ -123,7 +131,7 @@ function Layout({ user, logout, children }) {
               {/* Notification Bell */}
               <div className="relative">
                 <button
-                  onClick={() => setShowNotifications(!showNotifications)}
+                  onClick={handleNotificationClick}
                   data-testid="notification-btn"
                   className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-800 rounded-lg transition relative"
                 >
@@ -144,15 +152,15 @@ function Layout({ user, logout, children }) {
                   >
                     <div className="p-4 border-b border-gray-700">
                       <h3 className="text-lg font-bold">Notifications</h3>
-                      <p className="text-sm text-gray-400">{unreadCount} unread</p>
+                      <p className="text-sm text-gray-400">
+                        {unreadCount > 0 ? `${unreadCount} unread` : 'All read'}
+                      </p>
                     </div>
                     <div className="max-h-96 overflow-y-auto">
                       {notifications.map((notification) => (
                         <div
                           key={notification.id}
-                          className={`p-4 border-b border-gray-700/50 hover:bg-gray-700/30 transition cursor-pointer ${
-                            notification.unread ? 'bg-blue-500/10' : ''
-                          }`}
+                          className="p-4 border-b border-gray-700/50 hover:bg-gray-700/30 transition cursor-pointer"
                         >
                           <div className="flex items-start space-x-3">
                             <div className={`w-2 h-2 rounded-full mt-2 ${notification.unread ? 'bg-blue-500' : 'bg-gray-600'}`}></div>
