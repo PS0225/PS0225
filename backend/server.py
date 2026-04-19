@@ -114,7 +114,7 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
             raise HTTPException(status_code=401, detail="Invalid authentication credentials")
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=401, detail="Token has expired")
-    except jwt.JWTError:
+    except Exception:
         raise HTTPException(status_code=401, detail="Could not validate credentials")
     
     pool = await get_db_pool()
@@ -799,10 +799,97 @@ async def get_referrals(current_user: dict = Depends(get_current_user)):
 
 @api_router.get("/wallet")
 async def get_wallet(current_user: dict = Depends(get_current_user)):
-    """Get wallet information"""
+    """Get wallet information with transaction history"""
+    pool = await get_db_pool()
+    transactions = []
+    
+    async with pool.acquire() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            # Get mining rewards
+            await cursor.execute(
+                """SELECT id, base_reward, speed_multiplier, created_at 
+                   FROM mining_sessions 
+                   WHERE user_id = %s AND status = 'completed'
+                   ORDER BY created_at DESC 
+                   LIMIT 50""",
+                (current_user["id"],)
+            )
+            mining = await cursor.fetchall()
+            for m in mining:
+                reward = float(m["base_reward"]) * float(m["speed_multiplier"])
+                transactions.append({
+                    "id": f"mine_{m['id']}",
+                    "amount": reward,
+                    "type": "mining",
+                    "description": f"Mining Reward ({reward} PNRP)",
+                    "created_at": m["created_at"].isoformat() if m["created_at"] else None
+                })
+            
+            # Get daily check-in rewards
+            await cursor.execute(
+                """SELECT id, reward_amount, day_number, claimed_at 
+                   FROM daily_rewards 
+                   WHERE user_id = %s 
+                   ORDER BY claimed_at DESC 
+                   LIMIT 50""",
+                (current_user["id"],)
+            )
+            daily = await cursor.fetchall()
+            for d in daily:
+                transactions.append({
+                    "id": f"daily_{d['id']}",
+                    "amount": float(d["reward_amount"]),
+                    "type": "daily_checkin",
+                    "description": f"Daily Check-in Day {d['day_number']}",
+                    "created_at": d["claimed_at"].isoformat() if d["claimed_at"] else None
+                })
+            
+            # Get social task rewards
+            await cursor.execute(
+                """SELECT ust.id, st.task_name, st.reward_amount, ust.completed_at
+                   FROM user_social_tasks ust
+                   JOIN social_tasks st ON ust.task_id = st.id
+                   WHERE ust.user_id = %s
+                   ORDER BY ust.completed_at DESC
+                   LIMIT 50""",
+                (current_user["id"],)
+            )
+            social = await cursor.fetchall()
+            for s in social:
+                transactions.append({
+                    "id": f"social_{s['id']}",
+                    "amount": float(s["reward_amount"]),
+                    "type": "social_task",
+                    "description": f"{s['task_name']} Task",
+                    "created_at": s["completed_at"].isoformat() if s["completed_at"] else None
+                })
+            
+            # Get referral rewards
+            await cursor.execute(
+                """SELECT id, reward_amount, reward_type, created_at
+                   FROM referral_rewards
+                   WHERE referrer_id = %s
+                   ORDER BY created_at DESC
+                   LIMIT 50""",
+                (current_user["id"],)
+            )
+            referrals = await cursor.fetchall()
+            for r in referrals:
+                transactions.append({
+                    "id": f"ref_{r['id']}",
+                    "amount": float(r["reward_amount"]),
+                    "type": "referral",
+                    "description": f"Referral Bonus - {r['reward_type']}",
+                    "created_at": r["created_at"].isoformat() if r["created_at"] else None
+                })
+    
+    # Sort all transactions by date (most recent first)
+    transactions.sort(key=lambda x: x["created_at"] or "", reverse=True)
+    
     return {
         "total_pnrp": float(current_user["total_pnrp"]),
-        "level": current_user["level"]
+        "level": current_user["level"],
+        "transactions": transactions[:100]  # Limit to 100 most recent
     }
 
 
