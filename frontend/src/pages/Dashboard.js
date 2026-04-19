@@ -402,7 +402,7 @@ function Dashboard({ user, logout }) {
                   <Gift className="w-6 h-6 text-purple-400" />
                 </div>
               </div>
-              <div className="text-2xl font-bold text-purple-400 mb-2">Day {dailyRewardStatus.current_streak}</div>
+              <div className="text-2xl font-bold text-purple-400 mb-2">{dailyRewardStatus.current_streak}/3</div>
               <div className="text-sm text-gray-400 mb-2">Daily Reward</div>
               {dailyRewardStatus.can_claim ? (
                 <button
