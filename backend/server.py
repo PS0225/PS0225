@@ -917,7 +917,7 @@ async def get_leaderboard():
             "level": user["level"]
         })
     
-    return {"leaderboard": leaderboard}
+    return leaderboard
 
 
 # ==================== ADMIN ROUTES ====================

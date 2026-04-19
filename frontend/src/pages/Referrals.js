@@ -102,7 +102,7 @@ function Referrals({ user, logout }) {
 
           <div className="card-gradient p-6 rounded-xl" data-testid="total-earnings-card">
             <TrendingUp className="w-8 h-8 text-green-400 mb-4" />
-            <div className="text-3xl font-bold mb-2" data-testid="total-earnings">{referralData.total_earnings.toFixed(2)} PNRP</div>
+            <div className="text-3xl font-bold mb-2" data-testid="total-earnings">{referralData.total_earned.toFixed(2)} PNRP</div>
             <div className="text-gray-400">Total Earnings</div>
           </div>
         </div>
