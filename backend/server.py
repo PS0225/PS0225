@@ -552,17 +552,17 @@ async def get_daily_reward_status(current_user: dict = Depends(get_current_user)
     # Calculate next reward
     if ads_claimed_today >= 3:
         # All 3 ads claimed today
-        current_ad = 3
+        current_ad = ads_claimed_today  # Will be 3
         can_claim = False
         next_reward = 0
     else:
         # Can claim next ad
-        current_ad = ads_claimed_today
+        current_ad = ads_claimed_today  # 0, 1, or 2
         can_claim = True
         next_reward = reward_amounts[ads_claimed_today + 1]
     
     return {
-        "current_streak": current_ad,  # Using current_streak for X/3 display
+        "current_streak": current_ad,  # Using current_streak for X/3 display (0, 1, 2, or 3)
         "can_claim": can_claim,
         "next_reward": next_reward,
         "ads_claimed_today": ads_claimed_today,
