@@ -9,7 +9,8 @@ function Layout({ user, logout, children }) {
   const [notifications, setNotifications] = useState([
     { id: 1, message: "Welcome to Platinum Network!", time: "2 hours ago", unread: true, link: "/about" },
     { id: 2, message: "Daily check-in reward claimed!", time: "5 hours ago", unread: true, link: "/dashboard" },
-    { id: 3, message: "New feature: Send/Receive/Swap coming at TGE", time: "1 day ago", unread: true, link: "/wallet" }
+    { id: 3, message: "New feature: Send/Receive/Swap coming at TGE", time: "1 day ago", unread: true, link: "/wallet" },
+    { id: 4, message: "🗺️ Check our Roadmap - Exciting features coming!", time: "2 days ago", unread: true, link: "/roadmap" }
   ]);
 
   const unreadCount = notifications.filter(n => n.unread).length;

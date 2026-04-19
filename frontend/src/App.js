@@ -12,6 +12,7 @@ import Leaderboard from './pages/Leaderboard';
 import Profile from './pages/Profile';
 import AdminPanel from './pages/AdminPanel';
 import About from './pages/About';
+import Roadmap from './pages/Roadmap';
 import './App.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -96,6 +97,7 @@ function App() {
         <Route path="/leaderboard" element={user ? <Leaderboard user={user} logout={logout} /> : <Navigate to="/login" />} />
         <Route path="/profile" element={user ? <Profile user={user} logout={logout} setUser={setUser} /> : <Navigate to="/login" />} />
         <Route path="/about" element={user ? <About user={user} logout={logout} /> : <Navigate to="/login" />} />
+        <Route path="/roadmap" element={user ? <Roadmap user={user} logout={logout} /> : <Navigate to="/login" />} />
         <Route path="/admin" element={user && user.is_admin ? <AdminPanel user={user} logout={logout} /> : <Navigate to="/dashboard" />} />
       </Routes>
     </BrowserRouter>
