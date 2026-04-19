@@ -185,26 +185,44 @@ function Profile({ user, logout, setUser }) {
                   <li className="flex items-center">
                     💰 Current Balance: 
                     <span className="font-bold text-white ml-2 flex items-center">
-                      {/* Stable PNRP Logo on LEFT (No Spinning) */}
-                      <div style={{width: '24px', height: '24px', position: 'relative', display: 'inline-block', marginRight: '8px'}}>
-                        <div className="pnrp-coin-3d" style={{width: '24px', height: '24px'}}>
-                          <div className="pnrp-coin-side pnrp-coin-front">
-                            <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
-                              <defs>
-                                <path id="balanceInlineTopCurve" d="M 20,42 A 56,56 0 0,1 120,42" />
-                                <path id="balanceInlineBottomCurve" d="M 18,104 A 62,58 0 0,0 122,104" />
-                              </defs>
-                              <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
-                              <path d="M 25,89 A 52,52 0 0,0 115,89" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
-                              <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
-                                <textPath href="#balanceInlineTopCurve" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
-                              </text>
-                              <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.8">
-                                <textPath href="#balanceInlineBottomCurve" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
-                              </text>
-                            </svg>
-                            <div className="pnrp-coin-text" style={{fontSize: '7px'}}>PNRP</div>
-                          </div>
+                      {/* Stable PNRP Logo on LEFT */}
+                      <div style={{width: '28px', height: '28px', position: 'relative', display: 'inline-block', marginRight: '8px'}}>
+                        <div style={{
+                          width: '28px',
+                          height: '28px',
+                          borderRadius: '50%',
+                          background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%)',
+                          boxShadow: '0 4px 12px rgba(255, 215, 0, 0.4)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          position: 'relative'
+                        }}>
+                          <svg viewBox="0 0 140 140" style={{position: 'absolute', width: '100%', height: '100%'}}>
+                            <defs>
+                              <path id="profileBalanceTop" d="M 20,42 A 56,56 0 0,1 120,42" />
+                              <path id="profileBalanceBottom" d="M 18,104 A 62,58 0 0,0 122,104" />
+                            </defs>
+                            <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                            <path d="M 25,89 A 52,52 0 0,0 115,89" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                            <text fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
+                              <textPath href="#profileBalanceTop" startOffset="50%" textAnchor="middle">PLATINUM</textPath>
+                            </text>
+                            <text fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
+                              <textPath href="#profileBalanceBottom" startOffset="50%" textAnchor="middle">NETWORK</textPath>
+                            </text>
+                          </svg>
+                          <div style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            fontSize: '8px',
+                            fontWeight: '900',
+                            color: 'white',
+                            textShadow: '0 1px 3px rgba(0,0,0,0.5)',
+                            zIndex: 10
+                          }}>PNRP</div>
                         </div>
                       </div>
                       {user.total_pnrp.toFixed(2)} PNRP
