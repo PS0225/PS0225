@@ -144,7 +144,10 @@ body {
 }
 
 .pnrp-coin-back .pnrp-coin-text {
-  transform: rotateY(180deg) scaleX(-1);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateY(180deg) scaleX(-1);
 }
 
 @keyframes coinFloat {
