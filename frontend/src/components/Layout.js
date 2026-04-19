@@ -1,14 +1,15 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Coins, Home, Wallet as WalletIcon, Users, Gift, Trophy, User, LogOut, Shield, Info, Bell } from 'lucide-react';
 import { useState } from 'react';
 
 function Layout({ user, logout, children }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([
-    { id: 1, message: "Welcome to Platinum Network!", time: "2 hours ago", unread: true },
-    { id: 2, message: "Daily check-in reward claimed!", time: "5 hours ago", unread: true },
-    { id: 3, message: "New feature: Send/Receive/Swap coming at TGE", time: "1 day ago", unread: true }
+    { id: 1, message: "Welcome to Platinum Network!", time: "2 hours ago", unread: true, link: "/about" },
+    { id: 2, message: "Daily check-in reward claimed!", time: "5 hours ago", unread: true, link: "/dashboard" },
+    { id: 3, message: "New feature: Send/Receive/Swap coming at TGE", time: "1 day ago", unread: true, link: "/wallet" }
   ]);
 
   const unreadCount = notifications.filter(n => n.unread).length;
@@ -20,6 +21,13 @@ function Layout({ user, logout, children }) {
     if (!showNotifications) {
       setNotifications(notifications.map(n => ({ ...n, unread: false })));
     }
+  };
+
+  const handleNotificationItemClick = (notification) => {
+    // Navigate to the link
+    navigate(notification.link);
+    // Close dropdown
+    setShowNotifications(false);
   };
 
   const navItems = [
@@ -160,14 +168,18 @@ function Layout({ user, logout, children }) {
                       {notifications.map((notification) => (
                         <div
                           key={notification.id}
-                          className="p-4 border-b border-gray-700/50 hover:bg-gray-700/30 transition cursor-pointer"
+                          onClick={() => handleNotificationItemClick(notification)}
+                          className="p-4 border-b border-gray-700/50 hover:bg-blue-500/20 transition cursor-pointer"
                         >
                           <div className="flex items-start space-x-3">
-                            <div className={`w-2 h-2 rounded-full mt-2 ${notification.unread ? 'bg-blue-500' : 'bg-gray-600'}`}></div>
+                            <div className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 ${notification.unread ? 'bg-blue-500' : 'bg-gray-600'}`}></div>
                             <div className="flex-1">
-                              <p className="text-sm">{notification.message}</p>
+                              <p className="text-sm font-medium">{notification.message}</p>
                               <p className="text-xs text-gray-400 mt-1">{notification.time}</p>
                             </div>
+                            <svg className="w-4 h-4 text-gray-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
                           </div>
                         </div>
                       ))}
