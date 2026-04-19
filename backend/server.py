@@ -531,129 +531,77 @@ async def watch_ad(ad_type: str, current_user: dict = Depends(get_current_user))
 
 @api_router.get("/daily-reward/status")
 async def get_daily_reward_status(current_user: dict = Depends(get_current_user)):
-    """Get daily reward status with streak"""
+    """Get daily reward status - 3 ads per day"""
     today = datetime.now(timezone.utc).date()
-    yesterday = today - timedelta(days=1)
     
     pool = await get_db_pool()
     async with pool.acquire() as conn:
         async with conn.cursor(aiomysql.DictCursor) as cursor:
-            # Check if claimed today
-            await cursor.execute(
-                """SELECT * FROM daily_rewards 
-                   WHERE user_id = %s AND DATE(claimed_at) = %s
-                   ORDER BY claimed_at DESC LIMIT 1""",
-                (current_user["id"], today)
-            )
-            claimed_today = await cursor.fetchone()
-            
-            # Check yesterday's claim for streak
-            await cursor.execute(
-                """SELECT * FROM daily_rewards 
-                   WHERE user_id = %s AND DATE(claimed_at) = %s
-                   ORDER BY claimed_at DESC LIMIT 1""",
-                (current_user["id"], yesterday)
-            )
-            claimed_yesterday = await cursor.fetchone()
-            
-            # Get last claim to check streak
-            await cursor.execute(
-                """SELECT day_number, claimed_at FROM daily_rewards 
-                   WHERE user_id = %s 
-                   ORDER BY claimed_at DESC LIMIT 1""",
-                (current_user["id"],)
-            )
-            last_claim = await cursor.fetchone()
-    
-    # Calculate current streak
-    if claimed_today:
-        # Already claimed today
-        current_streak = claimed_today['day_number']
-        can_claim = False
-        next_reward = 0
-    else:
-        # Not claimed today - calculate streak
-        if not last_claim:
-            # First time claiming
-            current_streak = 1
-        elif claimed_yesterday:
-            # Continuing streak
-            current_streak = last_claim['day_number'] + 1
-            if current_streak > 7:
-                current_streak = 1  # Reset after 7 days
-        else:
-            # Streak broken - restart
-            current_streak = 1
-        
-        can_claim = True
-        reward_amounts = {1: 10, 2: 15, 3: 20, 4: 25, 5: 30, 6: 35, 7: 50}
-        next_reward = reward_amounts[current_streak]
-    
-    return {
-        "current_streak": current_streak,
-        "can_claim": can_claim,
-        "next_reward": next_reward,
-        "total_earned_today": float(claimed_today["reward_amount"]) if claimed_today else 0
-    }
-
-
-@api_router.post("/daily-reward/watch-ad")
-async def watch_daily_reward_ad(current_user: dict = Depends(get_current_user)):
-    """Watch ad for daily reward with streak"""
-    today = datetime.now(timezone.utc).date()
-    yesterday = today - timedelta(days=1)
-    
-    pool = await get_db_pool()
-    async with pool.acquire() as conn:
-        async with conn.cursor(aiomysql.DictCursor) as cursor:
-            # Check if already claimed today
+            # Count how many ads claimed today
             await cursor.execute(
                 """SELECT COUNT(*) as count FROM daily_rewards 
                    WHERE user_id = %s AND DATE(claimed_at) = %s""",
                 (current_user["id"], today)
             )
             result = await cursor.fetchone()
-            
-            if result['count'] > 0:
-                raise HTTPException(status_code=400, detail="Daily reward already claimed today")
-            
-            # Check yesterday's claim for streak
+            ads_claimed_today = result['count']
+    
+    # 3 ads per day with different rewards
+    reward_amounts = {1: 15, 2: 25, 3: 40}
+    
+    # Calculate next reward
+    if ads_claimed_today >= 3:
+        # All 3 ads claimed today
+        current_ad = 3
+        can_claim = False
+        next_reward = 0
+    else:
+        # Can claim next ad
+        current_ad = ads_claimed_today
+        can_claim = True
+        next_reward = reward_amounts[ads_claimed_today + 1]
+    
+    return {
+        "current_streak": current_ad,  # Using current_streak for X/3 display
+        "can_claim": can_claim,
+        "next_reward": next_reward,
+        "ads_claimed_today": ads_claimed_today,
+        "total_ads_per_day": 3
+    }
+
+
+@api_router.post("/daily-reward/watch-ad")
+async def watch_daily_reward_ad(current_user: dict = Depends(get_current_user)):
+    """Watch ad for daily reward - 3 ads per day (15, 25, 40 PNRP)"""
+    today = datetime.now(timezone.utc).date()
+    
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            # Count ads claimed today
             await cursor.execute(
-                """SELECT day_number FROM daily_rewards 
-                   WHERE user_id = %s AND DATE(claimed_at) = %s
-                   ORDER BY claimed_at DESC LIMIT 1""",
-                (current_user["id"], yesterday)
+                """SELECT COUNT(*) as count FROM daily_rewards 
+                   WHERE user_id = %s AND DATE(claimed_at) = %s""",
+                (current_user["id"], today)
             )
-            claimed_yesterday = await cursor.fetchone()
+            result = await cursor.fetchone()
+            ads_claimed_today = result['count']
             
-            # Get last claim
-            await cursor.execute(
-                """SELECT day_number, claimed_at FROM daily_rewards 
-                   WHERE user_id = %s 
-                   ORDER BY claimed_at DESC LIMIT 1""",
-                (current_user["id"],)
-            )
-            last_claim = await cursor.fetchone()
+            if ads_claimed_today >= 3:
+                raise HTTPException(status_code=400, detail="All 3 daily ads already watched today")
             
-            # Calculate current day
-            if not last_claim:
-                current_day = 1
-            elif claimed_yesterday:
-                current_day = claimed_yesterday['day_number'] + 1
-                if current_day > 7:
-                    current_day = 1
-            else:
-                current_day = 1
+            # Current ad number (1, 2, or 3)
+            current_ad = ads_claimed_today + 1
             
-            # Get reward for current day
-            reward_amounts = {1: 10, 2: 15, 3: 20, 4: 25, 5: 30, 6: 35, 7: 50}
-            reward = reward_amounts[current_day]
+            # Get reward for current ad
+            reward_amounts = {1: 15, 2: 25, 3: 40}
+            reward = reward_amounts[current_ad]
             
             # Create reward record
             await cursor.execute(
                 """INSERT INTO daily_rewards (id, user_id, reward_date, day_number, reward_amount, ad_watched, claimed_at)
                    VALUES (%s, %s, %s, %s, %s, %s, %s)""",
-                (str(uuid.uuid4()), current_user["id"], today, current_day, reward, True, datetime.now(timezone.utc))
+                (str(uuid.uuid4()), current_user["id"], today, current_ad, reward, True, datetime.now(timezone.utc))
             )
             
             # Update user balance
@@ -666,12 +614,12 @@ async def watch_daily_reward_ad(current_user: dict = Depends(get_current_user)):
             await cursor.execute(
                 """INSERT INTO ad_interactions (id, user_id, ad_type, interaction_type, reward_pnrp, created_at)
                    VALUES (%s, %s, %s, %s, %s, %s)""",
-                (str(uuid.uuid4()), current_user["id"], f"daily_reward_day{current_day}", "watched", reward, datetime.now(timezone.utc))
+                (str(uuid.uuid4()), current_user["id"], f"daily_reward_ad{current_ad}", "watched", reward, datetime.now(timezone.utc))
             )
     
     return {
-        "message": f"Day {current_day} reward claimed successfully!",
-        "day_number": current_day,
+        "message": f"Ad {current_ad}/3 reward claimed successfully!",
+        "day_number": current_ad,
         "reward": reward,
         "new_balance": float(current_user["total_pnrp"]) + reward
     }
