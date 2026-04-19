@@ -200,7 +200,7 @@ function Dashboard({ user, logout }) {
                     <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
                       <defs>
                         <path id="topCurve" d="M 22,42 A 54,54 0 0,1 118,42" />
-                        <path id="bottomCurve" d="M 22,104 A 54,54 0 0,0 118,104" />
+                        <path id="bottomCurve" d="M 20,104 A 58,58 0 0,0 120,104" />
                       </defs>
                       
                       {/* Decorative curved lines - mirrored */}
@@ -212,7 +212,7 @@ function Dashboard({ user, logout }) {
                           PLATINUM • NETWORK
                         </textPath>
                       </text>
-                      <text fill="white" fontSize="9" fontWeight="900" letterSpacing="0.5" textShadow="0 2px 4px rgba(0,0,0,0.5)">
+                      <text fill="white" fontSize="9" fontWeight="900" letterSpacing="0.7" textShadow="0 2px 4px rgba(0,0,0,0.5)">
                         <textPath href="#bottomCurve" startOffset="50%" textAnchor="middle">
                           PLATINUM • NETWORK
                         </textPath>
@@ -224,7 +224,7 @@ function Dashboard({ user, logout }) {
                     <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full" style={{transform: 'rotateY(180deg) scaleX(-1)'}}>
                       <defs>
                         <path id="topCurveBack" d="M 22,42 A 54,54 0 0,1 118,42" />
-                        <path id="bottomCurveBack" d="M 22,104 A 54,54 0 0,0 118,104" />
+                        <path id="bottomCurveBack" d="M 20,104 A 58,58 0 0,0 120,104" />
                       </defs>
                       
                       {/* Decorative curved lines - mirrored */}
@@ -236,7 +236,7 @@ function Dashboard({ user, logout }) {
                           PLATINUM • NETWORK
                         </textPath>
                       </text>
-                      <text fill="white" fontSize="9" fontWeight="900" letterSpacing="0.5" textShadow="0 2px 4px rgba(0,0,0,0.5)">
+                      <text fill="white" fontSize="9" fontWeight="900" letterSpacing="0.7" textShadow="0 2px 4px rgba(0,0,0,0.5)">
                         <textPath href="#bottomCurveBack" startOffset="50%" textAnchor="middle">
                           PLATINUM • NETWORK
                         </textPath>
