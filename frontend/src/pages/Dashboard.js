@@ -367,7 +367,7 @@ function Dashboard({ user, logout }) {
         {/* 4-Part Stats Grid - Below Mining Section */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {/* Balance Box */}
-          <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300 border border-yellow-400/30" data-testid="balance-box">
+          <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300 border-2 border-amber-400" data-testid="balance-box">
             <div className="flex items-center justify-center mb-3">
               {/* Stable PNRP Coin Logo (No Spinning) */}
               <div style={{width: '56px', height: '56px', position: 'relative'}}>
@@ -398,7 +398,7 @@ function Dashboard({ user, logout }) {
           </div>
 
           {/* Level Box */}
-          <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300 border border-yellow-400/30" data-testid="level-box">
+          <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300 border-2 border-amber-400" data-testid="level-box">
             <div className="flex items-center justify-between mb-4">
               <div className="p-3 bg-green-500/20 rounded-xl">
                 <TrendingUp className="w-6 h-6 text-green-400" />
@@ -411,7 +411,7 @@ function Dashboard({ user, logout }) {
 
           {/* Daily Reward Box (Streak based - multiple per day) */}
           {dailyRewardStatus && (
-            <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300 border border-yellow-400/30" data-testid="daily-reward-box">
+            <div className="card-gradient p-6 rounded-2xl hover:scale-105 transition-transform duration-300 border-2 border-amber-400" data-testid="daily-reward-box">
               <div className="flex items-center justify-between mb-4">
                 <div className="p-3 bg-purple-500/20 rounded-xl">
                   <Gift className="w-6 h-6 text-purple-400" />
@@ -435,7 +435,7 @@ function Dashboard({ user, logout }) {
           )}
 
           {/* Daily Check-in Box (7-day streak) */}
-          <div className="card-gradient p-6 rounded-2xl cursor-pointer hover:scale-105 transition-transform duration-300 group border border-yellow-400/30" onClick={() => setShowCheckin(true)} data-testid="daily-checkin-box">
+          <div className="card-gradient p-6 rounded-2xl cursor-pointer hover:scale-105 transition-transform duration-300 group border-2 border-amber-400" onClick={() => setShowCheckin(true)} data-testid="daily-checkin-box">
             <div className="flex items-center justify-between mb-4">
               <div className="p-3 bg-yellow-500/20 rounded-xl group-hover:scale-110 transition">
                 <Gift className="w-6 h-6 text-yellow-400" />
