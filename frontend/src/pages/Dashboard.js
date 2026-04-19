@@ -203,9 +203,9 @@ function Dashboard({ user, logout }) {
                         <path id="bottomCurve" d="M 20,104 A 58,58 0 0,0 120,104" />
                       </defs>
                       
-                      {/* Decorative curved lines - at text level */}
+                      {/* Decorative curved lines */}
                       <path d="M 26,42 A 50,50 0 0,1 114,42" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
-                      <path d="M 26,104 A 50,50 0 0,0 114,104" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
+                      <path d="M 26,98 A 50,50 0 0,0 114,98" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
                       
                       <text fill="white" fontSize="9" fontWeight="900" letterSpacing="0.5" textShadow="0 2px 4px rgba(0,0,0,0.5)">
                         <textPath href="#topCurve" startOffset="50%" textAnchor="middle">
@@ -227,9 +227,9 @@ function Dashboard({ user, logout }) {
                         <path id="bottomCurveBack" d="M 20,104 A 58,58 0 0,0 120,104" />
                       </defs>
                       
-                      {/* Decorative curved lines - at text level */}
+                      {/* Decorative curved lines */}
                       <path d="M 26,42 A 50,50 0 0,1 114,42" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
-                      <path d="M 26,104 A 50,50 0 0,0 114,104" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
+                      <path d="M 26,98 A 50,50 0 0,0 114,98" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
                       
                       <text fill="white" fontSize="9" fontWeight="900" letterSpacing="0.5" textShadow="0 2px 4px rgba(0,0,0,0.5)">
                         <textPath href="#topCurveBack" startOffset="50%" textAnchor="middle">
