@@ -310,7 +310,7 @@ function About({ user, logout }) {
         {/* Copyright Footer */}
         <div className="text-center py-8 border-t border-gray-700">
           <p className="text-gray-400">
-            © Platinum Network. All rights reserved.
+            ©2025 Platinum Network. All rights reserved.
           </p>
           <p className="text-sm text-gray-500 mt-2">
             Last updated: December 2025
