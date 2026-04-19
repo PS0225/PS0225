@@ -65,7 +65,7 @@ function Roadmap({ user, logout }) {
       bgColor: "bg-green-500/20",
       borderColor: "border-green-500/50",
       items: [
-        { title: "PNRP Conversion", done: false, description: "Convert PNRP to BTC, ETH, USDT and other cryptocurrencies" },
+        { title: "PNRP Conversion", done: false, description: "Token conversion functionality" },
         { title: "Auto-Conversion Features", done: false, description: "Automatic conversion at best rates" },
         { title: "Conversion History", done: false, description: "Track all conversion transactions" },
         { title: "Rate Alerts", done: false, description: "Notifications for best conversion rates" }
