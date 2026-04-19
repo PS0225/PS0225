@@ -58,22 +58,38 @@ function Roadmap({ user, logout }) {
       ]
     },
     {
-      phase: "Phase 4: TGE & Token Launch",
+      phase: "Phase 4: Token Conversion & Other Features",
       status: "upcoming",
       icon: TrendingUp,
       color: "text-green-400",
       bgColor: "bg-green-500/20",
       borderColor: "border-green-500/50",
       items: [
-        { title: "Token Generation Event (TGE)", done: false, description: "Official PNRP token mainnet launch" },
-        { title: "Mainnet Wallet Activation", done: false, description: "Enable live wallet transfer features" },
-        { title: "Withdrawal System", done: false, description: "Convert PNRP to real tokens after KYC" },
-        { title: "Exchange Integration", done: false, description: "Direct exchange swap integration" },
-        { title: "Liquidity Pool Launch", done: false, description: "PNRP liquidity pools on DEX" }
+        { title: "PNRP to Crypto Conversion", done: false, description: "Convert PNRP to BTC, ETH, USDT" },
+        { title: "Fiat Withdrawal System", done: false, description: "Withdraw to bank account (INR, USD)" },
+        { title: "Multi-Currency Support", done: false, description: "Support for 50+ cryptocurrencies" },
+        { title: "Auto-Conversion Features", done: false, description: "Automatic conversion at best rates" },
+        { title: "Conversion History", done: false, description: "Track all conversion transactions" },
+        { title: "Rate Alerts", done: false, description: "Notifications for best conversion rates" }
       ]
     },
     {
-      phase: "Phase 5: Mobile Expansion",
+      phase: "Phase 5: TGE & Token Launch",
+      status: "upcoming",
+      icon: Rocket,
+      color: "text-orange-400",
+      bgColor: "bg-orange-500/20",
+      borderColor: "border-orange-500/50",
+      items: [
+        { title: "Token Generation Event (TGE)", done: false, description: "Official PNRP token mainnet launch" },
+        { title: "Mainnet Wallet Activation", done: false, description: "Enable live wallet transfer features" },
+        { title: "Exchange Listings", done: false, description: "List PNRP on major exchanges" },
+        { title: "Liquidity Pool Launch", done: false, description: "PNRP liquidity pools on DEX" },
+        { title: "Smart Contract Audit", done: false, description: "Third-party security audit" }
+      ]
+    },
+    {
+      phase: "Phase 6: Mobile Expansion",
       status: "upcoming",
       icon: Smartphone,
       color: "text-purple-400",
@@ -87,7 +103,7 @@ function Roadmap({ user, logout }) {
       ]
     },
     {
-      phase: "Phase 6: Ecosystem Growth",
+      phase: "Phase 7: Ecosystem Growth",
       status: "future",
       icon: Users,
       color: "text-pink-400",
