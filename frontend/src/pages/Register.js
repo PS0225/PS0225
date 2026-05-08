@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API } from '../App';
-import { Coins, User, Mail, Lock, UserPlus, Gift, Eye, EyeOff } from 'lucide-react';
+import { User, Mail, Lock, UserPlus, Gift, Eye, EyeOff } from 'lucide-react';
 
 function Register({ setUser }) {
   const navigate = useNavigate();
@@ -51,10 +51,32 @@ function Register({ setUser }) {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 flex items-center justify-center px-4 py-8">
       <div className="max-w-md w-full">
         {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <Coins className="w-10 h-10 text-purple-400" />
-            <span className="text-3xl font-bold gradient-text">Platinum Network</span>
+        <div className="text-center mb-8" data-testid="register-brand">
+          <div className="flex items-center justify-center mb-4">
+            {/* PNRP Coin Logo */}
+            <div className="pnrp-coin-3d mr-3" style={{width: '56px', height: '56px'}}>
+              <div className="pnrp-coin-side pnrp-coin-front">
+                <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
+                  <defs>
+                    <path id="regTopCurve" d="M 20,42 A 56,56 0 0,1 120,42" />
+                    <path id="regBottomCurve" d="M 18,104 A 62,58 0 0,0 122,104" />
+                  </defs>
+                  <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                  <path d="M 25,89 A 52,52 0 0,0 115,89" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
+                  <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
+                    <textPath href="#regTopCurve" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
+                  </text>
+                  <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.8">
+                    <textPath href="#regBottomCurve" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
+                  </text>
+                </svg>
+                <div className="pnrp-coin-text" style={{fontSize: '16px'}}>PNRP</div>
+              </div>
+            </div>
+            <div className="text-left">
+              <div className="text-3xl font-bold gradient-text leading-tight">Platinum Network</div>
+              <div className="text-xs text-gray-400 tracking-wide">PNRP · Platinum Network Reward Point</div>
+            </div>
           </div>
           <p className="text-gray-400" data-testid="register-subtitle">Create your account and start mining PNRP</p>
         </div>

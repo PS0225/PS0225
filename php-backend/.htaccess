@@ -1,0 +1,20 @@
+# Platinum Network - PHP Backend .htaccess
+
+RewriteEngine On
+
+# Pass Authorization header to PHP
+RewriteCond %{HTTP:Authorization} ^(.+)$
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%1]
+
+# Route all unknown URLs through index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Block direct access to internal files
+<FilesMatch "^(config|database|helpers|request)\.php$">
+    Require all denied
+</FilesMatch>
+
+DirectoryIndex index.php
+Options -Indexes

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
+import AdSense from '../components/AdSense';
 
 const POSTS = [
   {
@@ -316,6 +317,11 @@ export function BlogList() {
           ))}
         </div>
 
+        {/* AdSense Slot - Below blog grid */}
+        <div className="mt-8">
+          <AdSense adSlot="blog-list-bottom" adFormat="horizontal" />
+        </div>
+
         <BlogFooter />
       </div>
     </div>
@@ -358,6 +364,11 @@ export function BlogPost() {
 
         <div className="prose prose-invert max-w-none" data-testid="blog-post-content">
           {renderContent(post.content)}
+        </div>
+
+        {/* AdSense Slot - In-content (after article body) */}
+        <div className="my-8">
+          <AdSense adSlot="blog-incontent" adFormat="rectangle" />
         </div>
 
         {/* CTA */}

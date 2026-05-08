@@ -4,6 +4,7 @@ import { API } from '../App';
 import Layout from '../components/Layout';
 import { Coins, Zap, Clock, TrendingUp, Gift, Video, Send, Youtube, Twitter, Download, Smartphone } from 'lucide-react';
 import DailyCheckinModal from '../components/DailyCheckinModal';
+import AdSense from '../components/AdSense';
 
 function Dashboard({ user, logout }) {
   const [miningStatus, setMiningStatus] = useState(null);
@@ -432,6 +433,9 @@ function Dashboard({ user, logout }) {
             <div className="mt-2 h-1 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full group-hover:animate-pulse"></div>
           </div>
         </div>
+
+        {/* AdSense Slot - Dashboard middle banner */}
+        <AdSense adSlot="dashboard-middle" adFormat="horizontal" className="my-4" />
 
         {/* Boost Cards - Below 4-Part Grid (Only visible when mining is active) */}
         {miningStatus?.has_active_session && !miningStatus?.session?.is_completed && (
