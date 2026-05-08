@@ -290,6 +290,18 @@ export function BlogList() {
     <div className="min-h-screen bg-gray-900 text-white" data-testid="blog-page">
       <BlogHeader />
       <div className="container mx-auto px-4 py-12 max-w-5xl">
+        {/* Sticky Top Banner CTA */}
+        <Link to="/register" data-testid="blog-top-banner"
+              className="block mb-10 px-6 py-4 rounded-xl text-center transition hover:scale-[1.01]"
+              style={{background: 'linear-gradient(90deg, rgba(168, 85, 247, 0.15), rgba(236, 72, 153, 0.15))', border: '1px solid rgba(168, 85, 247, 0.3)'}}>
+          <span className="text-sm">
+            <span className="text-yellow-300 font-bold">🎁 Free 50 PNRP</span>
+            <span className="text-gray-300 mx-2">·</span>
+            <span className="text-gray-200">Sign up in 30 seconds — start mining instantly</span>
+            <span className="ml-3 text-purple-300 font-semibold">Get Started →</span>
+          </span>
+        </Link>
+
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold mb-4" data-testid="blog-title">Platinum Network Blog</h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
@@ -371,14 +383,36 @@ export function BlogPost() {
           <AdSense adSlot="blog-incontent" adFormat="rectangle" />
         </div>
 
-        {/* CTA */}
-        <div className="mt-12 card-gradient p-8 rounded-xl text-center">
-          <h3 className="text-xl font-bold mb-2">Ready to start mining PNRP?</h3>
-          <p className="text-gray-400 mb-4 text-sm">Join thousands earning Platinum Network Reward Points every 12 hours.</p>
-          <Link to="/register"
-                className="inline-block px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-semibold hover:opacity-90 transition">
-            Start Mining Now
-          </Link>
+        {/* Final CTA - Earn Free PNRP */}
+        <div className="mt-12 relative overflow-hidden rounded-2xl p-8 text-center"
+             style={{background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(236, 72, 153, 0.15))', border: '1px solid rgba(168, 85, 247, 0.4)'}}
+             data-testid="blog-final-cta">
+          <div className="absolute -top-10 -right-10 opacity-20">
+            <div className="w-40 h-40 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 blur-2xl"></div>
+          </div>
+          <div className="relative z-10">
+            <div className="inline-block px-3 py-1 bg-yellow-500/20 text-yellow-300 text-xs font-bold rounded-full mb-3 tracking-wider uppercase">
+              🎁 Free to Start
+            </div>
+            <h3 className="text-3xl font-bold mb-2">Earn Your First <span className="text-yellow-400">50 PNRP</span> Free</h3>
+            <p className="text-gray-300 mb-2 max-w-xl mx-auto">
+              No card. No deposit. No mining hardware. Just sign up, tap "Start Mining", and earn
+              <strong className="text-white"> 50 PNRP every 12 hours</strong>.
+            </p>
+            <p className="text-xs text-gray-500 mb-6">
+              <em>Plus 80 PNRP/day from daily rewards + 150 PNRP one-time from social tasks.</em>
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+              <Link to="/register" data-testid="blog-cta-register"
+                    className="inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-semibold hover:opacity-90 transition shadow-lg shadow-purple-500/30 min-w-[200px]">
+                ⛏️ Claim 50 PNRP Free
+              </Link>
+              <Link to="/login" data-testid="blog-cta-login"
+                    className="text-sm text-gray-400 hover:text-white transition">
+                Already have an account? Login →
+              </Link>
+            </div>
+          </div>
         </div>
 
         <BlogFooter />

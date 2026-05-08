@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import LandingPage from './pages/LandingPage';
 import Register from './pages/Register';
@@ -36,6 +36,17 @@ axios.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+// Send GA4 page_view on SPA route changes
+function AnalyticsTracker() {
+  const location = useLocation();
+  useEffect(() => {
+    if (typeof window.gtagSendPageView === 'function') {
+      window.gtagSendPageView(location.pathname + location.search);
+    }
+  }, [location]);
+  return null;
+}
 
 function App() {
   const [user, setUser] = useState(null);
@@ -91,6 +102,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <AnalyticsTracker />
       <Routes>
         <Route path="/" element={user ? <Navigate to="/dashboard" /> : <LandingPage />} />
         <Route path="/register" element={user ? <Navigate to="/dashboard" /> : <Register setUser={setUser} />} />

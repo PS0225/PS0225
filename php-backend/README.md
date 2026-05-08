@@ -94,6 +94,21 @@ Already-placed ad slots (you create slot IDs in the AdSense dashboard):
 
 ---
 
+## Google Analytics 4 Setup
+
+1. Go to **analytics.google.com** → Admin → Create Property → Web stream for your domain
+2. Copy the **Measurement ID** (looks like `G-ABC1234567`)
+3. Open `frontend-build/index.html` and replace **both** occurrences of `G-XXXXXXXXXX` with your real ID
+4. Done — page views are auto-tracked across SPA route changes
+
+To track custom events from React components, call:
+```js
+window.gtag('event', 'sign_up', { method: 'email' });
+window.gtag('event', 'mining_claim', { value: 50 });
+```
+
+---
+
 ## Security checklist before going live
 
 - [ ] Change `JWT_SECRET_KEY` in `config.php` to a long random string

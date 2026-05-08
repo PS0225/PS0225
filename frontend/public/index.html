@@ -36,6 +36,31 @@
         -->
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
              crossorigin="anonymous"></script>
+
+        <!--
+        ===========================================
+        Google Analytics 4 - REPLACE BEFORE DEPLOYMENT
+        ===========================================
+        Get your Measurement ID from analytics.google.com (looks like G-XXXXXXXXXX).
+        Create a new GA4 property → Web stream for your domain → copy the Measurement ID.
+        Then replace G-XXXXXXXXXX below in BOTH places.
+        -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-XXXXXXXXXX', {
+            anonymize_ip: true,
+            send_page_view: true
+          });
+          // Expose for SPA route changes
+          window.gtagSendPageView = function(path) {
+            if (typeof gtag === 'function') {
+              gtag('event', 'page_view', { page_path: path });
+            }
+          };
+        </script>
         
         <script>window.addEventListener("error",function(e){if(e.error instanceof DOMException&&e.error.name==="DataCloneError"&&e.message&&e.message.includes("PerformanceServerTiming")){e.stopImmediatePropagation();e.preventDefault()}},true);</script>
         <script src="https://assets.emergent.sh/scripts/emergent-main.js"></script>
