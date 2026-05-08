@@ -378,7 +378,8 @@ function Dashboard({ user, logout }) {
               </div>
             </div>
             <div className="text-3xl font-bold number-counter gradient-text mb-2">{user.total_pnrp.toFixed(2)}</div>
-            <div className="text-sm text-gray-400">Balance</div>
+            <div className="text-sm text-gray-400" title="Platinum Network Reward Point">Balance (PNRP)</div>
+            <div className="text-[10px] text-gray-500 mt-0.5">Platinum Network Reward Point</div>
             <div className="mt-2 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
           </div>
 

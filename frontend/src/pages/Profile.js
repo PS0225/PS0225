@@ -104,33 +104,9 @@ function Profile({ user, logout, setUser }) {
         {/* Statistics */}
         <div className="grid md:grid-cols-3 gap-6">
           <div className="card-gradient p-6 rounded-xl" data-testid="total-mined-card">
-            <div className="flex items-center justify-between mb-4">
-              <Coins className="w-8 h-8 text-purple-400" />
-              {/* Stable PNRP Logo (No Spinning) */}
-              <div style={{width: '48px', height: '48px', position: 'relative'}}>
-                <div className="pnrp-coin-3d" style={{width: '48px', height: '48px'}}>
-                  <div className="pnrp-coin-side pnrp-coin-front">
-                    <svg viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
-                      <defs>
-                        <path id="profileStatsTopCurve" d="M 20,42 A 56,56 0 0,1 120,42" />
-                        <path id="profileStatsBottomCurve" d="M 18,104 A 62,58 0 0,0 122,104" />
-                      </defs>
-                      <path d="M 25,46 A 52,52 0 0,1 115,46" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
-                      <path d="M 25,89 A 52,52 0 0,0 115,89" stroke="white" strokeWidth="2" fill="none" opacity="0.7" />
-                      <text className="coin-curved-text" fill="white" fontSize="9" fontWeight="900" letterSpacing="1.2">
-                        <textPath href="#profileStatsTopCurve" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
-                      </text>
-                      <text className="coin-curved-text" fill="white" fontSize="10" fontWeight="900" letterSpacing="1.8">
-                        <textPath href="#profileStatsBottomCurve" startOffset="50%" textAnchor="middle">PLATINUM • NETWORK</textPath>
-                      </text>
-                    </svg>
-                    <div className="pnrp-coin-text" style={{fontSize: '14px'}}>PNRP</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Coins className="w-8 h-8 text-purple-400 mb-4" />
             <div className="text-3xl font-bold mb-2" data-testid="total-mined">{stats.totalMined.toFixed(2)}</div>
-            <div className="text-gray-400">Total Mined PNRP</div>
+            <div className="text-gray-400" title="Platinum Network Reward Point">Total Mined PNRP</div>
           </div>
 
           <div className="card-gradient p-6 rounded-xl" data-testid="total-referrals-card">

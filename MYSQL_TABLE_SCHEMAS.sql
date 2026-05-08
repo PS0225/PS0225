@@ -35,9 +35,11 @@ CREATE TABLE IF NOT EXISTS daily_rewards (
     reward_amount DECIMAL(10,2) NOT NULL,
     ad_watched BOOLEAN DEFAULT FALSE,
     claimed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    UNIQUE KEY unique_user_date (user_id, reward_date)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- If you have an old install with the unique_user_date constraint, drop it:
+-- ALTER TABLE daily_rewards DROP INDEX unique_user_date;
 
 -- =====================================================
 -- 4. SOCIAL TASKS TABLE (Platform Tasks)

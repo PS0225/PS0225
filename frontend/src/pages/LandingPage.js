@@ -65,10 +65,10 @@ function LandingPage() {
             </div>
           </div>
           <h1 className="text-6xl font-bold mb-6" data-testid="landing-title">
-            Start Mining <span className="gradient-text">PNRP</span>
+            Start Mining <span className="gradient-text" title="Platinum Network Reward Point">PNRP</span>
           </h1>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto" data-testid="landing-subtitle">
-            Join Platinum Network and start earning PNRP tokens through mining, referrals, and daily tasks
+            Join Platinum Network and start earning <span className="font-semibold text-purple-300" title="Platinum Network Reward Point">PNRP (Platinum Network Reward Point)</span> tokens through mining, referrals, and daily tasks
           </p>
           <Link to="/register" className="inline-block px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg text-lg font-semibold hover:opacity-90 transition glow" data-testid="landing-cta-btn">
             Start Mining Now
