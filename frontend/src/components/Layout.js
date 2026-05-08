@@ -102,32 +102,34 @@ function Layout({ user, logout, children }) {
             </div>
 
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 px-5 py-2.5 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-full border border-blue-500/30 glow" data-testid="header-balance">
-                {/* Small stable PNRP coin */}
-                <div style={{width: '24px', height: '24px', position: 'relative'}}>
-                  <div className="pnrp-coin-side" style={{
-                    position: 'absolute',
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #f7931a 0%, #fdb931 50%, #f7931a 100%)',
-                    border: '2px solid #ffb938',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: 'inset 0 0 10px rgba(255, 255, 255, 0.3), 0 0 10px rgba(247, 147, 26, 0.5)'
-                  }}>
-                    <div style={{
-                      fontSize: '7px',
-                      fontWeight: '900',
-                      color: '#fff',
-                      textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)',
-                      letterSpacing: '0.5px'
-                    }}>PNRP</div>
+              {user && (
+                <>
+                  <div className="flex items-center space-x-2 px-5 py-2.5 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-full border border-blue-500/30 glow" data-testid="header-balance">
+                    {/* Small stable PNRP coin */}
+                    <div style={{width: '24px', height: '24px', position: 'relative'}}>
+                      <div className="pnrp-coin-side" style={{
+                        position: 'absolute',
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: '50%',
+                        background: 'linear-gradient(135deg, #f7931a 0%, #fdb931 50%, #f7931a 100%)',
+                        border: '2px solid #ffb938',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: 'inset 0 0 10px rgba(255, 255, 255, 0.3), 0 0 10px rgba(247, 147, 26, 0.5)'
+                      }}>
+                        <div style={{
+                          fontSize: '7px',
+                          fontWeight: '900',
+                          color: '#fff',
+                          textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)',
+                          letterSpacing: '0.5px'
+                        }}>PNRP</div>
+                      </div>
+                    </div>
+                    <span className="font-bold text-lg gradient-text">{Number(user.total_pnrp ?? 0).toFixed(2)} PNRP</span>
                   </div>
-                </div>
-                <span className="font-bold text-lg gradient-text">{user.total_pnrp.toFixed(2)} PNRP</span>
-              </div>
               <Link
                 to="/profile"
                 data-testid="header-profile-btn"
@@ -196,6 +198,8 @@ function Layout({ user, logout, children }) {
                   </div>
                 )}
               </div>
+                </>
+              )}
 
               {user ? (
                 <button
@@ -221,7 +225,8 @@ function Layout({ user, logout, children }) {
       </header>
 
       <div className="flex relative z-10">
-        {/* Sidebar */}
+        {/* Sidebar - only for logged-in users */}
+        {user && (
         <aside className="w-64 bg-gray-900/30 backdrop-blur-xl border-r border-blue-500/20 min-h-[calc(100vh-4rem)] sticky top-16 hidden md:block" data-testid="sidebar">
           <nav className="p-4 space-y-2">
             {navItems.map((item) => {
@@ -245,6 +250,7 @@ function Layout({ user, logout, children }) {
             })}
           </nav>
         </aside>
+        )}
 
         {/* Main Content */}
         <main className="flex-1 p-4 md:p-8">
@@ -252,7 +258,8 @@ function Layout({ user, logout, children }) {
         </main>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation - only for logged-in users */}
+      {user && (
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-t border-blue-500/20 z-40 shadow-2xl shadow-blue-500/10" data-testid="mobile-nav">
         <div className="grid grid-cols-5 items-center h-16">
           {[
@@ -280,6 +287,7 @@ function Layout({ user, logout, children }) {
           })}
         </div>
       </nav>
+      )}
     </div>
   );
 }
