@@ -139,6 +139,15 @@ function LandingPage() {
 
         {/* Footer */}
         <div className="mt-32 text-center text-gray-500 pb-8">
+          <div className="mb-4 space-x-6 text-sm">
+            <Link to="/blog" className="hover:text-white transition" data-testid="footer-blog-link">Blog</Link>
+            <Link to="/contact" className="hover:text-white transition" data-testid="footer-contact-link">Contact</Link>
+            <Link to="/about" className="hover:text-white transition" data-testid="footer-about-link">About</Link>
+            <Link to="/roadmap" className="hover:text-white transition" data-testid="footer-roadmap-link">Roadmap</Link>
+            <Link to="/terms" className="hover:text-white transition" data-testid="footer-terms-link">Terms</Link>
+            <Link to="/privacy" className="hover:text-white transition" data-testid="footer-privacy-link">Privacy</Link>
+            <Link to="/disclaimer" className="hover:text-white transition" data-testid="footer-disclaimer-link">Disclaimer</Link>
+          </div>
           <p>© 2025 Platinum Network. All rights reserved.</p>
         </div>
       </div>

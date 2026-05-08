@@ -1,97 +1,92 @@
 # Platinum Network - Product Requirements Document
 
 ## Original Problem Statement
-"Mujhe mining website with apk banana hai. ARC ASTRA JAISA. Platinum network website ka naam aur reward points PNRP. Mining 12 hours, 24 hours boost via ads. Daily rewards streak (7 days up to 50 PNRP). Social media tasks with Download APK/Play Store links. Auto-logout after 7 days of inactivity. User balance and leaderboard. Withdrawal at TGE after KYC. Register with Referral."
-
-User wants the backend rewritten in **pure PHP** so it can be deployed on cPanel shared hosting (no Python/FastAPI).
+Mining website with APK (like ARC ASTRA). Name: Platinum Network. Reward Points: PNRP. 12-hour mining base, 24-hour boost via ads. Daily reward streak (3 ads/day = 15+25+40 PNRP). Social tasks. Auto-logout after 7 days inactivity. Leaderboard. Withdrawal at TGE after KYC. Referral signup. **Backend rewritten in pure PHP for cPanel shared hosting**.
 
 ## User Personas
-- **Miner**: Regular user who mines PNRP every 12h, watches ads, claims daily rewards, completes social tasks, refers friends.
-- **Admin**: Platform owner who reviews KYC, approves withdrawals (post-TGE), monitors stats.
+- **Miner**: Daily user; mines, watches ads, completes tasks, refers friends.
+- **Admin**: Reviews KYC, monitors stats, approves withdrawals (post-TGE).
 
 ## Core Requirements
-1. 12-hour base mining → 24h with 2 time-boost ads
+1. 12h base mining → 24h with 2 time-boost ads
 2. 5 speed-boost ads → 2x speed multiplier
 3. Daily reward = 3 ads/day (15, 25, 40 PNRP)
-4. 10% referral commission on referred user's mining
-5. Social media tasks (Telegram, Twitter, YouTube, Instagram, Discord) - 30 PNRP each
-6. Leaderboard by PNRP
-7. Admin panel with user list, total PNRP, total mining PNRP
-8. Auto-logout after 7 days inactivity (frontend)
-9. KYC + TGE withdrawal (Phase 3, future)
-10. PWA / Capacitor APK wrap (future)
-11. AdSense approval-ready pages (Roadmap, Legal, Contact)
+4. 10% referral commission forever
+5. Social tasks (Telegram/Twitter/YouTube/Instagram/Discord) - 30 PNRP each
+6. Leaderboard, Profile, Admin Panel
+7. Auto-logout after 7 days inactivity
+8. KYC + TGE withdrawal (Phase 3, future)
+9. PWA / APK wrap (future)
+10. AdSense-ready public pages
 
 ## Tech Stack
 - **Frontend**: React 19 + Tailwind + Shadcn UI
-- **Backend (cPanel deployment)**: **Pure PHP 7.4+** with PDO + MySQL/MariaDB
-- **Backend (dev preview)**: FastAPI + MySQL (kept for Emergent preview)
+- **Backend (cPanel)**: **Pure PHP 7.4+** (PDO, hand-rolled JWT HS256, no Composer)
+- **Backend (preview)**: FastAPI + MySQL (kept for Emergent dev)
 - **DB**: MySQL/MariaDB
-- **Auth**: Hand-rolled JWT HS256 (PHP) / PyJWT (Python). bcrypt-compatible passwords.
 
-## What's Implemented (as of Feb 2026 fork)
+## Implemented Features
 
-### Frontend (live in preview)
-- Landing, Register, Login, Dashboard (with mining + 3-ad daily reward)
-- Wallet (balance + transactions list, Send/Receive/Swap with TGE alert)
-- Referrals, Leaderboard, Profile, Admin Panel, About, Roadmap (7 phases)
-- Legal pages: Terms, Privacy, Disclaimer
-- Notification bell with unread badge
-- 3D PNRP coin logos
-- **NEW (this session)**:
-  - Profile "Total Mined PNRP" coin logo removed (lighter card)
-  - LandingPage hero: first PNRP mention expanded to "PNRP (Platinum Network Reward Point)"
-  - Dashboard balance box: subtitle "Platinum Network Reward Point" + tooltip
-  - PNRP `title` tooltips on hero/balance
+### Frontend
+**Authenticated pages** (in Layout): Dashboard, Wallet, Referrals, SocialTasks, Leaderboard, Profile, AdminPanel, About, Roadmap
+**Public pages** (no auth required, accessible to AdSense crawlers):
+- Landing (with PNRP first-mention expansion)
+- **Contact Us** (form + company info + FAQ + social links) — NEW
+- **Blog** (5 SEO articles + detail pages: PNRP intro, max earnings tips, TGE explained, referrals, security) — NEW
+- Terms, Privacy, Disclaimer
+- Login, Register
 
-### Backend
-**Old (Python/FastAPI)** - still running in preview:
-- /api/auth/register, /login, /me
-- /api/mining/status, /start, /claim, /watch-ad
-- /api/daily-reward/status, /watch-ad
-- /api/social-tasks (+ /complete)
-- /api/referrals, /api/wallet, /api/leaderboard
-- /api/admin/stats, /api/admin/users
+**Recent UI fixes**:
+- Profile "Total Mined PNRP" coin logo removed
+- LandingPage hero: "PNRP (Platinum Network Reward Point)" first-mention expansion
+- Dashboard balance: subtitle + tooltip
+- Footer with Blog/Contact/Terms/Privacy/Disclaimer links
+- Layout null-safe — guests can browse public pages
 
-**NEW (Pure PHP)** - in `/tmp/php-backend/` and zipped at `/app/platinum-network-cpanel.zip`:
-- Same endpoints, identical JSON shapes
-- Files: `index.php` (router), `.htaccess`, `config.php`, `database.php`, `helpers.php`, `request.php`
-- API: `api/auth.php`, `mining.php`, `daily_rewards.php`, `wallet.php`, `referrals.php`, `leaderboard.php`, `social_tasks.php`, `admin.php`
-- JWT HS256 hand-rolled (no Composer needed)
-- bcrypt with passlib `$2b$` → `$2y$` auto conversion
-- Tested locally against MariaDB (all 13 endpoints verified working)
+### Backend (Pure PHP — fully tested locally)
+13 endpoints in `/tmp/php-backend/`:
+- `/api/auth/{register,login,me}`
+- `/api/mining/{status,start,claim,watch-ad}`
+- `/api/daily-reward/{status,watch-ad}`
+- `/api/wallet`, `/api/referrals`, `/api/leaderboard`
+- `/api/social-tasks`, `/api/social-tasks/{id}/complete`
+- `/api/admin/{stats,users}`
 
-## Final Deliverables
-- **Zip**: `/app/platinum-network-cpanel.zip` (160 KB) containing:
-  - `frontend-build/` - React production build with relative API paths + SPA `.htaccess`
-  - `php-backend/` - PHP API ready for `public_html/api/`
-  - `MYSQL_TABLE_SCHEMAS.sql` - DB schema (without `unique_user_date` constraint)
-  - `README.md` - cPanel deployment guide
+Files: `index.php` (router), `.htaccess`, `config.php`, `database.php`, `helpers.php`, `request.php`, plus 8 API class files.
+
+### Final Deliverable
+**`/app/platinum-network-cpanel.zip`** (167 KB, 30 files):
+- `frontend-build/` — React production build (relative `/api`) + SPA `.htaccess`
+- `php-backend/` — full PHP API
+- `MYSQL_TABLE_SCHEMAS.sql` (no `unique_user_date` constraint)
+- `README.md` — cPanel deployment guide
+
+Tested: PHP 8.2 + MariaDB locally, all endpoints return correct JSON.
 
 ## Backlog / Roadmap
 
 ### P1 (Next)
 - KYC system: Aadhar/PAN upload + admin verification
-- Withdrawal request system (post-TGE flow)
-- Contact Us page (helps AdSense approval)
+- Withdrawal request system (TGE flow)
+- Real notifications backend (currently MOCKED in Layout)
 
 ### P2 (Future)
-- Capacitor / PWA wrapper for Android APK
+- Capacitor / PWA → Android APK
 - Google AdSense ad-slot injection
-- Email verification on signup
-- Password reset flow
+- Email verification, password reset
 - Push notifications
-
-### Known issues
-- Notifications are **MOCKED** client-side (no backend persistence)
-- Ads are **MOCKED** with a 10s timer (no real ad SDK)
-- TGE / withdrawal is locked until phase 3
+- Real ad SDK integration (ads currently MOCKED with 10s timer)
 
 ## Test Credentials
-See `/app/memory/test_credentials.md`
+See `/app/memory/test_credentials.md`.
+
+## Mocked / Pending
+- **MOCKED**: Notifications (Layout state, no DB)
+- **MOCKED**: Ad watching (10-second timer)
+- TGE / withdrawal locked until Phase 3
 
 ## Architecture Notes
 - Both Python and PHP backends share the same MySQL schema
-- Frontend code is unchanged between the two backends — same JSON shapes
+- Frontend is unchanged between backends — same JSON shapes
 - For cPanel: deploy zip → run SQL → edit `config.php` → done
-- For Emergent preview: keep using Python FastAPI
+- For Emergent preview: Python FastAPI on supervisor

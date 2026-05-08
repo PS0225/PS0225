@@ -41,7 +41,7 @@ function Layout({ user, logout, children }) {
     { path: '/about', icon: Info, label: 'About' },
   ];
 
-  if (user.is_admin) {
+  if (user?.is_admin) {
     navItems.push({ path: '/admin', icon: Shield, label: 'Admin' });
   }
 
@@ -197,14 +197,24 @@ function Layout({ user, logout, children }) {
                 )}
               </div>
 
-              <button
-                onClick={logout}
-                data-testid="logout-btn"
-                className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-800 rounded-lg transition"
-              >
-                <LogOut className="w-5 h-5" />
-                <span className="hidden md:inline">Logout</span>
-              </button>
+              {user ? (
+                <button
+                  onClick={logout}
+                  data-testid="logout-btn"
+                  className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-800 rounded-lg transition"
+                >
+                  <LogOut className="w-5 h-5" />
+                  <span className="hidden md:inline">Logout</span>
+                </button>
+              ) : (
+                <Link
+                  to="/login"
+                  data-testid="layout-login-link"
+                  className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg hover:opacity-90 transition"
+                >
+                  <span>Login</span>
+                </Link>
+              )}
             </div>
           </div>
         </div>
