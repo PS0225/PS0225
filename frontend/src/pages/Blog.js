@@ -6,19 +6,19 @@ import AdSense from '../components/AdSense';
 const POSTS = [
   {
     slug: 'what-is-pnrp-mining',
-    title: 'What is PNRP and How Does Mining Work on Platinum Network?',
-    excerpt: 'A beginner-friendly guide to PNRP (Platinum Network Reward Point), how the 12-hour mining cycle works, and why it costs zero electricity.',
+    title: 'What is PNRP and How Does Earning Work on Platinum Network?',
+    excerpt: 'A beginner-friendly guide to PNRP (Platinum Network Reward Point), how the 12-hour earning cycle works, and why it costs zero electricity.',
     author: 'Platinum Network Team',
     date: 'Feb 10, 2026',
     readTime: '6 min read',
     category: 'Beginner Guide',
     content: `
-**PNRP — short for Platinum Network Reward Point** — is the native reward point of the Platinum Network ecosystem. Unlike traditional Proof-of-Work mining (which burns electricity through GPUs and ASICs), PNRP mining is **engagement-based**.
+**PNRP — short for Platinum Network Reward Point** — is the native reward point of the Platinum Network ecosystem. Unlike traditional Proof-of-Work systems (which burn electricity through GPUs and ASICs), PNRP earning is **engagement-based**.
 
-## How is mining "engagement-based"?
-You don't need expensive hardware. Mining sessions on Platinum Network are simple:
+## How is earning "engagement-based"?
+You don't need expensive hardware. Earning sessions on Platinum Network are simple:
 
-1. **Tap "Start Mining"** on your dashboard
+1. **Tap "Start Session"** on your dashboard
 2. A 12-hour countdown begins
 3. Once it ends, **claim 50 PNRP** to your balance
 4. Watch 2 short ads to extend the session to **24 hours and earn 100 PNRP**
@@ -26,15 +26,15 @@ You don't need expensive hardware. Mining sessions on Platinum Network are simpl
 That's it. No GPU, no fans, no electricity bill.
 
 ## Why does this work?
-The economics are simple. Advertisers pay to show ads. Watching ads contributes to that revenue, and a portion is distributed back to miners as PNRP. As the userbase grows and ad revenue grows, PNRP gains real economic backing — eventually unlocking trade-ability at the **Token Generation Event (TGE)**.
+The economics are simple. Advertisers pay to show ads. Watching ads contributes to that revenue, and a portion is distributed back to active members as PNRP. As the userbase grows and ad revenue grows, PNRP gains real economic backing — eventually unlocking trade-ability at the **Token Generation Event (TGE)**.
 
 ## Key things to remember
-- Mining is **once every 12 hours** per account.
+- Sessions can be started **once every 12 hours** per account.
 - You can boost speed and duration with optional ads — never required.
 - **Inactive accounts auto-logout after 7 days** to keep the supply healthy.
-- Referrals earn you **10% commission** on your friends' mining rewards forever.
+- Referrals earn you **10% commission** on your friends' session rewards forever.
 
-Whether you're new to crypto or a seasoned miner, PNRP gives you a low-risk way to participate in a token launch from day one.
+Whether you're new to digital tokens or a seasoned member, PNRP gives you a low-risk way to participate in a token launch from day one.
 `
   },
   {
@@ -46,25 +46,25 @@ Whether you're new to crypto or a seasoned miner, PNRP gives you a low-risk way 
     readTime: '4 min read',
     category: 'Tips & Tricks',
     content: `
-Earning PNRP isn't just about tapping "Start Mining" once a day. The most active users on Platinum Network earn **3-5x more** than average just by using a few simple habits.
+Earning PNRP isn't just about tapping "Start Session" once a day. The most active users on Platinum Network earn **3-5x more** than average just by using a few simple habits.
 
 ## 1. Watch the time-boost ads
-Two short ads turn your 12-hour mining session into a 24-hour one — **doubling your reward from 50 to 100 PNRP**. That's a 100% boost for ~30 seconds of work.
+Two short ads turn your 12-hour session into a 24-hour one — **doubling your reward from 50 to 100 PNRP**. That's a 100% boost for ~30 seconds of work.
 
 ## 2. Watch all 3 daily reward ads
-The Daily Reward gives you 3 ads per day with rewards of **15, 25, and 40 PNRP** — a total of **80 PNRP/day for free**, no mining required.
+The Daily Reward gives you 3 ads per day with rewards of **15, 25, and 40 PNRP** — a total of **80 PNRP/day for free**, no session required.
 
 ## 3. Complete every social task once
 Each platform task (Telegram, Twitter, YouTube, Instagram, Discord) gives you **30 PNRP**. That's a one-time **150 PNRP** for actions that take 2 minutes.
 
 ## 4. Use the speed boost
-After 5 speed-boost ads, your mining speed becomes **2x** for the current session. Combined with time-boost, that's **200 PNRP per cycle**.
+After 5 speed-boost ads, your earning speed becomes **2x** for the current session. Combined with time-boost, that's **200 PNRP per cycle**.
 
 ## 5. Refer friends — passively earn
-Every referral earns you **10% of their mining rewards** forever. Five active referrals = an extra 25 PNRP per cycle, with zero ongoing effort.
+Every referral earns you **10% of their session rewards** forever. Five active referrals = an extra 25 PNRP per cycle, with zero ongoing effort.
 
 ## Quick math
-- Daily mining (boosted): 100 PNRP
+- Daily session (boosted): 100 PNRP
 - Daily reward ads: 80 PNRP
 - Social tasks (one-time): 150 PNRP first day
 - Referrals (5 friends): ~25 PNRP/cycle
@@ -121,7 +121,7 @@ Be patient. Every PNRP you earn now is locking in your share of the post-TGE eco
     readTime: '4 min read',
     category: 'Earnings',
     content: `
-The Platinum Network referral program is intentionally simple: **invite a friend, get 10% of their mining rewards forever**. No tiers, no expirations, no fine print.
+The Platinum Network referral program is intentionally simple: **invite a friend, get 10% of their session rewards forever**. No tiers, no expirations, no fine print.
 
 ## How it works step by step
 
@@ -147,7 +147,7 @@ You earn this **forever**, as long as both accounts stay active.
 ## Pro tips for referrers
 
 - **Pin your code** in your social media bios
-- **Onboard friends personally** — show them how to start mining and watch ads. Higher activation = higher earnings for you.
+- **Onboard friends personally** — show them how to start their session and watch ads. Higher activation = higher earnings for you.
 - **Don't spam** — Reddit / Telegram crypto groups have anti-spam rules. Build relationships, not link drops.
 
 ## What's tracked
@@ -175,11 +175,11 @@ You may have noticed: if you haven't opened Platinum Network in 7 days, you'll b
 
 ## How to stay active
 - Open the app at least once every 7 days
-- Tap **Start Mining** to register activity
+- Tap **Start Session** to register activity
 - Even a daily reward claim counts
 
 ## What happens if I'm logged out?
-Your **PNRP balance is safe**. Just log back in with your email + password. No data is lost. Your mining sessions and accumulated rewards are exactly where you left them.
+Your **PNRP balance is safe**. Just log back in with your email + password. No data is lost. Your earning sessions and accumulated rewards are exactly where you left them.
 
 ## Lost your password?
 Use the password reset link on the login screen *(coming in Phase 2)*. Until then, contact us via the [Contact](/contact) page.
@@ -297,7 +297,7 @@ export function BlogList() {
           <span className="text-sm">
             <span className="text-yellow-300 font-bold">🎁 Free 50 PNRP</span>
             <span className="text-gray-300 mx-2">·</span>
-            <span className="text-gray-200">Sign up in 30 seconds — start mining instantly</span>
+            <span className="text-gray-200">Sign up in 30 seconds — start earning instantly</span>
             <span className="ml-3 text-purple-300 font-semibold">Get Started →</span>
           </span>
         </Link>
@@ -305,7 +305,7 @@ export function BlogList() {
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold mb-4" data-testid="blog-title">Platinum Network Blog</h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Tips, news, and deep-dives about PNRP mining, the token economy, and the road to TGE.
+            Tips, news, and deep-dives about PNRP earning, the token economy, and the road to TGE.
           </p>
         </div>
 
@@ -396,7 +396,7 @@ export function BlogPost() {
             </div>
             <h3 className="text-3xl font-bold mb-2">Earn Your First <span className="text-yellow-400">50 PNRP</span> Free</h3>
             <p className="text-gray-300 mb-2 max-w-xl mx-auto">
-              No card. No deposit. No mining hardware. Just sign up, tap "Start Mining", and earn
+              No card. No deposit. No specialized hardware. Just sign up, tap "Start Session", and earn
               <strong className="text-white"> 50 PNRP every 12 hours</strong>.
             </p>
             <p className="text-xs text-gray-500 mb-6">

@@ -40,7 +40,7 @@ function Login({ setUser }) {
             <div className="text-4xl font-bold gradient-text leading-tight">Platinum Network</div>
             <div className="text-xs text-gray-400 tracking-wide mt-1">PNRP · Platinum Network Reward Point</div>
           </div>
-          <p className="text-gray-400" data-testid="login-subtitle">Welcome back! Login to continue mining</p>
+          <p className="text-gray-400" data-testid="login-subtitle">Welcome back! Login to continue earning</p>
         </div>
 
         {/* Form */}

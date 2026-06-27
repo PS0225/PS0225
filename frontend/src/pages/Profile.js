@@ -133,12 +133,12 @@ function Profile({ user, logout, setUser }) {
             <div className="bg-gray-800/50 p-6 rounded-lg">
               <h3 className="text-lg font-semibold mb-3 text-purple-400">Welcome to Platinum Network!</h3>
               <p className="text-gray-300 leading-relaxed mb-4">
-                You are part of an exclusive mining community earning PNRP tokens through our innovative platform. 
+                You are part of an exclusive community earning PNRP tokens through our innovative platform. 
                 Your journey started on <span className="text-white font-semibold">{formatDate(user.created_at)}</span> and 
                 you've already achieved <span className="text-white font-semibold">Level {user.level}</span>!
               </p>
               <p className="text-gray-300 leading-relaxed">
-                Continue mining, invite friends using your referral code, and complete social tasks to maximize your rewards. 
+                Continue earning, invite friends using your referral code, and complete social tasks to maximize your rewards. 
                 The more active you are, the more PNRP you earn!
               </p>
             </div>
@@ -157,7 +157,7 @@ function Profile({ user, logout, setUser }) {
               <div className="bg-gradient-to-br from-green-900/30 to-emerald-900/30 p-5 rounded-lg border border-green-500/20">
                 <h4 className="font-semibold mb-2 text-green-300">📊 Account Status</h4>
                 <ul className="text-sm text-gray-300 space-y-2">
-                  <li>🟢 Active Mining Account</li>
+                  <li>🟢 Active Account</li>
                   <li className="flex items-center">
                     💰 Current Balance: 
                     <span className="font-bold text-white ml-2 flex items-center">
@@ -219,7 +219,7 @@ function Profile({ user, logout, setUser }) {
                 </div>
                 <div>
                   <div className="font-semibold text-white mb-1">👥 Refer Friends</div>
-                  <p>Earn 10% of your referrals' mining rewards</p>
+                  <p>Earn 10% of your referrals' session rewards</p>
                 </div>
                 <div>
                   <div className="font-semibold text-white mb-1">✅ Complete Tasks</div>

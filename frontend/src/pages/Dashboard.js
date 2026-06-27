@@ -104,7 +104,7 @@ function Dashboard({ user, logout }) {
       localStorage.setItem('lastMiningTime', Date.now().toString());
       fetchMiningStatus();
     } catch (error) {
-      alert(error.response?.data?.detail || 'Failed to start mining');
+      alert(error.response?.data?.detail || 'Failed to start session');
     }
   };
 
@@ -113,7 +113,7 @@ function Dashboard({ user, logout }) {
       const response = await axios.post(`${API}/mining/claim`);
       
       // Show detailed success message
-      alert(`✅ Mining Reward Claimed!\n\n⛏️ Mining Reward: +${response.data.reward} PNRP\n💰 New Balance: ${response.data.new_balance} PNRP\n\nPage will refresh to update your balance...`);
+      alert(`✅ Session Reward Claimed!\n\n🎁 Reward: +${response.data.reward} PNRP\n💰 New Balance: ${response.data.new_balance} PNRP\n\nPage will refresh to update your balance...`);
       
       // Force reload after delay
       setTimeout(() => {
@@ -250,7 +250,7 @@ function Dashboard({ user, logout }) {
 
               {!miningStatus?.has_active_session ? (
               <div data-testid="start-mining-section" className="slide-in">
-                <h2 className="text-4xl font-bold mb-2 neon-text">Start Mining PNRP</h2>
+                <h2 className="text-4xl font-bold mb-2 neon-text">Start Earning PNRP</h2>
                 <p className="text-xl text-gray-400 mb-2">Earn rewards every 12 hours</p>
                 <div className="flex items-center justify-center space-x-2 mb-6">
                   <div className="px-4 py-2 bg-blue-500/20 rounded-full border border-blue-500/30">
@@ -267,14 +267,14 @@ function Dashboard({ user, logout }) {
                   data-testid="start-mining-btn"
                   className="px-12 py-4 bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 rounded-full font-bold text-lg hover:opacity-90 transition glow transform hover:scale-105"
                 >
-                  🚀 Start Mining Now
+                  🚀 Start Session
                 </button>
               </div>
             ) : miningStatus?.session?.is_completed ? (
               <div data-testid="claim-mining-section" className="success-effect">
                 <div className="mb-6">
                   <div className="text-6xl mb-4">✅</div>
-                  <h2 className="text-4xl font-bold mb-4 text-green-400">Mining Complete!</h2>
+                  <h2 className="text-4xl font-bold mb-4 text-green-400">Session Complete!</h2>
                 </div>
                 <div className="inline-block px-8 py-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-2xl border-2 border-green-500/50 mb-6">
                   <div className="text-sm text-gray-400 mb-1">Your Reward</div>
@@ -292,8 +292,8 @@ function Dashboard({ user, logout }) {
               </div>
             ) : (
               <div data-testid="active-mining-section">
-                <h2 className="text-3xl font-bold mb-2 mining-animation">⛏️ Mining in Progress...</h2>
-                <p className="text-gray-400 mb-6">Please wait while we mine your PNRP</p>
+                <h2 className="text-3xl font-bold mb-2 mining-animation">⏳ Session in Progress...</h2>
+                <p className="text-gray-400 mb-6">Please wait while your PNRP rewards accumulate</p>
                 
                 {/* Timer Display */}
                 <div className="inline-block mb-6 px-8 py-6 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl border border-blue-500/30">
@@ -449,7 +449,7 @@ function Dashboard({ user, logout }) {
                 </span>
               </div>
               <h3 className="font-bold text-lg mb-2">⏰ Time Boost</h3>
-              <p className="text-sm text-gray-400 mb-4">Extend mining from 12h to 24h</p>
+              <p className="text-sm text-gray-400 mb-4">Extend session from 12h to 24h</p>
               {miningStatus.session.time_boost_ads_watched < 2 ? (
                 <button
                   onClick={() => watchAd('time_boost')}

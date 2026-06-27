@@ -57,7 +57,7 @@ function AdminPanel({ user, logout }) {
             <div className="text-3xl font-bold mb-2 text-green-400" data-testid="total-mining-pnrp">
               {stats.total_mining_pnrp.toFixed(2)}
             </div>
-            <div className="text-gray-400">Total Mining PNRP</div>
+            <div className="text-gray-400">Total Session PNRP</div>
           </div>
 
           <div className="card-gradient p-6 rounded-xl border-2 border-purple-500/30" data-testid="total-pnrp-card">
@@ -105,3 +105,4 @@ function AdminPanel({ user, logout }) {
 }
 
 export default AdminPanel;
+

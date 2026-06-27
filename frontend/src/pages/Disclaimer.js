@@ -54,7 +54,7 @@ function Disclaimer({ user, logout }) {
           <section>
             <h2 className="text-2xl font-bold mb-4 text-yellow-400">4. No Guaranteed Returns</h2>
             <p className="text-gray-300 leading-relaxed">
-              Mining rewards, referral commissions, and any other earnings displayed are estimates only. Actual returns may vary. The platform does not guarantee any specific return on investment or earnings.
+              Session rewards, referral commissions, and any other earnings displayed are estimates only. Actual returns may vary. The platform does not guarantee any specific return on investment or earnings.
             </p>
           </section>
 

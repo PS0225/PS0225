@@ -65,13 +65,13 @@ function LandingPage() {
             </div>
           </div>
           <h1 className="text-6xl font-bold mb-6" data-testid="landing-title">
-            Start Mining <span className="gradient-text" title="Platinum Network Reward Point">PNRP</span>
+            Start Earning <span className="gradient-text" title="Platinum Network Reward Point">PNRP</span>
           </h1>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto" data-testid="landing-subtitle">
-            Join Platinum Network and start earning <span className="font-semibold text-purple-300" title="Platinum Network Reward Point">PNRP (Platinum Network Reward Point)</span> tokens through mining, referrals, and daily tasks
+            Join Platinum Network and start earning <span className="font-semibold text-purple-300" title="Platinum Network Reward Point">PNRP (Platinum Network Reward Point)</span> tokens through engagement, referrals, and daily tasks
           </p>
           <Link to="/register" className="inline-block px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg text-lg font-semibold hover:opacity-90 transition glow" data-testid="landing-cta-btn">
-            Start Mining Now
+            Start Earning Now
           </Link>
         </div>
 
@@ -79,7 +79,7 @@ function LandingPage() {
         <div className="grid md:grid-cols-3 gap-8 mt-20">
           <div className="card-gradient p-8 rounded-xl text-center slide-in" data-testid="feature-mining">
             <Zap className="w-12 h-12 text-purple-400 mx-auto mb-4" />
-            <h3 className="text-xl font-bold mb-2">Mine PNRP</h3>
+            <h3 className="text-xl font-bold mb-2">Earn PNRP</h3>
             <p className="text-gray-400">Earn 50 PNRP every 12 hours. Boost to 100 PNRP with ads!</p>
           </div>
           <div className="card-gradient p-8 rounded-xl text-center slide-in" data-testid="feature-referrals">
@@ -98,7 +98,7 @@ function LandingPage() {
         <div className="grid md:grid-cols-3 gap-8 mt-20 text-center">
           <div data-testid="stat-users">
             <div className="text-4xl font-bold text-purple-400">10,000+</div>
-            <div className="text-gray-400 mt-2">Active Miners</div>
+            <div className="text-gray-400 mt-2">Active Members</div>
           </div>
           <div data-testid="stat-distributed">
             <div className="text-4xl font-bold text-purple-400">1M+</div>
@@ -106,7 +106,7 @@ function LandingPage() {
           </div>
           <div data-testid="stat-rewards">
             <div className="text-4xl font-bold text-purple-400">24/7</div>
-            <div className="text-gray-400 mt-2">Mining Active</div>
+            <div className="text-gray-400 mt-2">Always Active</div>
           </div>
         </div>
 
@@ -121,8 +121,8 @@ function LandingPage() {
             </div>
             <div data-testid="step-2">
               <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</div>
-              <h3 className="font-bold mb-2">Start Mining</h3>
-              <p className="text-gray-400">Begin your first mining session</p>
+              <h3 className="font-bold mb-2">Start Session</h3>
+              <p className="text-gray-400">Begin your first earning session</p>
             </div>
             <div data-testid="step-3">
               <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</div>

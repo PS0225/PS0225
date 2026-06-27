@@ -11,12 +11,12 @@ function Roadmap({ user, logout }) {
       bgColor: "bg-green-500/20",
       borderColor: "border-green-500/50",
       items: [
-        { title: "Mining System Launch", done: true, description: "12-hour base mining with 24-hour boost" },
+        { title: "Earning System Launch", done: true, description: "12-hour base session with 24-hour boost" },
         { title: "Daily Check-in Rewards", done: true, description: "7-day streak system with increasing rewards" },
         { title: "Daily Reward Box", done: true, description: "3-day reward system with ad boost" },
-        { title: "Referral Program", done: true, description: "10% commission on referral mining" },
+        { title: "Referral Program", done: true, description: "10% commission on referral sessions" },
         { title: "Social Tasks", done: true, description: "Earn PNRP by completing social media tasks" },
-        { title: "Leaderboard System", done: true, description: "Global ranking system for top miners" },
+        { title: "Leaderboard System", done: true, description: "Global ranking system for top earners" },
         { title: "Wallet Dashboard", done: true, description: "View balance and transaction history" },
         { title: "Send/Receive/Swap UI", done: true, description: "Wallet actions ready (activated at TGE)" },
         { title: "Notification System", done: true, description: "Real-time updates with navigation" },
@@ -96,7 +96,7 @@ function Roadmap({ user, logout }) {
         { title: "PWA Support", done: false, description: "Progressive Web App features" },
         { title: "iOS App Release", done: false, description: "iPhone app launch on App Store" },
         { title: "Push Notifications", done: false, description: "Mobile push notification system" },
-        { title: "Enhanced Mining on Mobile", done: false, description: "Optimized mobile mining experience" }
+        { title: "Enhanced Experience on Mobile", done: false, description: "Optimized mobile earning experience" }
       ]
     },
     {

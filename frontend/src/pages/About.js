@@ -23,13 +23,13 @@ function About({ user, logout }) {
               Welcome to <span className="text-white font-semibold">Platinum Network</span>, a revolutionary cryptocurrency mining platform designed to democratize digital asset earning. Our mission is to provide an accessible, transparent, and rewarding experience for users worldwide who want to participate in the cryptocurrency ecosystem.
             </p>
             <p>
-              Founded on the principles of innovation and community empowerment, Platinum Network offers a unique mining system that allows users to earn PNRP (Platinum Network Reward Points) tokens through simple, user-friendly mechanisms. Unlike traditional mining that requires expensive hardware and technical expertise, our platform enables anyone with a smartphone or computer to start earning.
+              Founded on the principles of innovation and community empowerment, Platinum Network offers a unique reward system that allows users to earn PNRP (Platinum Network Reward Points) tokens through simple, user-friendly mechanisms. Unlike traditional systems that require expensive hardware and technical expertise, our platform enables anyone with a smartphone or computer to start earning.
             </p>
             <p>
-              Our platform features a comprehensive reward system including base mining sessions, time boosts, speed multipliers, daily check-in rewards, social media engagement tasks, and a powerful referral program. Users earn 50 PNRP per 12-hour mining session, with the ability to extend to 24 hours and double their mining speed through our innovative boost system.
+              Our platform features a comprehensive reward system including base earning sessions, time boosts, speed multipliers, daily check-in rewards, social media engagement tasks, and a powerful referral program. Users earn 50 PNRP per 12-hour session, with the ability to extend to 24 hours and double their earning speed through our innovative boost system.
             </p>
             <p>
-              The referral program is designed to reward community growth, offering 10% of your referrals' mining rewards as passive income. This creates a sustainable ecosystem where active participation benefits everyone. Additionally, users can complete social media tasks to earn bonus PNRP and help spread awareness about our platform.
+              The referral program is designed to reward community growth, offering 10% of your referrals' session rewards as passive income. This creates a sustainable ecosystem where active participation benefits everyone. Additionally, users can complete social media tasks to earn bonus PNRP and help spread awareness about our platform.
             </p>
             <p>
               Security and transparency are at the core of everything we do. All transactions are recorded and verified, ensuring fair distribution of rewards. Your account information is protected with industry-standard encryption, and we implement strict privacy measures to safeguard your data.
@@ -38,7 +38,7 @@ function About({ user, logout }) {
               As we continue to grow, our roadmap includes implementing withdrawal mechanisms, KYC verification for compliance, leaderboard systems to gamify the experience, and potential token listing on cryptocurrency exchanges. We're committed to building a long-term, sustainable platform that provides real value to our community members.
             </p>
             <p>
-              Join thousands of users who are already earning PNRP tokens daily. Whether you're new to cryptocurrency or an experienced investor, Platinum Network offers an opportunity to participate in the digital economy with minimal barriers to entry. Start your mining journey today and be part of the future of decentralized finance.
+              Join thousands of users who are already earning PNRP tokens daily. Whether you're new to digital tokens or an experienced investor, Platinum Network offers an opportunity to participate in the digital economy with minimal barriers to entry. Start your earning journey today and be part of the future of community-driven rewards.
             </p>
           </div>
         </section>
@@ -64,7 +64,7 @@ function About({ user, logout }) {
 
             <h3 className="text-xl font-semibold text-white mt-6">2. User Account and Registration</h3>
             <p>
-              To access mining features, you must create an account by providing accurate and complete information including username, full name, email address, and password. You are responsible for maintaining the confidentiality of your account credentials and all activities that occur under your account. You must immediately notify us of any unauthorized use of your account.
+              To access reward features, you must create an account by providing accurate and complete information including username, full name, email address, and password. You are responsible for maintaining the confidentiality of your account credentials and all activities that occur under your account. You must immediately notify us of any unauthorized use of your account.
             </p>
             <p>
               Users must be at least 18 years old or the age of majority in their jurisdiction to create an account. By registering, you represent and warrant that you meet this age requirement and have the legal capacity to enter into these terms.
@@ -72,15 +72,15 @@ function About({ user, logout }) {
 
             <h3 className="text-xl font-semibold text-white mt-6">3. Mining and Rewards</h3>
             <p>
-              PNRP tokens are earned through mining sessions, referrals, daily check-ins, and social media tasks. The base mining session lasts 12 hours and awards 50 PNRP. Users can extend sessions to 24 hours and activate speed multipliers by watching promotional content. Actual rewards may vary based on platform activities and boost status.
+              PNRP tokens are earned through reward sessions, referrals, daily check-ins, and social media tasks. The base session lasts 12 hours and awards 50 PNRP. Users can extend sessions to 24 hours and activate speed multipliers by watching promotional content. Actual rewards may vary based on platform activities and boost status.
             </p>
             <p>
-              The Platform reserves the right to modify reward structures, mining durations, and bonus mechanics at any time with or without notice. Such changes will be communicated through platform notifications or email.
+              The Platform reserves the right to modify reward structures, session durations, and bonus mechanics at any time with or without notice. Such changes will be communicated through platform notifications or email.
             </p>
 
             <h3 className="text-xl font-semibold text-white mt-6">4. Referral Program</h3>
             <p>
-              Users receive a unique referral code upon registration. You earn 10% of the mining rewards from users who register using your code. Referral abuse, including but not limited to creating multiple accounts or fraudulent referrals, will result in account suspension and forfeiture of rewards.
+              Users receive a unique referral code upon registration. You earn 10% of the session rewards from users who register using your code. Referral abuse, including but not limited to creating multiple accounts or fraudulent referrals, will result in account suspension and forfeiture of rewards.
             </p>
 
             <h3 className="text-xl font-semibold text-white mt-6">5. Prohibited Activities</h3>
@@ -126,12 +126,12 @@ function About({ user, logout }) {
 
             <h3 className="text-xl font-semibold text-white mt-6">1. Information We Collect</h3>
             <p>
-              We collect several types of information to provide and improve our services: (a) Personal Information: username, full name, email address, and password (encrypted); (b) Usage Data: mining activities, referral interactions, task completions, login timestamps, and IP addresses; (c) Device Information: browser type, operating system, and device identifiers for security purposes.
+              We collect several types of information to provide and improve our services: (a) Personal Information: username, full name, email address, and password (encrypted); (b) Usage Data: session activities, referral interactions, task completions, login timestamps, and IP addresses; (c) Device Information: browser type, operating system, and device identifiers for security purposes.
             </p>
 
             <h3 className="text-xl font-semibold text-white mt-6">2. How We Use Your Information</h3>
             <p>
-              Your information is used to: operate and maintain the Platform; process mining rewards and referral bonuses; communicate important updates, security alerts, and promotional offers; prevent fraud and ensure platform security; analyze usage patterns to improve user experience; comply with legal obligations and respond to lawful requests; develop new features and services.
+              Your information is used to: operate and maintain the Platform; process session rewards and referral bonuses; communicate important updates, security alerts, and promotional offers; prevent fraud and ensure platform security; analyze usage patterns to improve user experience; comply with legal obligations and respond to lawful requests; develop new features and services.
             </p>
 
             <h3 className="text-xl font-semibold text-white mt-6">3. Data Security</h3>
@@ -231,7 +231,7 @@ function About({ user, logout }) {
 
             <h3 className="text-xl font-semibold text-white mt-6">Changes and Updates</h3>
             <p>
-              We reserve the right to modify, suspend, or discontinue any aspect of the Platform at any time without prior notice. This includes but is not limited to mining mechanisms, reward structures, features, and services. We are not liable for any modifications, suspensions, or discontinuations.
+              We reserve the right to modify, suspend, or discontinue any aspect of the Platform at any time without prior notice. This includes but is not limited to reward mechanisms, reward structures, features, and services. We are not liable for any modifications, suspensions, or discontinuations.
             </p>
 
             <h3 className="text-xl font-semibold text-white mt-6">Limitation of Liability</h3>
@@ -292,7 +292,7 @@ function About({ user, logout }) {
             <div className="bg-gray-800/50 p-6 rounded-lg">
               <h3 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h3>
               <p className="text-gray-400 mb-3">
-                Before contacting us, you may find answers to common questions in our platform. Check the Dashboard and Profile sections for information about mining, rewards, and account management.
+                Before contacting us, you may find answers to common questions in our platform. Check the Dashboard and Profile sections for information about sessions, rewards, and account management.
               </p>
               <p className="text-gray-400">
                 For urgent matters or account security issues, please contact us immediately at the support email above.
